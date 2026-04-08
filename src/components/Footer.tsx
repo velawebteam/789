@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, MapPin } from 'lucide-react';
+import { MessageCircle, MapPin } from 'lucide-react';
 import BrandName from './BrandName';
 
 export default function Footer() {
@@ -33,10 +33,15 @@ export default function Footer() {
           {/* Contact Info */}
           <div className="flex flex-col gap-4">
             <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Contact Us</h4>
-            <div className="flex items-center gap-3">
-              <Phone size={16} className="text-[#FFB800]" />
-              <span className="text-gray-300">+351 939 996 924</span>
-            </div>
+            <a 
+              href="https://wa.me/351939996924" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-3 hover:text-white transition-colors group"
+            >
+              <MessageCircle size={16} className="text-[#FFB800] group-hover:scale-110 transition-transform" />
+              <span className="text-gray-300 group-hover:text-white">WhatsApp</span>
+            </a>
             <div className="flex items-center gap-3">
               <MapPin size={16} className="text-[#FFB800]" />
               <span className="text-gray-300">Avenida Mateus Teixeira Azevedo 55, Tavira</span>
