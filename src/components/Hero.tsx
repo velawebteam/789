@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import BrandName from './BrandName';
 
@@ -41,14 +41,18 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-24 md:pt-20 overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
-        <img 
-          src="https://lh3.googleusercontent.com/d/1RTdRHOsWKZsJaji_g81puDUJib-hJKn-" 
-          alt="Construction Background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          referrerPolicy="no-referrer"
-        />
+      {/* Background Video */}
+      <div className="absolute inset-0 -z-10 bg-black">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        >
+          <source src="/video-entrada-rb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       <div className="relative z-20 max-w-7xl mx-auto px-4 md:px-6 w-full pb-10 md:pb-20">

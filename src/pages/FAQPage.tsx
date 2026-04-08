@@ -1,7 +1,8 @@
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import BrandName from '../components/BrandName';
+import SEO from '../components/SEO';
 
 interface FAQ {
   question: string;
@@ -53,45 +54,29 @@ const faqs: FAQ[] = [
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    // SEO Enhancements
-    document.title = "Frequently Asked Questions | Real Builder Construction Academy";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Find answers to frequently asked questions about Real Builder, the premier construction academy in Portugal. Learn about our courses, certification, and job placement.");
-    }
-
-    // JSON-LD Structured Data for FAQ
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": faqs.map(faq => ({
-        "@type": "Question",
-        "name": faq.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": faq.answerText
-        }
-      }))
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(structuredData);
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup
-      document.title = "Real Builder";
-      if (metaDescription) {
-        metaDescription.setAttribute("content", "Real Builder Construction Academy");
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answerText
       }
-      document.head.removeChild(script);
-    };
-  }, []);
+    }))
+  };
 
   return (
     <main className="pt-20 min-h-screen bg-[#0a0a0a]">
+      <SEO 
+        title="Frequently Asked Questions | Real Builder Construction Academy"
+        description="Find answers to frequently asked questions about Real Builder, the premier construction academy in Portugal. Learn about our courses, certification, and job placement."
+        canonical="https://realbuilder-academy.com/faq"
+      />
+      <script type="application/ld+json">
+        {JSON.stringify(faqSchema)}
+      </script>
       <section className="py-20 md:py-32 relative">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">

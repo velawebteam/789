@@ -9,10 +9,16 @@ import NextCourses from '../components/NextCourses';
 import Professionals from '../components/Professionals';
 import Partners from '../components/Partners';
 import Contact from '../components/Contact';
+import SEO from '../components/SEO';
 
 export default function Home() {
   return (
     <main>
+      <SEO 
+        title="Real Builder Construction Academy | Professional Construction Courses"
+        description="Premier construction academy in Portugal. Intensive, hands-on training for certified construction professionals. Join Real Builder Academy in Algarve."
+        canonical="https://realbuilder-academy.com/"
+      />
       <Hero />
       <PilotProgram />
       <AboutUs />

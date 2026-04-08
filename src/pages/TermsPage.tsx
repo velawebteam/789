@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import BrandName from '../components/BrandName';
+import SEO from '../components/SEO';
 
 export default function TermsPage() {
   useEffect(() => {
@@ -8,6 +9,11 @@ export default function TermsPage() {
 
   return (
     <div className="pt-24 pb-16 min-h-screen">
+      <SEO 
+        title="Terms and Conditions | Real Builder Construction Academy"
+        description="Terms and conditions for using the services of Real Builder Construction Academy."
+        canonical="https://realbuilder-academy.com/terms"
+      />
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-4xl md:text-5xl font-black text-white mb-8 tracking-tight uppercase">Terms and Conditions</h1>
         
