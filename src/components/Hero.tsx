@@ -22,10 +22,19 @@ export default function Hero() {
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
+
+    // Force video play on mount
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay might be blocked, which is fine as we have muted
+      });
+    }
 
     return () => clearInterval(interval);
   }, []);
@@ -41,18 +50,28 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-24 md:pt-20 overflow-hidden">
+      {/* Background Overlay for fallback */}
+      <div className="absolute inset-0 bg-[#0a0a0a] -z-20" />
+      
       {/* Background Video */}
-      <div className="absolute inset-0 -z-10 bg-black">
+      <div className="absolute inset-0 -z-10 pointer-events-none">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+          style={{ objectFit: 'cover' }}
         >
           <source src="/video-entrada-rb.mp4" type="video/mp4" />
+          <source src="video-entrada-rb.mp4" type="video/mp4" />
+          <source src="/video-entrada-rb  .mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        {/* Dark overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       <div className="relative z-20 max-w-7xl mx-auto px-4 md:px-6 w-full pb-10 md:pb-20">
