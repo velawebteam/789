@@ -1,0 +1,711 @@
+{
+  "navbar": {
+    "about": "ABOUT",
+    "howItWorks": "HOW IT WORKS",
+    "pricing": "PRICING",
+    "courses": "COURSES",
+    "professionals": "PROFESSIONALS",
+    "partners": "PARTNERS",
+    "contact": "CONTACT",
+    "notifyMe": "NOTIFY ME",
+    "getStarted": "GET STARTED"
+  },
+  "hero": {
+    "title": "THE REAL BUILDER",
+    "subtitle": "For individuals who want real skills.\nFor companies who need reliable workers.\n\n{{brand}} transforms beginners into skilled, certified builders - fully equipped, job-ready to raise the standard from day one.",
+    "registrationsOpen": "Registrations Are Open",
+    "registrationsOpenIn": "Registrations open in <0>Feira Tektónica</0> in",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "mins": "MINS",
+    "secs": "SECS",
+    "exploreCourses": "EXPLORE COURSES",
+    "notifyMe": "NOTIFY ME"
+  },
+  "about": {
+    "title": "ABOUT {{brand}}",
+    "toBecome": "To become a {{brand}} is more than a profession.",
+    "mindset": "It is a mindset. A statement. A way of life.",
+    "career": "{{brand}} is about taking your career, your income, and your personal standards to the next level.",
+    "earnMore": "To earn more, you must become more.",
+    "opportunity": "This is your opportunity to unlock your real potential — starting tomorrow — and build a stronger future.",
+    "joining": "By joining {{brand}}, you become part of something that has never existed before:",
+    "generation": "A new generation of construction professionals.",
+    "traits": "Intelligent. Business-minded. Physically strong. Mentally sharp.",
+    "notJustWorker": "You are not just a worker.",
+    "youAre": "YOU ARE A {{brand}}.",
+    "standard": "{{brand}} is a new standard of personality.",
+    "stats": {
+      "courses": "COURSES",
+      "graduates": "GRADUATES",
+      "jobRate": "JOB RATE",
+      "partners": "PARTNERS"
+    }
+  },
+  "courses": {
+    "title": "COURSES",
+    "subtitle": "Master specialized skills in high-demand construction trades. All courses include theory, practice, and certification.",
+    "certification": "Certification",
+    "masteryTitle": "What you'll master:",
+    "notifyMe": "Notify Me",
+    "list": [
+      { 
+        "name": "Tiles & Tiling",
+        "mastery": [
+          "Surface preparation mastery",
+          "Precision cutting & layout planning",
+          "Grouting & sealing techniques",
+          "Pattern design & installation",
+          "Waterproofing for wet areas"
+        ]
+      },
+      { 
+        "name": "Plastering / Microcement",
+        "mastery": [
+          "Smooth surface finishing",
+          "Decorative texture creation",
+          "Micro cement application",
+          "Crack repair & restoration",
+          "Color mixing & matching"
+        ]
+      },
+      { 
+        "name": "Professional Cleaning",
+        "mastery": [
+          "Post-construction cleaning protocols",
+          "Industrial cleaning equipment",
+          "Surface-specific treatments",
+          "Safety & chemical handling",
+          "Quality inspection standards"
+        ]
+      },
+      { 
+        "name": "Construction Assistant",
+        "mastery": [
+          "Site organization & safety",
+          "Tool maintenance & handling",
+          "Material preparation & mixing",
+          "Basic structural support",
+          "Waste management & efficiency"
+        ]
+      },
+      { 
+        "name": "Masonry / Plastering",
+        "mastery": [
+          "Brick & block laying techniques",
+          "Mortar mixing & application",
+          "Structural wall construction",
+          "Exterior rendering & finishing",
+          "Leveling & alignment precision"
+        ]
+      },
+      { 
+        "name": "Drywall (Pladur)",
+        "mastery": [
+          "Professional partition wall installation",
+          "Ceiling system techniques",
+          "Fire-resistant & soundproof solutions",
+          "Proper joint finishing & taping",
+          "Industry-standard safety practices"
+        ]
+      },
+      { 
+        "name": "Framing",
+        "mastery": [
+          "Timber & metal stud framing",
+          "Structural load calculations",
+          "Door & window opening headers",
+          "Roof truss installation",
+          "Wall squaring & bracing"
+        ]
+      },
+      { 
+        "name": "Steel Work",
+        "mastery": [
+          "Steel cutting & welding techniques",
+          "Structural steel assembly",
+          "Metal framework construction",
+          "Safety equipment & protocols",
+          "Blueprint reading for steel structures"
+        ]
+      },
+      { 
+        "name": "Stock Management / Logistics",
+        "mastery": [
+          "Inventory control systems",
+          "Supply chain coordination",
+          "Material handling & storage",
+          "Delivery scheduling & tracking",
+          "Procurement & vendor relations"
+        ]
+      }
+    ]
+  },
+  "pricing": {
+    "title": "THE REAL BUILDER SYSTEM",
+    "subtitle": "Get access to our fully equipped vehicles, affordable rental prices, and exclusive discounts on equipment & materials.",
+    "choosePath": "Choose Your <0>Path</0>",
+    "from": "from",
+    "month": "month",
+    "oneTime": "one-time",
+    "selectPlan": "SELECT PLAN",
+    "selectToContinue": "Please select a path above to continue",
+    "plans": {
+      "bundle": {
+        "badge": "Best Value",
+        "name": "Course + Vehicle & Membership",
+        "priceNote": "Price depends on mobility solution choice"
+      },
+      "courseOnly": {
+        "badge": "Independent",
+        "name": "Course Only",
+        "priceNote": "Full certification without membership"
+      }
+    },
+    "features": {
+      "fullCourse": "FULL COURSE",
+      "certification": "CERTIFICATION",
+      "vehicle": "VEHICLE",
+      "workshop": "MOBILE WORKSHOP ACCESS",
+      "marketing": "GLOBAL MARKETING SUPPORT",
+      "noVehicle": "No vehicle included",
+      "noMembership": "No membership benefits",
+      "noWorkshop": "No mobile workshop access",
+      "membership": {
+        "title": "RB MEMBERSHIP",
+        "details": "RB Section ID\nTablet with RB App\nOnline Shop Discount\nFollow Up training 3x/year\nVisible and Promoted on Website\nGuide Maintenance"
+      },
+      "workwear": {
+        "title": "WORKWEAR",
+        "details": "Pants\nHelmet\nShoes\nShirt\nVest"
+      },
+      "software": {
+        "title": "PM SOFTWARE",
+        "details": "Quotes\nInvoice\nProject Management\nPayments\nTime Tracking\nTool Check Up"
+      },
+      "jobPlacement": {
+        "title": "JOB PLACEMENT SUPPORT",
+        "details": "Work in the World\n\nInternal\nNational\nInternational"
+      }
+    },
+    "promo": {
+      "badge": "Special Offer",
+      "title": "Get <0>100% OFF</0>",
+      "description": "Claim this exclusive offer!<br />Get a 100% discount on<br /><0>any course</0> of your interest.",
+      "limited": "20 get 50% off - 2 get 100% off",
+      "cta": "CLAIM YOUR SPOT"
+    },
+    "widget": {
+      "label": "Action Required",
+      "cta": "Claim 100% Off"
+    }
+  },
+  "howItWorks": {
+    "title": "How It",
+    "titleHighlight": "Works",
+    "subtitle": "From Base experience to certified professional. Faster than you can imagine.",
+    "swipe": "Swipe to explore",
+    "steps": {
+      "step1": {
+        "title": "Register",
+        "description": "Sign up and tell us about your background and goals. We'll match you with the right training path."
+      },
+      "step2": {
+        "title": "Learn Skills",
+        "description": "Participate in high-intensity, on-site learning in Portuguese or English. From safety fundamentals to specialized techniques."
+      },
+      "step3": {
+        "title": "Train On-Site",
+        "description": "Weekend hands-on training (Fri-Sun) with real tools and experienced professionals."
+      },
+      "step4": {
+        "title": "CERTIFIED",
+        "description": "Earn your RB1 Certificate after 1-4 weekends of training. Your first milestone to a professional career!"
+      },
+      "step5": {
+        "badge": "MEMBERS ONLY",
+        "title": "GET YOUR VEHICLE",
+        "description": "Get your fully equipped vehicle to start working as a professional builder."
+      }
+    }
+  },
+  "enrollment": {
+    "title": "Enroll in REAL BUILDER Academy",
+    "subtitle": "Fill out the form below to start your journey as a certified builder.",
+    "progress": "Form completion",
+    "cancel": "Cancel",
+    "error": "There was an error submitting the form. Please try again.",
+    "success": {
+      "title": "Application Received!",
+      "message": "Thank you for your interest. We will notify you when enrollment opens."
+    },
+    "sections": {
+      "personal": {
+        "title": "PERSONAL INFORMATION",
+        "firstName": "First Name",
+        "firstNamePlaceholder": "John",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Doe",
+        "email": "Email",
+        "emailPlaceholder": "john@email.com",
+        "phone": "Phone",
+        "phonePlaceholder": "+351 900 000 000",
+        "city": "City",
+        "cityPlaceholder": "Lisbon"
+      },
+      "course": {
+        "title": "SELECT YOUR COURSE",
+        "subtitle": "Choose which upcoming course you'd like to enroll in",
+        "options": {
+          "pladur": {
+            "title": "Pladur & Drywall Fundamentals",
+            "category": "Pladur / Drywall",
+            "spots": "15 spots left"
+          },
+          "tiles": {
+            "title": "Professional Tile Installation",
+            "category": "Tiles & Tiling",
+            "spots": "15 spots left"
+          },
+          "heating": {
+            "title": "Underfloor Heating Installation",
+            "category": "Floor Heating",
+            "spots": "15 spots left"
+          }
+        }
+      },
+      "skills": {
+        "title": "SKILLS ASSESSMENT",
+        "reading": {
+          "label": "Reading Skills",
+          "placeholder": "Select your reading level"
+        },
+        "portuguese": {
+          "label": "Portuguese Level"
+        },
+        "english": {
+          "label": "English Level"
+        },
+        "digital": {
+          "label": "Digital Skills",
+          "placeholder": "Select your digital skills level",
+          "levels": {
+            "basic": "Basic (Can use smartphone apps)",
+            "intermediate": "Intermediate (Can use email, basic software)",
+            "advanced": "Advanced (Comfortable with new software)"
+          }
+        },
+        "levels": {
+          "select": "Select level",
+          "none": "None",
+          "basic": "Basic",
+          "intermediate": "Intermediate",
+          "advanced": "Advanced",
+          "fluent": "Fluent"
+        }
+      },
+      "experience": {
+        "title": "CONSTRUCTION EXPERIENCE",
+        "checkbox": "I have 1+ year of construction experience",
+        "checkboxSub": "Prior experience in construction, renovation, or related trades",
+        "uploadLabel": "Upload Experience Documentation (optional)",
+        "uploadCta": "Click to upload CV, certificates, or work references",
+        "uploadLimits": "PDF, DOC, DOCX, JPG, or PNG (max 10MB)"
+      },
+      "assistance": {
+        "title": "NEED ASSISTANCE?",
+        "checkbox": "I'm missing some requirements and need assistance",
+        "checkboxSub": "Don't worry! We can help you improve your skills before the program. If you don't have the required documentation, you'll complete a practical test on location."
+      },
+      "commitment": {
+        "title": "COMMITMENT",
+        "checkbox": "I have the mindset to change my life",
+        "checkboxSub": "I am committed to learning, growing, and building a successful career as a certified REAL BUILDER"
+      }
+    },
+    "closed": {
+      "title": "Applications Currently Closed",
+      "message": "Thank you for your interest! Applications for new courses will open soon. Leave your details below and we'll notify you when enrollment opens.",
+      "processing": "PROCESSING...",
+      "cta": "REMIND ME WHEN APPLICATIONS OPEN"
+    }
+  },
+  "footer": {
+    "description": "Empowering the next generation of builders with practical skills, vehicles, and global opportunities.",
+    "contact": {
+      "title": "Contact Us"
+    },
+    "legal": {
+      "title": "Legal",
+      "faq": "FAQ",
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "complaints": "Complaints Book"
+    },
+    "rights": "All rights reserved.",
+    "developedBy": "Website developed by"
+  },
+  "faq": {
+    "seo": {
+      "title": "Frequently Asked Questions",
+      "description": "Find answers to frequently asked questions about Real Builder, the premier construction academy in Portugal. Learn about our courses, certification, and job placement."
+    },
+    "title": "Frequently Asked",
+    "titleHighlight": "Questions",
+    "subtitle": "Everything you need to know about the Real Builder academy, our courses, and your future career in construction.",
+    "items": [
+      {
+        "question": "What is Real Builder?",
+        "answer": "<brand /> is a premier construction academy in Portugal dedicated to transforming individuals with basic or no experience into certified, job-ready construction professionals. We focus on intensive, hands-on training to meet the high demand of the modern construction industry.",
+        "answerText": "Real Builder is a premier construction academy in Portugal dedicated to transforming individuals with basic or no experience into certified, job-ready construction professionals. We focus on intensive, hands-on training to meet the high demand of the modern construction industry."
+      },
+      {
+        "question": "How does the certification process work?",
+        "answer": "Our certification process is divided into levels (RB1, RB2, RB3). You start with foundational safety and basic skills, progressing to specialized techniques in areas like plumbing, electrical work, carpentry, and masonry. Each level requires passing rigorous practical exams.",
+        "answerText": "Our certification process is divided into levels (RB1, RB2, RB3). You start with foundational safety and basic skills, progressing to specialized techniques in areas like plumbing, electrical work, carpentry, and masonry. Each level requires passing rigorous practical exams."
+      },
+      {
+        "question": "Do I need prior construction experience to join?",
+        "answer": "No prior experience is required for our foundational RB1 courses. We welcome anyone with the right mindset, physical readiness, and willingness to learn. We provide all the necessary tools and knowledge from day one.",
+        "answerText": "No prior experience is required for our foundational RB1 courses. We welcome anyone with the right mindset, physical readiness, and willingness to learn. We provide all the necessary tools and knowledge from day one."
+      },
+      {
+        "question": "What is the job placement rate after graduation?",
+        "answer": "We are proud of our 93% job placement rate. Thanks to our strong partnerships with leading construction companies across Portugal, our certified <brandNoAcademy />s have direct pathways to high-paying, stable employment immediately after graduation.",
+        "answerText": "We are proud of our 93% job placement rate. Thanks to our strong partnerships with leading construction companies across Portugal, our certified Real Builders have direct pathways to high-paying, stable employment immediately after graduation."
+      },
+      {
+        "question": "Are the courses taught in English or Portuguese?",
+        "answer": "To accommodate a diverse range of students, including locals and expatriates, our high-intensity, on-site learning programs are available in both Portuguese and English.",
+        "answerText": "To accommodate a diverse range of students, including locals and expatriates, our high-intensity, on-site learning programs are available in both Portuguese and English."
+      },
+      {
+        "question": "How long does it take to get certified?",
+        "answer": "The initial RB1 certification (Getting Started) typically takes between 1 to 4 weekends, depending on the specific course track. Advanced certifications (RB2 and RB3) require additional specialized training modules.",
+        "answerText": "The initial RB1 certification (Getting Started) typically takes between 1 to 4 weekends, depending on the specific course track. Advanced certifications (RB2 and RB3) require additional specialized training modules."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated",
+    "sections": {
+      "intro": {
+        "title": "Introduction",
+        "p1": "Welcome to <brand />. These Terms and Conditions govern the access and use of our website and the services provided by <brand />, headquartered at Avenida Mateus Teixeira Azevedo 55, Tavira, Portugal.",
+        "p2": "By accessing and using this website, the user agrees to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our website."
+      },
+      "services": {
+        "title": "Services",
+        "p1": "<brand /> offers professional training courses in the construction industry, including, but not limited to, drywall installation, tiling, and underfloor heating installation.",
+        "p2": "Enrollment in courses is subject to availability, meeting admission requirements, and payment of the respective tuition fees, where applicable."
+      },
+      "payments": {
+        "title": "Enrollments and Payments",
+        "p1": "By submitting an enrollment form, the user guarantees that all information provided is true, accurate, and complete.",
+        "p2": "Specific payment conditions, cancellation, and refund policies will be communicated to the user at the time of formalizing the enrollment in the respective course."
+      },
+      "intellectual": {
+        "title": "Intellectual Property",
+        "p1": "All content present on this website, including texts, graphics, logos, icons, images, audio clips, digital downloads, and data compilations, is the property of <brand /> or its content suppliers and is protected by Portuguese and international copyright laws.",
+        "p2": "The reproduction, duplication, copying, selling, reselling, or exploitation of any part of the website for commercial purposes without our express written consent is not permitted."
+      },
+      "data": {
+        "title": "Data Protection",
+        "p1": "The collection and processing of personal data are carried out in accordance with our Privacy Policy, in strict compliance with the General Data Protection Regulation (GDPR) and other applicable legislation."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "p1": "<brand /> makes every effort to ensure that the information presented on the website is accurate and up-to-date. However, we do not guarantee the absence of errors or omissions.",
+        "p2": "<brand /> shall not be liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use this website or the services offered."
+      },
+      "changes": {
+        "title": "Changes to the Terms",
+        "p1": "We reserve the right to update or modify these Terms and Conditions at any time, without prior notice. Continued use of the website following any changes constitutes acceptance of the new Terms and Conditions."
+      },
+      "law": {
+        "title": "Applicable Law and Jurisdiction",
+        "p1": "These Terms and Conditions are governed by and construed in accordance with Portuguese law. For the resolution of any dispute arising from the interpretation or execution of these Terms, the jurisdiction of the district of Faro is competent, with express waiver of any other."
+      },
+      "contacts": {
+        "title": "Contacts",
+        "p1": "For any questions related to these Terms and Conditions, please contact us via:",
+        "phone": "Phone",
+        "address": "Address"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated",
+    "sections": {
+      "intro": {
+        "title": "Introduction",
+        "p1": "<brand /> respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, share, and protect your personal information when you visit our website or use our services, in compliance with the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679)."
+      },
+      "controller": {
+        "title": "Data Controller",
+        "p1": "The entity responsible for processing your personal data is <brand />, headquartered at Avenida Mateus Teixeira Azevedo 55, Tavira, Portugal."
+      },
+      "dataCollect": {
+        "title": "Data We Collect",
+        "p1": "We may collect and process the following categories of personal data:",
+        "items": {
+          "id": {
+            "label": "Identification Data",
+            "value": "First name, last name."
+          },
+          "contact": {
+            "label": "Contact Data",
+            "value": "Email address, phone number, city, district."
+          },
+          "professional": {
+            "label": "Professional and Academic Data",
+            "value": "Education level, language skills, digital skills, experience in the construction industry, resume, and certificates (when submitted)."
+          },
+          "navigation": {
+            "label": "Navigation Data",
+            "value": "IP address, browser type, pages visited, and time spent on our website (through cookies)."
+          }
+        }
+      },
+      "purposes": {
+        "title": "Purposes and Legal Basis",
+        "p1": "We use your personal data for the following purposes:",
+        "items": {
+          "enrollment": {
+            "label": "Enrollment Management",
+            "value": "To process your application for our courses and assess your eligibility. (Legal basis: Performance of a contract or pre-contractual steps)."
+          },
+          "communication": {
+            "label": "Communication",
+            "value": "To respond to information requests, send course updates, and notify you of open enrollments. (Legal basis: Consent or legitimate interest)."
+          },
+          "improvement": {
+            "label": "Service Improvement",
+            "value": "To analyze website usage and improve user experience. (Legal basis: Legitimate interest)."
+          },
+          "legal": {
+            "label": "Legal Compliance",
+            "value": "To comply with legal obligations to which we are subject. (Legal basis: Legal obligation)."
+          }
+        }
+      },
+      "sharing": {
+        "title": "Data Sharing",
+        "p1": "We do not sell, rent, or share your personal data with third parties for commercial purposes. We may only share your data with:",
+        "items": {
+          "providers": "Service providers acting on our behalf (e.g., web hosting services, form management platforms like Formspree).",
+          "authorities": "Competent authorities, when required by law."
+        }
+      },
+      "retention": {
+        "title": "Data Retention",
+        "p1": "We retain your personal data only for the period strictly necessary to fulfill the purposes for which it was collected, or to comply with legal, tax, or regulatory obligations."
+      },
+      "rights": {
+        "title": "Your Rights",
+        "p1": "Under the GDPR, you have the right to:",
+        "items": {
+          "access": "Request access to your personal data.",
+          "rectification": "Request the rectification of inaccurate or incomplete data.",
+          "erasure": "Request the erasure of your data (\"right to be forgotten\").",
+          "restriction": "Request the restriction of processing.",
+          "object": "Object to the processing of your data.",
+          "portability": "Request data portability.",
+          "withdraw": "Withdraw consent at any time (without affecting the lawfulness of processing based on consent before its withdrawal)."
+        },
+        "p2": "To exercise these rights, please contact us by phone at +351 939 996 924. You also have the right to lodge a complaint with the National Data Protection Commission (CNPD) in Portugal."
+      },
+      "security": {
+        "title": "Security",
+        "p1": "We implement appropriate technical and organizational measures to protect your personal data against unauthorized destruction, loss, alteration, disclosure, or access."
+      },
+      "changes": {
+        "title": "Changes to this Policy",
+        "p1": "We may update this Privacy Policy periodically. We recommend that you review this page regularly to stay informed about how we protect your data."
+      }
+    }
+  },
+  "pilot": {
+    "badge": "Limited Opportunity",
+    "title": "Join the <brand /> <br /> <span />Pilot Program! 3 spots only!</span>",
+    "subtitle": "Get free training and a job contract!",
+    "benefits": {
+      "item1": "Become the first Certified <brand />",
+      "item2": "Be a part of the next generation of construction professionals",
+      "item3": "Earn from 1200€ to 2000€/monthly"
+    },
+    "warning": "Important: The program is intensive (10 hours/day). We are looking for dedicated professionals ready to commit.",
+    "form": {
+      "title": "Apply Now",
+      "fields": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "John"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Doe"
+        },
+        "phone": {
+          "label": "Phone Number"
+        },
+        "email": {
+          "label": "Email"
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "Lisbon"
+        },
+        "experience": {
+          "label": "Years of Experience",
+          "placeholder": "Select experience...",
+          "options": {
+            "lessThan1": "Less than 1 year",
+            "1to3": "1-3 years",
+            "3to5": "3-5 years",
+            "moreThan5": "5+ years"
+          },
+          "error": "I'm missing some requirements and need assistance"
+        },
+        "tavira": {
+          "label": "Available to work in Tavira?",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "immediate": {
+          "label": "Available to start immediately?",
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
+      "areas": {
+        "label": "Areas of Interest (Select up to 2)",
+        "items": {
+          "tiler": "Tiler",
+          "carpenter": "Carpenter",
+          "drywall": "Drywall Installer",
+          "plaster": "Plaster/Microcement Specialist"
+        }
+      },
+      "submit": "SUBMIT APPLICATION",
+      "error": "There was an error submitting the form. Please try again.",
+      "success": {
+        "title": "Application Received!",
+        "message": "Thank you for applying to the <brand /> Pilot Program. We will review your application and contact you soon."
+      }
+    },
+    "mobility": {
+      "title": {
+        "part1": "Choose Your",
+        "part2": "Mobility Solution"
+      },
+      "month": "month",
+      "popular": "MOST POPULAR",
+      "vehicles": {
+        "toolbox": {
+          "name": "Mobile Toolbox",
+          "desc": "RB STARTER"
+        },
+        "wheeler": {
+          "name": "Electric 3-Wheeler",
+          "desc": "1-2 MAN BUSINESS IN TOWN"
+        },
+        "buggy": {
+          "name": "Tool Buggy / Quad",
+          "desc": "1-4 MAN BUSINESS IN TOWN"
+        },
+        "van": {
+          "name": "Tool Van",
+          "desc": "1-4 MAN BUSINESS MULTI..."
+        }
+      }
+    },
+    "nextCourses": {
+      "title": "NEXT COURSES",
+      "important": "IMPORTANT START",
+      "registrationStart": "Registration Start",
+      "notifyMe": "NOTIFY ME",
+      "status": {
+        "open": "Registrations Are Open",
+        "opensIn": "Registration Opens In"
+      },
+      "fields": {
+        "date": "Date",
+        "time": "Time",
+        "location": "Location"
+      },
+      "dates": {
+        "apr24": "April 24, 2026",
+        "time": "18:00 (Lisbon Time)",
+        "location": "Feira Tektónica - Parque Das Nações - Lisbon"
+      },
+      "countdown": {
+        "days": "DAYS",
+        "hours": "HOURS",
+        "mins": "MINS",
+        "secs": "SECS"
+      },
+      "calendar": {
+        "title": "Course Calendar",
+        "expand": "EXPAND",
+        "viewAll": "VIEW ALL DATES",
+        "toBeDefined": "To be defined",
+        "months": {
+          "apr": "Apr",
+          "may": "May",
+          "jun": "Jun",
+          "full": {
+            "apr": "April",
+            "may": "May",
+            "jun": "June"
+          }
+        },
+        "events": {
+          "opening": "Opening of the \"Feira Tektónica\"",
+          "first2": "First 2 Courses",
+          "next2": "Next 2 Courses"
+        }
+      },
+      "modal": {
+        "title": "Full Course Calendar",
+        "subtitle": "Upcoming dates for all <brand /> certifications",
+        "event": "Event",
+        "start": "Start",
+        "newSeason": "New Season",
+        "nextPhase": "Next Phase"
+      }
+    },
+    "professionals": {
+      "title": {
+        "part1": "Certified Professionals",
+        "part2": "Near You"
+      },
+      "subtitle": "Browse our network of certified <brand /> across Portugal. Each professional has completed our rigorous certification program.",
+      "filters": {
+        "all_professions": "All Professions",
+        "electrician": "Electrician",
+        "plumber": "Plumber",
+        "carpenter": "Carpenter",
+        "mason": "Mason",
+        "painter": "Painter",
+        "roofer": "Roofer",
+        "welder": "Welder",
+        "tiler": "Tiler"
+      },
+      "map": {
+        "legend": "Certificate Levels"
+      },
+      "list": {
+        "title": "Builders in Lisbon",
+        "count": "{{count}} professionals",
+        "comingSoon": "COMING SOON"
+      },
+      "training": {
+        "alt": "Builder in training {{index}}",
+        "caption": "BUILDERS UNDER TRAINING"
+      }
+    }
+  }
+}

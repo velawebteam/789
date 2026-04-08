@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://realbuilder-academy.com/sitemap.xml

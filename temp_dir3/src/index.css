@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide Google Translate Toolbar and prevent body shift */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+.skiptranslate, 
+.goog-te-banner-frame, 
+#goog-gt-tt, 
+.goog-te-balloon-frame, 
+.goog-te-menu-value,
+.goog-te-gadget-icon,
+.goog-te-gadget-simple,
+.goog-te-banner,
+#google_translate_element {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+.goog-te-combo {
+  display: none !important;
+}
+.goog-tooltip {
+  display: none !important;
+}
+.goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+/* Prevent Google Translate from adding margin to top of body */
+html {
+  margin-top: 0 !important;
+}
+body {
+  top: 0 !important;
+}
+/* Hide the "Original text" popup */
+#goog-gt-tt {
+  display: none !important;
+}
+.goog-te-spinner-pos {
+  display: none !important;
+}
+
+
