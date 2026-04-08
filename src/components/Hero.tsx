@@ -22,19 +22,10 @@ export default function Hero() {
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
-    // Force video play on mount
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Autoplay might be blocked, which is fine as we have muted
-      });
-    }
 
     return () => clearInterval(interval);
   }, []);
@@ -48,34 +39,32 @@ export default function Hero() {
     }
   };
 
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-24 md:pt-20 overflow-hidden isolate">
-      {/* 1. Base Background (Absolute Bottom) */}
-      <div className="absolute inset-0 bg-[#0a0a0a] -z-30" />
-      
-      {/* 2. Video Layer */}
-      <div className="absolute inset-0 -z-20 pointer-events-none">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          crossOrigin="anonymous"
-          src="https://palegoldenrod-tapir-308804.hostingersite.com/video-entrada-rb.mp4"
-          className="absolute inset-0 w-full h-full object-cover opacity-85"
-          onCanPlay={(e) => {
-            e.currentTarget.muted = true;
-            e.currentTarget.play().catch(() => {});
-          }}
-        />
+    <section id="hero" className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-[#0a0a0a]">
+      {/* Background Layer */}
+      <div className="absolute top-24 inset-x-0 bottom-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 w-full h-full bg-[#0a0a0a]">
+          {/* Poster Image (Visible while video loads) */}
+          <div 
+            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}
+            style={{ backgroundImage: 'url(https://img.youtube.com/vi/EXloyDej4Nw/maxresdefault.jpg)' }}
+          />
+          
+          <iframe
+            src="https://www.youtube.com/embed/EXloyDej4Nw?autoplay=1&mute=1&loop=1&playlist=EXloyDej4Nw&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
+            className={`absolute top-1/2 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            allow="autoplay; encrypted-media"
+            title="Hero Background Video"
+            onLoad={() => setIsVideoLoaded(true)}
+          ></iframe>
+        </div>
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* 3. Overlay Layer (Ensures text readability) */}
-      <div className="absolute inset-0 bg-black/40 -z-10 pointer-events-none" />
-
-      {/* 4. Content Layer (Top) */}
+      {/* Content Layer */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full pb-10 md:pb-20">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}

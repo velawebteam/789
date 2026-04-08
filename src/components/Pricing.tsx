@@ -43,7 +43,7 @@ export default function Pricing() {
   };
 
   return (
-    <section id="pricing" ref={sectionRef} className="pt-16 md:pt-32 pb-0 bg-[#111315] relative border-t border-white/5">
+    <section id="pricing" ref={sectionRef} className="pt-16 md:pt-32 pb-8 md:pb-0 bg-[#111315] relative border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="relative pt-8 md:pt-16 px-8 md:px-16 border-t border-x border-white/5">
           {/* Corner Accents */}
@@ -211,7 +211,7 @@ export default function Pricing() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.8 }}
-            className="text-center mt-4 md:mt-8 mb-16 md:mb-0 text-gray-500 text-sm"
+            className="text-center mt-4 md:mt-8 text-gray-500 text-sm"
           >
             Please select a path above to continue
           </motion.div>

@@ -15,7 +15,7 @@ export default function MobilitySolutions() {
   };
 
   return (
-    <section id="mobility" className="pt-0 pb-24 bg-[#111315] relative">
+    <section id="mobility" className="pt-8 md:pt-0 pb-24 bg-[#111315] relative">
       <div className="max-w-7xl mx-auto px-6">
         <div className="relative pb-8 md:pb-16 px-8 md:px-16 border-b border-x border-white/5">
           {/* Corner Accents */}
