@@ -2,6 +2,7 @@ import { CheckCircle2, Trophy, Send, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import BrandName from './BrandName';
 import { COURSES_LIST } from '../constants/courses';
+import { useLanguage } from '../context/LanguageContext';
 
 const areasOfInterest = COURSES_LIST.map(course => ({
   id: course.id,
@@ -9,6 +10,7 @@ const areasOfInterest = COURSES_LIST.map(course => ({
 }));
 
 export default function PilotProgram() {
+  const { t } = useLanguage();
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -63,37 +65,37 @@ export default function PilotProgram() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/10 border border-black/20 text-black text-xs font-black tracking-widest uppercase mb-6">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-              Limited Opportunity
+              {t('pilotProgram.limitedOpportunity')}
             </div>
             
             <h2 className="text-4xl md:text-6xl font-black text-black mb-6 tracking-tight uppercase leading-none notranslate" translate="no">
-              3 spots only! <br />
-              <span className="text-white drop-shadow-md">Pilot Program!</span>
+              {t('pilotProgram.title')} <br />
+              <span className="text-white drop-shadow-md">{t('pilotProgram.subtitle')}</span>
             </h2>
             
             <p className="text-black/80 text-xl font-bold mb-8 max-w-lg">
-              Get free training and a job contract!
+              {t('pilotProgram.benefit')}
             </p>
 
             <ul className="space-y-4 mb-10">
               <li className="flex items-start gap-3 text-black font-semibold text-lg">
                 <CheckCircle2 className="text-black shrink-0 mt-0.5" />
-                <span>Become the first Certified <BrandName /></span>
+                <span>{t('pilotProgram.feature1')} <BrandName /></span>
               </li>
               <li className="flex items-start gap-3 text-black font-semibold text-lg">
                 <CheckCircle2 className="text-black shrink-0 mt-0.5" />
-                <span>Be a part of the next generation of construction professionals</span>
+                <span>{t('pilotProgram.feature2')}</span>
               </li>
               <li className="flex items-start gap-3 text-black font-semibold text-lg">
                 <CheckCircle2 className="text-black shrink-0 mt-0.5" />
-                <span>Earn from 1200€ to 2000€/monthly</span>
+                <span>{t('pilotProgram.feature3')}</span>
               </li>
             </ul>
 
             <div className="bg-black/10 border-l-4 border-black p-4 rounded-r-xl inline-flex items-center gap-3">
               <Trophy className="text-black shrink-0" />
               <p className="text-black font-bold text-sm">
-                This is a 10+ hour/day intensive program designed for the BEST —those ready to commit and perform at next level.
+                {t('pilotProgram.intensiveDesc')}
               </p>
             </div>
           </div>
@@ -103,38 +105,38 @@ export default function PilotProgram() {
             {!isSubmitted ? (
               <>
                 <h3 className="text-2xl font-black text-white mb-6 tracking-tight uppercase">
-                  Apply Now
+                  {t('pilotProgram.applyNow')}
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">First Name</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.firstName')}</label>
                       <input type="text" name="firstName" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="John" />
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Last Name</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.lastName')}</label>
                       <input type="text" name="lastName" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="Doe" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Phone Number</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.phone')}</label>
                       <input type="tel" name="phone" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="+351 900 000 000" />
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Email</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.email')}</label>
                       <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="john@example.com" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">City</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.city')}</label>
                       <input type="text" name="city" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="Lisbon" />
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Years of Experience</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.experience')}</label>
                       <div className="relative">
                         <select 
                           name="experience" 
@@ -143,9 +145,9 @@ export default function PilotProgram() {
                           onChange={(e) => setExperience(e.target.value)}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm appearance-none"
                         >
-                          <option value="" disabled className="bg-[#15181b] text-gray-400">Select experience...</option>
-                          <option value="3-5 years" className="bg-[#15181b] text-white">3-5 years</option>
-                          <option value="5+ years" className="bg-[#15181b] text-white">5+ years</option>
+                          <option value="" disabled className="bg-[#15181b] text-gray-400">{t('pilotProgram.selectExperience')}</option>
+                          <option value="3-5 years" className="bg-[#15181b] text-white">{t('pilotProgram.exp3to5')}</option>
+                          <option value="5+ years" className="bg-[#15181b] text-white">{t('pilotProgram.exp5plus')}</option>
                         </select>
                         <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                       </div>
@@ -154,24 +156,24 @@ export default function PilotProgram() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">Available to work in Tavira?</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('pilotProgram.availableTavira')}</label>
                       <div className="flex gap-4">
                         <label className="flex items-center gap-2 text-white text-sm cursor-pointer">
-                          <input type="radio" name="tavira" value="yes" required className="accent-[#FFB800]" /> Yes
+                          <input type="radio" name="tavira" value="yes" required className="accent-[#FFB800]" /> {t('pilotProgram.yes')}
                         </label>
                         <label className="flex items-center gap-2 text-white text-sm cursor-pointer">
-                          <input type="radio" name="tavira" value="no" required className="accent-[#FFB800]" /> No
+                          <input type="radio" name="tavira" value="no" required className="accent-[#FFB800]" /> {t('pilotProgram.no')}
                         </label>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">Available to start immediately?</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('pilotProgram.availableImmediate')}</label>
                       <div className="flex gap-4">
                         <label className="flex items-center gap-2 text-white text-sm cursor-pointer">
-                          <input type="radio" name="immediate" value="yes" required className="accent-[#FFB800]" /> Yes
+                          <input type="radio" name="immediate" value="yes" required className="accent-[#FFB800]" /> {t('pilotProgram.yes')}
                         </label>
                         <label className="flex items-center gap-2 text-white text-sm cursor-pointer">
-                          <input type="radio" name="immediate" value="no" required className="accent-[#FFB800]" /> No
+                          <input type="radio" name="immediate" value="no" required className="accent-[#FFB800]" /> {t('pilotProgram.no')}
                         </label>
                       </div>
                     </div>
@@ -179,7 +181,7 @@ export default function PilotProgram() {
 
                   <div>
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
-                      Areas of Interest (Select up to 2)
+                      {t('pilotProgram.areasInterest')}
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {areasOfInterest.map(area => {
@@ -200,7 +202,7 @@ export default function PilotProgram() {
                                   : 'bg-white/5 border-white/10 text-gray-300 hover:border-[#FFB800]/50'
                             }`}
                           >
-                            {area.name}
+                            {t(`courses_list.${area.id}.name` as any)}
                           </button>
                         );
                       })}
@@ -211,7 +213,7 @@ export default function PilotProgram() {
                     type="submit"
                     className="w-full bg-[#FFB800] text-black hover:bg-white font-black py-4 rounded-xl tracking-widest transition-colors mt-6 flex items-center justify-center gap-2"
                   >
-                    CONTACT ME <Send size={18} />
+                    {t('pilotProgram.contactMe')} <Send size={18} />
                   </button>
                 </form>
               </>
@@ -221,10 +223,10 @@ export default function PilotProgram() {
                   <CheckCircle2 className="text-green-500" size={40} />
                 </div>
                 <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
-                  Application Received!
+                  {t('pilotProgram.successTitle')}
                 </h3>
                 <p className="text-gray-400">
-                  Thank you for applying to the <BrandName /> Pilot Program. We will review your application and contact you soon.
+                  {t('pilotProgram.successDesc').replace('{brand}', 'Real Builder')}
                 </p>
               </div>
             )}

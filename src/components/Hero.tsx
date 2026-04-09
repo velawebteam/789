@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import BrandName from './BrandName';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero() {
+  const { t } = useLanguage();
   const calculateTimeLeft = () => {
     // Target date: April 24, 2026, 18:00:00 Lisbon Time (UTC+1)
     const targetDate = new Date('2026-04-24T18:00:00+01:00');
@@ -74,16 +76,16 @@ export default function Hero() {
         >
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-none mb-3 md:mb-4 tracking-tight flex flex-col items-start notranslate" translate="no">
             <div className="relative inline-flex whitespace-nowrap">
-              <span>THE REAL</span>
+              <span>{t('hero.title1')}</span>
             </div>
-            <span className="text-[#FFB800] mt-1 md:mt-2">BUILDER</span>
+            <span className="text-[#FFB800] mt-1 md:mt-2">{t('hero.title2')}</span>
           </h1>
 
           <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 md:mb-8 max-w-xl leading-relaxed">
-            For individuals who want real skills.<br />
-            For companies who need reliable workers.<br />
+            {t('hero.subtitle1')}<br />
+            {t('hero.subtitle2')}<br />
             <br className="hidden sm:block" />
-            <BrandName /> transforms beginners into skilled, certified builders — fully equipped, job ready to raise the standard from day one.
+            <BrandName /> {t('hero.description')}
           </p>
 
           {/* Countdown moved here */}
@@ -92,10 +94,10 @@ export default function Hero() {
               <div className="w-2 h-2 rounded-full bg-[#FFB800] animate-pulse" />
               <span className="text-white font-medium tracking-wide text-xs sm:text-sm uppercase">
                 {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0 
-                  ? <span>Registrations are Open!</span> 
+                  ? <span>{t('hero.registrationsOpen')}</span> 
                   : (
                     <span>
-                      Registrations open at <a href="https://tektonica.fil.pt/" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">Feira Tektónica</a> in
+                      {t('hero.registrationsOpenAt')} <a href="https://tektonica.fil.pt/" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">Feira Tektónica</a> {t('hero.in')}
                     </span>
                   )}
               </span>
@@ -104,22 +106,22 @@ export default function Hero() {
             <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
               <div className="flex flex-col items-center">
                 <span className="text-[#FFB800] text-2xl sm:text-3xl md:text-4xl font-black notranslate" translate="no">{pad(timeLeft.days)}</span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">DAYS</span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">{t('hero.days')}</span>
               </div>
               <span className="text-white/20 text-xl sm:text-2xl font-light pb-2 sm:pb-3">:</span>
               <div className="flex flex-col items-center">
                 <span className="text-[#FFB800] text-2xl sm:text-3xl md:text-4xl font-black notranslate" translate="no">{pad(timeLeft.hours)}</span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">HOURS</span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">{t('hero.hours')}</span>
               </div>
               <span className="text-white/20 text-xl sm:text-2xl font-light pb-2 sm:pb-3">:</span>
               <div className="flex flex-col items-center">
                 <span className="text-[#FFB800] text-2xl sm:text-3xl md:text-4xl font-black notranslate" translate="no">{pad(timeLeft.minutes)}</span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">MINS</span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">{t('hero.mins')}</span>
               </div>
               <span className="text-white/20 text-xl sm:text-2xl font-light pb-2 sm:pb-3">:</span>
               <div className="flex flex-col items-center">
                 <span className="text-[#FFB800] text-2xl sm:text-3xl md:text-4xl font-black notranslate" translate="no">{pad(timeLeft.seconds)}</span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">SECS</span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">{t('hero.secs')}</span>
               </div>
             </div>
           </div>
@@ -144,7 +146,7 @@ export default function Hero() {
                 }}
                 className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 pointer-events-none"
               />
-              <span className="relative z-10 uppercase">Explore Courses</span>
+              <span className="relative z-10 uppercase">{t('hero.exploreCourses')}</span>
             </motion.button>
 
             <motion.button 
@@ -153,7 +155,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="relative group overflow-hidden bg-[#FFB800] text-black px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-all hover:bg-[#FFB800]/90 w-full sm:w-auto"
             >
-              <span className="relative z-10 uppercase">Notify Me</span>
+              <span className="relative z-10 uppercase">{t('hero.notifyMe')}</span>
             </motion.button>
           </div>
         </motion.div>

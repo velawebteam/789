@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import BrandName from '../components/BrandName';
 import SEO from '../components/SEO';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FAQ {
   question: string;
@@ -10,49 +11,50 @@ interface FAQ {
   answerText: string; // For SEO structured data
 }
 
-const faqs: FAQ[] = [
-  {
-    question: "What is Real Builder?",
-    answer: (
-      <>
-        <BrandName />{' '}is a premier construction academy in Portugal dedicated to transforming individuals with basic or no experience into certified, job-ready construction professionals. We focus on intensive, hands-on training to meet the high demand of the modern construction industry.
-      </>
-    ),
-    answerText: "Real Builder is a premier construction academy in Portugal dedicated to transforming individuals with basic or no experience into certified, job-ready construction professionals. We focus on intensive, hands-on training to meet the high demand of the modern construction industry."
-  },
-  {
-    question: "How does the certification process work?",
-    answer: "Our certification process is divided into levels (RB1, RB2, RB3). You start with foundational safety and basic skills, progressing to specialized techniques in areas like plumbing, electrical work, carpentry, and masonry. Each level requires passing rigorous practical exams.",
-    answerText: "Our certification process is divided into levels (RB1, RB2, RB3). You start with foundational safety and basic skills, progressing to specialized techniques in areas like plumbing, electrical work, carpentry, and masonry. Each level requires passing rigorous practical exams."
-  },
-  {
-    question: "Do I need prior construction experience to join?",
-    answer: "No prior experience is required for our foundational RB1 courses. We welcome anyone with the right mindset, physical readiness, and willingness to learn. We provide all the necessary tools and knowledge from day one.",
-    answerText: "No prior experience is required for our foundational RB1 courses. We welcome anyone with the right mindset, physical readiness, and willingness to learn. We provide all the necessary tools and knowledge from day one."
-  },
-  {
-    question: "What is the job placement rate after graduation?",
-    answer: (
-      <>
-        We are proud of our 93% job placement rate. Thanks to our strong partnerships with leading construction companies across Portugal, our certified{' '}<BrandName withAcademy={false} />s have direct pathways to high-paying, stable employment immediately after graduation.
-      </>
-    ),
-    answerText: "We are proud of our 93% job placement rate. Thanks to our strong partnerships with leading construction companies across Portugal, our certified Real Builders have direct pathways to high-paying, stable employment immediately after graduation."
-  },
-  {
-    question: "Are the courses taught in English or Portuguese?",
-    answer: "To accommodate a diverse range of students, including locals and expatriates, our high-intensity, on-site learning programs are available in both Portuguese and English.",
-    answerText: "To accommodate a diverse range of students, including locals and expatriates, our high-intensity, on-site learning programs are available in both Portuguese and English."
-  },
-  {
-    question: "How long does it take to get certified?",
-    answer: "The initial RB1 certification (Getting Started) typically takes between 1 to 4 weekends, depending on the specific course track. Advanced certifications (RB2 and RB3) require additional specialized training modules.",
-    answerText: "The initial RB1 certification (Getting Started) typically takes between 1 to 4 weekends, depending on the specific course track. Advanced certifications (RB2 and RB3) require additional specialized training modules."
-  }
-];
-
 export default function FAQPage() {
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs: FAQ[] = [
+    {
+      question: t('faq.q1'),
+      answer: (
+        <>
+          <BrandName />{' '}{t('faq.a1')}
+        </>
+      ),
+      answerText: t('faq.a1')
+    },
+    {
+      question: t('faq.q2'),
+      answer: t('faq.a2'),
+      answerText: t('faq.a2')
+    },
+    {
+      question: t('faq.q3'),
+      answer: t('faq.a3'),
+      answerText: t('faq.a3')
+    },
+    {
+      question: t('faq.q4'),
+      answer: (
+        <>
+          {t('faq.a4_prefix') || ''} <BrandName withAcademy={false} /> {t('faq.a4_suffix') || t('faq.a4')}
+        </>
+      ),
+      answerText: t('faq.a4')
+    },
+    {
+      question: t('faq.q5'),
+      answer: t('faq.a5'),
+      answerText: t('faq.a5')
+    },
+    {
+      question: t('faq.q6'),
+      answer: t('faq.a6'),
+      answerText: t('faq.a6')
+    }
+  ];
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -70,8 +72,8 @@ export default function FAQPage() {
   return (
     <main className="pt-20 min-h-screen bg-[#0a0a0a]">
       <SEO 
-        title="Frequently Asked Questions | Real Builder Construction Academy"
-        description="Find answers to frequently asked questions about Real Builder, the premier construction academy in Portugal. Learn about our courses, certification, and job placement."
+        title={`${t('faq.title')} ${t('faq.subtitle')} | Real Builder Construction Academy`}
+        description={t('faq.desc')}
         canonical="https://realbuilder-academy.com/faq"
       />
       <script type="application/ld+json">
@@ -81,10 +83,10 @@ export default function FAQPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Frequently Asked <span className="text-[#FFB800]">Questions</span>
+              {t('faq.title')} <span className="text-[#FFB800]">{t('faq.subtitle')}</span>
             </h1>
             <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-              Everything you need to know about the Real Builder academy, our courses, and your future career in construction.
+              {t('faq.desc')}
             </p>
           </div>
 

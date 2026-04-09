@@ -2,6 +2,7 @@ import { X, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import React, { useState } from 'react';
 import { COURSES_LIST } from '../constants/courses';
+import { useLanguage } from '../context/LanguageContext';
 
 const coursesList = COURSES_LIST.map(course => ({
   id: course.id,
@@ -14,6 +15,7 @@ interface NotifyMeModalProps {
 }
 
 export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
+  const { t } = useLanguage();
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -88,20 +90,20 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     <Bell className="text-[#FFB800]" size={32} />
                   </motion.div>
                   <h3 className="text-2xl font-black text-white mb-2 tracking-tight uppercase notranslate" translate="no">
-                    Get Notified
+                    {t('notify.title')}
                   </h3>
                   <p className="text-[#FFB800] text-sm font-bold mb-2 uppercase tracking-wider">
-                    and apply to get 30% off or free membership
+                    {t('notify.subtitle')}
                   </p>
                   <p className="text-gray-400 text-sm">
-                    Leave your details below and we'll notify you as soon as new courses open.
+                    {t('notify.desc')}
                   </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">First Name</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.firstName')}</label>
                       <input 
                         type="text" 
                         name="firstName"
@@ -111,7 +113,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Last Name</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.lastName')}</label>
                       <input 
                         type="text" 
                         name="lastName"
@@ -124,7 +126,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Phone Number</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.phone')}</label>
                       <input 
                         type="tel" 
                         name="phone"
@@ -134,7 +136,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">City</label>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.city')}</label>
                       <input 
                         type="text" 
                         name="city"
@@ -146,7 +148,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   </div>
 
                   <div>
-                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Email Address</label>
+                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.email')}</label>
                     <input 
                       type="email" 
                       name="email"
@@ -157,7 +159,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   </div>
 
                   <div>
-                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">Years of Experience</label>
+                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.experience')}</label>
                     <select 
                       name="experience"
                       required
@@ -165,17 +167,17 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                       onChange={(e) => setExperience(e.target.value)}
                       className="w-full bg-[#1a1d21] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm appearance-none"
                     >
-                      <option value="" disabled>Select your experience</option>
-                      <option value="less_than_1">Less than 1 year</option>
-                      <option value="1_to_2">1-2 years</option>
-                      <option value="3_to_5">3-5 years</option>
-                      <option value="5_plus">5+ years</option>
+                      <option value="" disabled>{t('notify.selectExperience')}</option>
+                      <option value="less_than_1">{t('notify.expLess1')}</option>
+                      <option value="1_to_2">{t('notify.exp1to2')}</option>
+                      <option value="3_to_5">{t('notify.exp3to5')}</option>
+                      <option value="5_plus">{t('notify.exp5plus')}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
-                      Courses of Interest (Max 2)
+                      {t('notify.coursesInterest')}
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {coursesList.map(course => {
@@ -211,7 +213,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                                     : 'bg-white/5 border-white/10 text-gray-300 hover:border-[#FFB800]/50'
                               }`}
                             >
-                              {course.name}
+                              {t(`courses_list.${course.id}.name`)}
                             </motion.button>
                           );
                       })}
@@ -229,8 +231,8 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                           {needsAssistance && <div className="w-2 h-2 rounded-full bg-black" />}
                         </div>
                         <div>
-                          <p className="text-white text-sm font-bold uppercase tracking-wider">I'm missing some requirements and need assistance</p>
-                          <p className="text-gray-400 text-xs mt-1 leading-relaxed">Don't worry! We can help you improve your skills before the program.</p>
+                          <p className="text-white text-sm font-bold uppercase tracking-wider">{t('notify.missingRequirements')}</p>
+                          <p className="text-gray-400 text-xs mt-1 leading-relaxed">{t('notify.missingRequirementsDesc')}</p>
                         </div>
                         <input type="hidden" name="needsAssistance" value={needsAssistance ? 'yes' : 'no'} />
                       </button>
@@ -243,7 +245,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     whileTap={{ scale: 0.98 }}
                     className="w-full font-black py-4 rounded-xl tracking-widest transition-colors mt-6 bg-[#FFB800] text-black hover:bg-[#FFB800]/90"
                   >
-                    NOTIFY ME
+                    {t('notify.submit')}
                   </motion.button>
                 </form>
               </>
@@ -253,10 +255,10 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   <Bell className="text-green-500" size={40} />
                 </div>
                 <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
-                  You're on the list!
+                  {t('notify.successTitle')}
                 </h3>
                 <p className="text-gray-400">
-                  We'll notify you as soon as new spots open for your selected courses.
+                  {t('notify.successDesc')}
                 </p>
               </div>
             )}

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import BrandName from './BrandName';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
@@ -26,13 +28,13 @@ export default function Footer() {
               />
             </Link>
             <p className="text-gray-400 mt-2 max-w-xs">
-              Empowering the next generation of builders with practical skills, vehicles, and global opportunities.
+              {t('footer.desc')}
             </p>
           </div>
 
           {/* Contact Info */}
           <div className="flex flex-col gap-4">
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Contact Us</h4>
+            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">{t('footer.contactUs')}</h4>
             <a 
               href="https://wa.me/351939996924" 
               target="_blank" 
@@ -54,19 +56,19 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Legal</h4>
-            <Link to="/faq" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">FAQ</Link>
-            <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">Terms & Conditions</Link>
-            <Link to="/privacy" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">Privacy Policy</Link>
-            <a href="https://livroreclamacoes.pt/inicio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit">Complaints Book</a>
+            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">{t('footer.legal')}</h4>
+            <Link to="/faq" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.faq')}</Link>
+            <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.terms')}</Link>
+            <Link to="/privacy" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.privacy')}</Link>
+            <a href="https://livroreclamacoes.pt/inicio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit">{t('footer.complaints')}</a>
           </div>
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-start text-xs gap-2 md:gap-4">
-          <p>© {new Date().getFullYear()}{' '}<BrandName withAcademy />. All rights reserved.</p>
+          <p>© {new Date().getFullYear()}{' '}<BrandName withAcademy />. {t('footer.allRights')}</p>
           <span className="hidden md:inline text-gray-700">•</span>
           <p>
-            Website developed by{' '}<a href="https://agencia-vela.com" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">Agência Vela</a>
+            {t('footer.developedBy')}{' '}<a href="https://agencia-vela.com" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">Agência Vela</a>
           </p>
         </div>
       </div>

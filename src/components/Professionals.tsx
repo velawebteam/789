@@ -2,11 +2,24 @@ import { MapPin, Star, Lock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Map from './Map';
 import BrandName from './BrandName';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Professionals() {
-  const [activeFilter, setActiveFilter] = useState('All Professions');
+  const { t } = useLanguage();
+  const [activeFilter, setActiveFilter] = useState(t('professionals.allProfessions'));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const professions = ['All Professions', 'Electrician', 'Plumber', 'Carpenter', 'Mason', 'Painter', 'Roofer', 'Welder', 'Tiler'];
+  
+  const professions = [
+    t('professionals.allProfessions'),
+    t('professionals.electrician'),
+    t('professionals.plumber'),
+    t('professionals.carpenter'),
+    t('professionals.mason'),
+    t('professionals.painter'),
+    t('professionals.roofer'),
+    t('professionals.welder'),
+    t('professionals.tiler')
+  ];
 
   const trainingImages = [
     "https://lh3.googleusercontent.com/d/1or_VmB1l6vgMna1kvO8qKdNQgjX-0DE6",
@@ -25,11 +38,11 @@ export default function Professionals() {
     <section id="professionals" className="py-16 md:py-32 bg-[#111315] relative border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight notranslate" translate="no">
-            Certified Professionals <span className="text-[#FFB800]">Near You</span>
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+            {t('professionals.title')} <span className="text-[#FFB800]">{t('professionals.nearYou')}</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Browse our network of certified <BrandName withAcademy /> across Portugal. Each professional has completed our rigorous certification program.
+            {t('professionals.browse')} <BrandName withAcademy /> {t('professionals.across')}
           </p>
         </div>
 
@@ -57,7 +70,7 @@ export default function Professionals() {
             </div>
 
             <div className="absolute bottom-0 right-0 z-10 p-4 bg-[#1a1d21] rounded-tl-2xl border-t border-l border-white/10 min-w-[140px]">
-              <div className="text-gray-400 text-xs font-bold mb-2">Certificate Levels</div>
+              <div className="text-gray-400 text-xs font-bold mb-2">{t('professionals.levels')}</div>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-xs text-gray-300"><span className="w-2 h-2 rounded-full bg-green-500"></span> RB1</div>
                 <div className="flex items-center gap-2 text-xs text-gray-300"><span className="w-2 h-2 rounded-full bg-blue-500"></span> RB2</div>
@@ -69,8 +82,8 @@ export default function Professionals() {
           {/* List Panel */}
           <div className="bg-[#1a1d21] rounded-2xl border border-white/10 p-6 flex flex-col h-[300px] md:h-[400px] lg:h-[450px]">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-white font-bold text-lg">Builders in Lisbon</h3>
-              <span className="text-gray-400 text-xs">8 professionals</span>
+              <h3 className="text-white font-bold text-lg">{t('professionals.buildersIn')} Lisbon</h3>
+              <span className="text-gray-400 text-xs">8 {t('professionals.professionalsCount')}</span>
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -83,7 +96,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">João Silva</h4>
                       <span className="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB2</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Electrician</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.electrician')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.8
@@ -93,7 +106,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -106,7 +119,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Miguel Santos</h4>
                       <span className="bg-green-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB1</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Plumber</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.plumber')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.5
@@ -116,7 +129,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -129,7 +142,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Pedro Ferna...</h4>
                       <span className="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB2</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Mason</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.mason')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.7
@@ -139,7 +152,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -152,7 +165,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Rui Pereira</h4>
                       <span className="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB2</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Roofer</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.roofer')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.9
@@ -162,7 +175,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -175,7 +188,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Ana Costa</h4>
                       <span className="bg-[#FFB800] text-black text-[8px] font-bold px-1.5 py-0.5 rounded">RB3</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Welder</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.welder')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.9
@@ -185,7 +198,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -198,7 +211,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Carlos Silva</h4>
                       <span className="bg-green-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB1</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Carpenter</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.carpenter')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.6
@@ -208,7 +221,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -221,7 +234,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Sofia Martins</h4>
                       <span className="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB2</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Painter</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.painter')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.7
@@ -231,7 +244,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
 
@@ -244,7 +257,7 @@ export default function Professionals() {
                       <h4 className="text-white font-bold text-sm">Tiago Mendes</h4>
                       <span className="bg-green-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">RB1</span>
                     </div>
-                    <div className="text-[#FFB800] text-xs font-semibold">Plumber</div>
+                    <div className="text-[#FFB800] text-xs font-semibold">{t('professionals.plumber')}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center text-[#FFB800] text-xs font-bold">
                         <Star size={10} className="fill-current mr-1" /> 4.4
@@ -254,7 +267,7 @@ export default function Professionals() {
                   </div>
                 </div>
                 <button className="flex items-center gap-1 text-gray-500 text-[10px] font-bold uppercase tracking-wider border border-white/10 px-2 py-1 rounded">
-                  <Lock size={10} /> COMING SOON
+                  <Lock size={10} /> {t('professionals.comingSoon')}
                 </button>
               </div>
             </div>
@@ -278,7 +291,7 @@ export default function Professionals() {
               />
             ))}
             <div className="absolute bottom-4 right-4 text-black font-black text-xs bg-white/80 px-2 py-1 rounded backdrop-blur-sm z-10">
-              BUILDERS UNDER TRAINING
+              {t('professionals.underTraining')}
             </div>
           </div>
         </div>

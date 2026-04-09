@@ -1,15 +1,18 @@
 import { Building2, Wrench, HardHat, Truck, ShieldCheck, Zap } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Partners() {
+  const { t } = useLanguage();
+
   return (
     <section id="partners" className="py-16 md:py-32 bg-[#15181b] relative border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            Trusted <span className="text-[#FFB800]">Partners</span>
+            {t('partners.title')} <span className="text-[#FFB800]">{t('partners.partners')}</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            We collaborate with industry leaders to provide our students with the best tools, materials, and job opportunities.
+            {t('partners.subtitle')}
           </p>
         </div>
 
@@ -19,7 +22,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <Building2 size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Construction<br/>Firms</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.firms')}</span>
           </div>
 
           {/* Partner 2 */}
@@ -27,7 +30,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <Wrench size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Tool<br/>Manufacturers</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.tools')}</span>
           </div>
 
           {/* Partner 3 */}
@@ -35,7 +38,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <HardHat size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Safety<br/>Equipment</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.safety')}</span>
           </div>
 
           {/* Partner 4 */}
@@ -43,7 +46,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <Truck size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Material<br/>Suppliers</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.materials')}</span>
           </div>
 
           {/* Partner 5 */}
@@ -51,7 +54,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <ShieldCheck size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Insurance<br/>Providers</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.insurance')}</span>
           </div>
 
           {/* Partner 6 */}
@@ -59,7 +62,7 @@ export default function Partners() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-[#FFB800] group-hover:bg-[#FFB800]/10 transition-colors">
               <Zap size={24} />
             </div>
-            <span className="text-gray-300 text-sm font-bold text-center">Energy<br/>Solutions</span>
+            <span className="text-gray-300 text-sm font-bold text-center">{t('partners.energy')}</span>
           </div>
         </div>
       </div>

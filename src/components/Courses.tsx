@@ -1,8 +1,10 @@
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 import { COURSES_LIST } from '../constants/courses';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Courses() {
+  const { t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const courses = COURSES_LIST;
@@ -76,10 +78,10 @@ export default function Courses() {
       <div className="max-w-6xl mx-auto px-6 relative">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight uppercase">
-            OUR COURSES
+            {t('courses.title')}
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Master the skills that build the world
+            {t('courses.subtitle')}
           </p>
         </div>
 
@@ -117,15 +119,15 @@ export default function Courses() {
 
                 {/* Normal Content */}
                 <div className="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
-                  <div className="text-[#FFB800] text-[10px] font-bold tracking-widest uppercase mb-3">Certification</div>
-                  <h3 className="text-white font-bold text-xl leading-tight w-4/5 group-hover:text-[#FFB800] transition-colors">{course.name}</h3>
+                  <div className="text-[#FFB800] text-[10px] font-bold tracking-widest uppercase mb-3">{t('courses.certification')}</div>
+                  <h3 className="text-white font-bold text-xl leading-tight w-4/5 group-hover:text-[#FFB800] transition-colors">{t(`courses_list.${course.id}.name`)}</h3>
                 </div>
 
                 {/* Hover Content (Mastery) */}
                 <div className="absolute inset-0 z-20 p-6 bg-[#1a1d21] flex flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div className="text-[#FFB800] text-[10px] font-bold tracking-widest uppercase mb-3">What you'll master:</div>
+                  <div className="text-[#FFB800] text-[10px] font-bold tracking-widest uppercase mb-3">{t('courses.masteryTitle')}</div>
                   <ul className="space-y-2">
-                    {course.mastery.map((item, i) => (
+                    {(t(`courses_list.${course.id}.mastery`) as string[]).map((item, i) => (
                       <li key={i} className="text-white text-xs flex items-start gap-2">
                         <span className="text-[#FFB800] mt-1">•</span>
                         <span>{item}</span>
@@ -135,7 +137,7 @@ export default function Courses() {
                 </div>
 
                 <div className="relative z-10 flex items-center gap-2 text-gray-500 text-sm font-semibold group-hover:text-white transition-colors mt-4 uppercase">
-                  Notify me with discount <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  {t('courses.notifyMe')} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             ))}
