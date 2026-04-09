@@ -50,13 +50,13 @@ export default function Hero() {
         <div className="absolute inset-0 w-full h-full bg-[#0a0a0a]">
           {/* Poster Image (Visible while video loads) */}
           <div 
-            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}
-            style={{ backgroundImage: 'url(https://img.youtube.com/vi/EXloyDej4Nw/maxresdefault.jpg)' }}
+            className={`absolute inset-0 w-full h-full bg-cover bg-top transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}
+            style={{ backgroundImage: 'url(https://img.youtube.com/vi/Mv_X655938Y/maxresdefault.jpg)' }}
           />
           
           <iframe
-            src="https://www.youtube.com/embed/EXloyDej4Nw?autoplay=1&mute=1&loop=1&playlist=EXloyDej4Nw&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
-            className={`absolute top-1/2 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            src="https://www.youtube.com/embed/Mv_X655938Y?autoplay=1&mute=1&loop=1&playlist=Mv_X655938Y&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
+            className={`absolute top-0 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
             allow="autoplay; encrypted-media"
             title="Hero Background Video"
             onLoad={() => setIsVideoLoaded(true)}
