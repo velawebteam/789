@@ -80,10 +80,10 @@ export default function Hero() {
           </h1>
 
           <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 md:mb-8 max-w-xl leading-relaxed">
-            The world needs builders. But not just any builders.<br />
-            It needs professionals who are skilled, smart, and respected.<br />
+            For individuals who want real skills.<br />
+            For companies who need reliable workers.<br />
             <br className="hidden sm:block" />
-            <BrandName /> is the new standard.
+            <BrandName /> transforms beginners into skilled, certified builders — fully equipped, job ready to raise the standard from day one.
           </p>
 
           {/* Countdown moved here */}

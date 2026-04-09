@@ -97,7 +97,7 @@ export default function TermsPage() {
               For any questions related to these Terms and Conditions, please contact us via:
             </p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
-              <li>Phone: +351 939 996 924</li>
+              <li>WhatsApp: <a href="https://wa.me/351939996924" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">WhatsApp</a></li>
               <li>Address: Avenida Mateus Teixeira Azevedo 55, Tavira, Portugal</li>
             </ul>
           </section>

@@ -40,7 +40,7 @@ export default function SEO({ title, description, canonical, image }: SEOProps) 
     "logo": "https://lh3.googleusercontent.com/d/1JcDlCqhCcECmb6aCnMHr_G_Qj-FeGBHn",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+351-939-996-924",
+      "telephone": "WhatsApp",
       "contactType": "customer service",
       "areaServed": "PT",
       "availableLanguage": ["Portuguese", "English"]

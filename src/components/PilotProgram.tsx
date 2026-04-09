@@ -1,4 +1,4 @@
-import { CheckCircle2, AlertTriangle, Send, ChevronDown } from 'lucide-react';
+import { CheckCircle2, Trophy, Send, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import BrandName from './BrandName';
 import { COURSES_LIST } from '../constants/courses';
@@ -90,10 +90,10 @@ export default function PilotProgram() {
               </li>
             </ul>
 
-            <div className="bg-black/10 border-l-4 border-black p-4 rounded-r-xl inline-flex items-start gap-3">
-              <AlertTriangle className="text-black shrink-0" />
+            <div className="bg-black/10 border-l-4 border-black p-4 rounded-r-xl inline-flex items-center gap-3">
+              <Trophy className="text-black shrink-0" />
               <p className="text-black font-bold text-sm">
-                Important: This is a 10+ hour/day intensive program designed for the BEST —those ready to commit and perform at next level.
+                This is a 10+ hour/day intensive program designed for the BEST —those ready to commit and perform at next level.
               </p>
             </div>
           </div>

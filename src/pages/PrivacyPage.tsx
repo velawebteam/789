@@ -93,7 +93,7 @@ export default function PrivacyPage() {
               <li>Withdraw consent at any time (without affecting the lawfulness of processing based on consent before its withdrawal).</li>
             </ul>
             <p className="mt-4">
-              To exercise these rights, please contact us by phone at +351 939 996 924. You also have the right to lodge a complaint with the National Data Protection Commission (CNPD) in Portugal.
+              To exercise these rights, please contact us via <a href="https://wa.me/351939996924" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">WhatsApp</a>. You also have the right to lodge a complaint with the National Data Protection Commission (CNPD) in Portugal.
             </p>
           </section>
 
