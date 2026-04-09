@@ -1247,7 +1247,7 @@ export const translations: any = {
       swipe: "एक्सप्लोर करने के लिए स्वाइप करें"
     },
     pricing: {
-      title: "REAL BUILDER SYSTEM",
+      title: "Real Builder प्रणाली",
       subtitle: "हमारे पूरी तरह से सुसज्जित वाहनों तक पहुंच प्राप्त करें और पेशेवर प्रमाणन के साथ अपने भविष्य को अनलॉक करें।",
       choosePath: "अपना चुनें",
       path: "रास्ता",
