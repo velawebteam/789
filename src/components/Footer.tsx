@@ -60,6 +60,7 @@ export default function Footer() {
             <Link to="/faq" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.faq')}</Link>
             <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.terms')}</Link>
             <Link to="/privacy" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.privacy')}</Link>
+            <Link to="/cookies" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('cookiePolicy.title')}</Link>
             <a href="https://livroreclamacoes.pt/inicio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit">{t('footer.complaints')}</a>
           </div>
         </div>

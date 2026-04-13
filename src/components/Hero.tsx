@@ -3,6 +3,13 @@ import { motion } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+    YT: any;
+  }
+}
+
 export default function Hero() {
   const { t } = useLanguage();
   const calculateTimeLeft = () => {
@@ -42,6 +49,48 @@ export default function Hero() {
   };
 
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const playerRef = useRef<any>(null);
+
+  useEffect(() => {
+    // Load YouTube API
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
+
+    const initPlayer = () => {
+      playerRef.current = new window.YT.Player('hero-video', {
+        events: {
+          onReady: (event: any) => {
+            event.target.playVideo();
+          },
+          onStateChange: (event: any) => {
+            if (event.data === window.YT.PlayerState.ENDED) {
+              event.target.playVideo();
+            }
+            // Try to resume if paused (except if it was just loaded)
+            if (event.data === window.YT.PlayerState.PAUSED) {
+              event.target.playVideo();
+            }
+          }
+        }
+      });
+    };
+
+    window.onYouTubeIframeAPIReady = initPlayer;
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    }
+
+    return () => {
+      // Don't destroy if we want it to keep playing, 
+      // but usually we should clean up.
+      // However, for a background video, we might just leave it.
+    };
+  }, []);
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-[#0a0a0a]">
@@ -55,6 +104,7 @@ export default function Hero() {
           />
           
           <iframe
+            id="hero-video"
             src="https://www.youtube.com/embed/Mv_X655938Y?autoplay=1&mute=1&loop=1&playlist=Mv_X655938Y&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
             className={`absolute top-0 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
             allow="autoplay; encrypted-media"

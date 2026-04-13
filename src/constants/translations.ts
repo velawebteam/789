@@ -578,6 +578,31 @@ export const translations: any = {
       security1: "We implement appropriate technical and organizational measures to protect your personal data against unauthorized destruction, loss, alteration, disclosure, or access.",
       policyChangesTitle: "9. Changes to this Policy",
       policyChanges1: "We may update this Privacy Policy periodically. We recommend that you review this page regularly to stay informed about how we protect your data."
+    },
+    cookiePolicy: {
+      title: "Cookie Policy",
+      introTitle: "1. What are Cookies?",
+      intro1: "Cookies are small text files that are stored on your computer or mobile device when you visit our website. They are widely used to make websites work, or work more efficiently, as well as to provide information to the owners of the site.",
+      howWeUseTitle: "2. How We Use Cookies",
+      howWeUse1: "{brand} uses cookies for the following purposes:",
+      essentialTitle: "Essential Cookies",
+      essentialDesc: "Necessary for the website to function properly, such as security and navigation.",
+      analyticsTitle: "Analytics Cookies",
+      analyticsDesc: "Help us understand how visitors interact with the website by collecting and reporting information anonymously.",
+      functionalTitle: "Functional Cookies",
+      functionalDesc: "Allow the website to remember choices you make (such as your language preference).",
+      manageTitle: "3. Managing Cookies",
+      manage1: "You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed. However, if you do this, you may have to manually adjust some preferences every time you visit a site and some services and functionalities may not work.",
+      consentTitle: "4. Consent",
+      consent1: "By using our website and accepting our cookie banner, you consent to the use of cookies in accordance with this policy. If you do not agree, you should adjust your browser settings or not use the website."
+    },
+    cookies: {
+      title: "Cookies & Privacy",
+      description: "We use cookies to enhance your experience, analyze site traffic, and for security purposes. By clicking 'Accept', you agree to our use of cookies.",
+      accept: "Accept",
+      reject: "Reject",
+      privacyPolicy: "Privacy Policy",
+      consentRequired: "Please accept cookies to submit this form."
     }
   },
   pt: {
@@ -1159,6 +1184,31 @@ export const translations: any = {
       security1: "Implementamos medidas técnicas e organizativas adequadas para proteger os seus dados pessoais contra a destruição acidental ou ilícita, a perda, a alteração, a divulgação ou o acesso não autorizado.",
       policyChangesTitle: "9. Alterações a esta Política",
       policyChanges1: "Podemos atualizar esta Política de Privacidade periodicamente. Recomendamos que consulte esta página regularmente para se manter informado sobre como protegemos os seus dados."
+    },
+    cookiePolicy: {
+      title: "Política de Cookies",
+      introTitle: "1. O que são Cookies?",
+      intro1: "Os cookies são pequenos ficheiros de texto que são armazenados no seu computador ou dispositivo móvel quando visita o nosso website. São amplamente utilizados para fazer com que os websites funcionem, ou funcionem de forma mais eficiente, bem como para fornecer informações aos proprietários do site.",
+      howWeUseTitle: "2. Como Utilizamos os Cookies",
+      howWeUse1: "A {brand} utiliza cookies para os seguintes fins:",
+      essentialTitle: "Cookies Essenciais",
+      essentialDesc: "Necessários para o funcionamento correto do website, como segurança e navegação.",
+      analyticsTitle: "Cookies de Analítica",
+      analyticsDesc: "Ajudam-nos a compreender como os visitantes interagem com o website, recolhendo e comunicando informações de forma anónima.",
+      functionalTitle: "Cookies Funcionais",
+      functionalDesc: "Permitem que o website se lembre de escolhas que faz (como a sua preferência de idioma).",
+      manageTitle: "3. Gestão de Cookies",
+      manage1: "Pode controlar e/ou eliminar os cookies como desejar. Pode eliminar todos os cookies que já se encontram no seu computador e pode configurar a maioria dos navegadores para evitar que sejam colocados. No entanto, se o fizer, poderá ter de ajustar manualmente algumas preferências sempre que visitar um site e some serviços e funcionalidades poderão não funcionar.",
+      consentTitle: "4. Consentimento",
+      consent1: "Ao utilizar o nosso website e aceitar o nosso banner de cookies, consente a utilização de cookies de acordo com esta política. Se não concordar, deverá ajustar as definições do seu navegador ou não utilizar o website."
+    },
+    cookies: {
+      title: "Cookies e Privacidade",
+      description: "Utilizamos cookies para melhorar a sua experiência, analisar o tráfego do site e para fins de segurança. Ao clicar em 'Aceitar', concorda com a nossa utilização de cookies.",
+      accept: "Aceitar",
+      reject: "Rejeitar",
+      privacyPolicy: "Política de Privacidade",
+      consentRequired: "Por favor, aceite os cookies para submeter este formulário."
     }
   },
   hi: {
@@ -1740,6 +1790,31 @@ export const translations: any = {
       security1: "हम आपके व्यक्तिगत डेटा को अनधिकृत विनाश, हानि, परिवर्तन, प्रकटीकरण या पहुंच के विरुद्ध सुरक्षित रखने के लिए उचित तकनीकी और संगठनात्मक उपाय लागू करते।",
       policyChangesTitle: "9. इस नीति में बदलाव",
       policyChanges1: "हम समय-समय पर इस गोपनीयता नीति को अपडेट कर सकते हैं। हम अनुशंसा करते हैं कि आप अपने डेटा की सुरक्षा के बारे में सूचित रहने के लिए नियमित रूप से इस पृष्ठ की समीक्षा करें।"
+    },
+    cookiePolicy: {
+      title: "कुकी नीति",
+      introTitle: "1. कुकीज़ क्या हैं?",
+      intro1: "कुकीज़ छोटी टेक्स्ट फाइलें होती हैं जो आपके कंप्यूटर या मोबाइल डिवाइस पर तब स्टोर की जाती हैं जब आप हमारी वेबसाइट पर जाते हैं। इनका उपयोग वेबसाइटों को काम करने, या अधिक कुशलता से काम करने के साथ-साथ साइट के मालिकों को जानकारी प्रदान करने के लिए व्यापक रूप से किया जाता है।",
+      howWeUseTitle: "2. हम कुकीज़ का उपयोग कैसे करते हैं",
+      howWeUse1: "{brand} निम्नलिखित उद्देश्यों के लिए कुकीज़ का उपयोग करता है:",
+      essentialTitle: "आवश्यक कुकीज़",
+      essentialDesc: "वेबसाइट के ठीक से काम करने के लिए आवश्यक, जैसे सुरक्षा और नेविगेशन।",
+      analyticsTitle: "विश्लेषणात्मक कुकीज़",
+      analyticsDesc: "हमें यह समझने में मदद करती हैं कि आगंतुक गुमनाम रूप से जानकारी एकत्र और रिपोर्ट करके वेबसाइट के साथ कैसे इंटरैक्ट करते हैं।",
+      functionalTitle: "कार्यात्मक कुकीज़",
+      functionalDesc: "वेबसाइट को आपके द्वारा चुने गए विकल्पों (जैसे आपकी भाषा प्राथमिकता) को याद रखने की अनुमति देती हैं।",
+      manageTitle: "3. कुकीज़ का प्रबंधन",
+      manage1: "आप अपनी इच्छानुसार कुकीज़ को नियंत्रित और/या हटा सकते हैं। आप अपने कंप्यूटर पर पहले से मौजूद सभी कुकीज़ को हटा सकते हैं और आप अधिकांश ब्राउज़रों को उन्हें रखे जाने से रोकने के लिए सेट कर सकते हैं। हालाँकि, यदि आप ऐसा करते हैं, तो आपको हर बार किसी साइट पर जाने पर कुछ प्राथमिकताओं को मैन्युअल रूप से समायोजित करना पड़ सकता है और कुछ सेवाएँ और कार्यक्षमताएँ काम नहीं कर सकती हैं।",
+      consentTitle: "4. सहमति",
+      consent1: "हमारी वेबसाइट का उपयोग करके और हमारे कुकी बैनर को स्वीकार करके, आप इस नीति के अनुसार कुकीज़ के उपयोग के लिए सहमति देते हैं। यदि आप सहमत नहीं हैं, तो आपको अपने ब्राउज़र सेटिंग्स को समायोजित करना चाहिए या वेबसाइट का उपयोग नहीं करना चाहिए।"
+    },
+    cookies: {
+      title: "कुकीज़ और गोपनीयता",
+      description: "हम आपके अनुभव को बेहतर बनाने, साइट ट्रैफ़िक का विश्लेषण करने और सुरक्षा उद्देश्यों के लिए कुकीज़ का उपयोग करते हैं। 'स्वीकार करें' पर क्लिक करके, आप कुकीज़ के हमारे उपयोग से सहमत होते हैं।",
+      accept: "स्वीकार करें",
+      reject: "अस्वीकार करें",
+      privacyPolicy: "गोpनीयता नीति",
+      consentRequired: "इस फॉर्म को सबमिट करने के लिए कृपया कुकीज़ स्वीकार करें।"
     }
   }
 };

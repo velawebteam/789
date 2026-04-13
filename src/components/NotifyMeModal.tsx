@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import React, { useState } from 'react';
 import { COURSES_LIST } from '../constants/courses';
 import { useLanguage } from '../context/LanguageContext';
+import { useCookieConsent } from '../context/CookieContext';
 
 const coursesList = COURSES_LIST.map(course => ({
   id: course.id,
@@ -16,6 +17,7 @@ interface NotifyMeModalProps {
 
 export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
   const { t } = useLanguage();
+  const { consent } = useCookieConsent();
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -239,14 +241,26 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     </div>
                   )}
 
-                  <motion.button 
-                    type="submit"
-                    whileHover={{ scale: 1.02, backgroundColor: "#FFC800" }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full font-black py-4 rounded-xl tracking-widest transition-colors mt-6 bg-[#FFB800] text-black hover:bg-[#FFB800]/90"
-                  >
-                    {t('notify.submit')}
-                  </motion.button>
+                  <div className="flex flex-col gap-2 mt-6">
+                    <motion.button 
+                      type={consent === 'accepted' ? "submit" : "button"}
+                      disabled={consent !== 'accepted'}
+                      whileHover={consent === 'accepted' ? { scale: 1.02, backgroundColor: "#FFC800" } : {}}
+                      whileTap={consent === 'accepted' ? { scale: 0.98 } : {}}
+                      className={`w-full font-black py-4 rounded-xl tracking-widest transition-colors ${
+                        consent === 'accepted'
+                          ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90"
+                          : "bg-white/10 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      {t('notify.submit')}
+                    </motion.button>
+                    {consent !== 'accepted' && (
+                      <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
+                        {t('cookies.consentRequired')}
+                      </p>
+                    )}
+                  </div>
                 </form>
               </>
             ) : (

@@ -3,9 +3,11 @@ import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
+import { useCookieConsent } from '../context/CookieContext';
 
 export default function Contact() {
   const { t } = useLanguage();
+  const { consent } = useCookieConsent();
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [fileName, setFileName] = useState('');
@@ -75,7 +77,7 @@ export default function Contact() {
             {t('contact.registrationsClosed')}
           </p>
           <p className="text-gray-400 text-lg leading-relaxed">
-            {t('contact.desc').replace('{brand}', 'Real Builder')}
+            {t('contact.desc')}
           </p>
         </div>
 
@@ -354,44 +356,67 @@ export default function Contact() {
             )}
 
             <div className="flex flex-col gap-4">
-              <button 
-                type={isRegistrationOpen ? "submit" : "button"}
-                disabled={!isRegistrationOpen}
-                className={`w-full py-4 rounded-xl font-bold tracking-widest flex items-center justify-center gap-2 transition-colors ${
-                  isRegistrationOpen 
-                    ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
-                    : "bg-white/10 text-gray-500 cursor-not-allowed"
-                }`}
-              >
-                {isRegistrationOpen ? (
-                  <>
-                    <Send size={18} />
-                    {t('contact.sendMessage')}
-                  </>
-                ) : (
-                  <>
-                    <Lock size={18} />
-                    {t('contact.registrationOpens')}
-                  </>
+              <div className="flex flex-col gap-2">
+                <button 
+                  type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
+                  disabled={!isRegistrationOpen || consent !== 'accepted'}
+                  className={`w-full py-4 rounded-xl font-bold tracking-widest flex items-center justify-center gap-2 transition-colors ${
+                    isRegistrationOpen && consent === 'accepted'
+                      ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
+                      : "bg-white/10 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  {isRegistrationOpen ? (
+                    <>
+                      <Send size={18} />
+                      {t('contact.sendMessage')}
+                    </>
+                  ) : (
+                    <>
+                      <Lock size={18} />
+                      {t('contact.registrationOpens')}
+                    </>
+                  )}
+                </button>
+                {isRegistrationOpen && consent !== 'accepted' && (
+                  <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
+                    {t('cookies.consentRequired')}
+                  </p>
                 )}
-              </button>
+              </div>
 
               {!isRegistrationOpen && (
-                <motion.button 
-                  type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
-                  animate={{ 
-                    scale: [1, 1.02, 1],
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="w-full bg-white text-black hover:bg-[#FFB800] py-4 rounded-xl font-bold tracking-widest flex items-center justify-center gap-2 transition-colors"
-                >
-                  {t('contact.notifyMe')}
-                </motion.button>
+                <div className="flex flex-col gap-2">
+                  <motion.button 
+                    type="button"
+                    onClick={() => {
+                      if (consent === 'accepted') {
+                        window.dispatchEvent(new CustomEvent('openNotifyMe'));
+                      }
+                    }}
+                    disabled={consent !== 'accepted'}
+                    animate={consent === 'accepted' ? { 
+                      scale: [1, 1.02, 1],
+                    } : {}}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className={`w-full py-4 rounded-xl font-bold tracking-widest flex items-center justify-center gap-2 transition-colors ${
+                      consent === 'accepted'
+                        ? "bg-white text-black hover:bg-[#FFB800]"
+                        : "bg-white/10 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    {t('contact.notifyMe')}
+                  </motion.button>
+                  {consent !== 'accepted' && (
+                    <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
+                      {t('cookies.consentRequired')}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
 

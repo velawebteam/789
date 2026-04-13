@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import BrandName from './BrandName';
 import { COURSES_LIST } from '../constants/courses';
 import { useLanguage } from '../context/LanguageContext';
+import { useCookieConsent } from '../context/CookieContext';
 
 const areasOfInterest = COURSES_LIST.map(course => ({
   id: course.id,
@@ -11,6 +12,7 @@ const areasOfInterest = COURSES_LIST.map(course => ({
 
 export default function PilotProgram() {
   const { t } = useLanguage();
+  const { consent } = useCookieConsent();
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -209,12 +211,24 @@ export default function PilotProgram() {
                     </div>
                   </div>
 
-                  <button 
-                    type="submit"
-                    className="w-full bg-[#FFB800] text-black hover:bg-white font-black py-4 rounded-xl tracking-widest transition-colors mt-6 flex items-center justify-center gap-2"
-                  >
-                    {t('pilotProgram.contactMe')} <Send size={18} />
-                  </button>
+                  <div className="flex flex-col gap-2 mt-6">
+                    <button 
+                      type={consent === 'accepted' ? "submit" : "button"}
+                      disabled={consent !== 'accepted'}
+                      className={`w-full font-black py-4 rounded-xl tracking-widest transition-colors flex items-center justify-center gap-2 ${
+                        consent === 'accepted'
+                          ? "bg-[#FFB800] text-black hover:bg-white"
+                          : "bg-white/10 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      {t('pilotProgram.contactMe')} <Send size={18} />
+                    </button>
+                    {consent !== 'accepted' && (
+                      <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
+                        {t('cookies.consentRequired')}
+                      </p>
+                    )}
+                  </div>
                 </form>
               </>
             ) : (
@@ -226,7 +240,7 @@ export default function PilotProgram() {
                   {t('pilotProgram.successTitle')}
                 </h3>
                 <p className="text-gray-400">
-                  {t('pilotProgram.successDesc').replace('{brand}', 'Real Builder')}
+                  {t('pilotProgram.successDesc')}
                 </p>
               </div>
             )}

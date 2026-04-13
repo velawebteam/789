@@ -2,6 +2,7 @@ import { X, GraduationCap, Upload, HelpCircle, Clock, Mail, AlertCircle } from '
 import React, { useState, useEffect } from 'react';
 import { COURSES_LIST } from '../constants/courses';
 import { useLanguage } from '../context/LanguageContext';
+import { useCookieConsent } from '../context/CookieContext';
 
 interface EnrollmentModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface EnrollmentModalProps {
 
 export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
   const { t } = useLanguage();
+  const { consent } = useCookieConsent();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -291,10 +293,25 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                 <p className="text-gray-400 text-sm mb-4">
                   {t('enrollment.registrationDesc')}
                 </p>
-                <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-[#FFB800] to-[#FF9500] text-black font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm disabled:opacity-70 disabled:cursor-not-allowed uppercase">
-                  <Mail size={16} />
-                  {isSubmitting ? t('enrollment.processing') : t('enrollment.submit')}
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button 
+                    type={consent === 'accepted' ? "submit" : "button"}
+                    disabled={isSubmitting || consent !== 'accepted'} 
+                    className={`w-full font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-opacity text-sm disabled:opacity-70 disabled:cursor-not-allowed uppercase ${
+                      consent === 'accepted' 
+                        ? "bg-gradient-to-r from-[#FFB800] to-[#FF9500] text-black hover:opacity-90" 
+                        : "bg-white/10 text-gray-500"
+                    }`}
+                  >
+                    <Mail size={16} />
+                    {isSubmitting ? t('enrollment.processing') : t('enrollment.submit')}
+                  </button>
+                  {consent !== 'accepted' && (
+                    <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
+                      {t('cookies.consentRequired')}
+                    </p>
+                  )}
+                </div>
               </div>
             </>
           )}

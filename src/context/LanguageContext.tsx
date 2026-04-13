@@ -5,7 +5,7 @@ type Language = 'en' | 'pt' | 'hi';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => any;
+  t: (key: string, replacements?: Record<string, any>) => any;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -32,7 +32,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     document.documentElement.lang = language;
   }, [language]);
 
-  const t = (path: string) => {
+  const t = (path: string, replacements?: Record<string, any>) => {
     const keys = path.split('.');
     let current: any = translations[language];
     
@@ -44,10 +44,35 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (fallback[fallbackKey] === undefined) return path;
           fallback = fallback[fallbackKey];
         }
-        return fallback;
+        current = fallback;
+        break;
       }
       current = current[key];
     }
+
+    if (typeof current === 'string') {
+      let result = current;
+      
+      // Handle replacements
+      const allReplacements: Record<string, any> = { brand: "Real Builder", ...replacements };
+      
+      Object.keys(allReplacements).forEach(key => {
+        const value = allReplacements[key];
+        // If value is a React element (object) or null/undefined, use "Real Builder" for 'brand' key, 
+        // otherwise use string representation
+        let replacementValue: string;
+        if (key === 'brand' && (typeof value !== 'string')) {
+          replacementValue = "Real Builder";
+        } else {
+          replacementValue = String(value);
+        }
+        
+        result = result.replace(new RegExp(`{${key}}`, 'gi'), replacementValue);
+      });
+      
+      return result;
+    }
+
     return current;
   };
 
