@@ -17,7 +17,7 @@ interface NotifyMeModalProps {
 
 export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
   const { t } = useLanguage();
-  const { consent } = useCookieConsent();
+  const { consent, acceptCookies } = useCookieConsent();
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -257,7 +257,14 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     </motion.button>
                     {consent !== 'accepted' && (
                       <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
-                        {t('cookies.consentRequired')}
+                        {t('cookies.consentRequired')}{' '}
+                        <button 
+                          type="button"
+                          onClick={acceptCookies}
+                          className="underline hover:text-white transition-colors"
+                        >
+                          {t('cookies.acceptToProceed')}
+                        </button>
                       </p>
                     )}
                   </div>

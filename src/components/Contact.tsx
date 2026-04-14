@@ -7,7 +7,7 @@ import { useCookieConsent } from '../context/CookieContext';
 
 export default function Contact() {
   const { t } = useLanguage();
-  const { consent } = useCookieConsent();
+  const { consent, acceptCookies } = useCookieConsent();
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [fileName, setFileName] = useState('');
@@ -360,7 +360,7 @@ export default function Contact() {
                 <button 
                   type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
                   disabled={!isRegistrationOpen || consent !== 'accepted'}
-                  className={`w-full py-4 rounded-xl font-bold tracking-widest flex items-center justify-center gap-2 transition-colors ${
+                  className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
                     isRegistrationOpen && consent === 'accepted'
                       ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
                       : "bg-white/10 text-gray-500 cursor-not-allowed"
@@ -373,14 +373,21 @@ export default function Contact() {
                     </>
                   ) : (
                     <>
-                      <Lock size={18} />
+                      <Lock size={14} className="sm:w-[18px] sm:h-[18px] flex-shrink-0" />
                       {t('contact.registrationOpens')}
                     </>
                   )}
                 </button>
                 {isRegistrationOpen && consent !== 'accepted' && (
                   <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
-                    {t('cookies.consentRequired')}
+                    {t('cookies.consentRequired')}{' '}
+                    <button 
+                      type="button"
+                      onClick={acceptCookies}
+                      className="underline hover:text-white transition-colors"
+                    >
+                      {t('cookies.acceptToProceed')}
+                    </button>
                   </p>
                 )}
               </div>
@@ -413,7 +420,14 @@ export default function Contact() {
                   </motion.button>
                   {consent !== 'accepted' && (
                     <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
-                      {t('cookies.consentRequired')}
+                      {t('cookies.consentRequired')}{' '}
+                      <button 
+                        type="button"
+                        onClick={acceptCookies}
+                        className="underline hover:text-white transition-colors"
+                      >
+                        {t('cookies.acceptToProceed')}
+                      </button>
                     </p>
                   )}
                 </div>

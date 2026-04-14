@@ -12,7 +12,7 @@ const areasOfInterest = COURSES_LIST.map(course => ({
 
 export default function PilotProgram() {
   const { t } = useLanguage();
-  const { consent } = useCookieConsent();
+  const { consent, acceptCookies } = useCookieConsent();
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
@@ -225,7 +225,14 @@ export default function PilotProgram() {
                     </button>
                     {consent !== 'accepted' && (
                       <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
-                        {t('cookies.consentRequired')}
+                        {t('cookies.consentRequired')}{' '}
+                        <button 
+                          type="button"
+                          onClick={acceptCookies}
+                          className="underline hover:text-white transition-colors"
+                        >
+                          {t('cookies.acceptToProceed')}
+                        </button>
                       </p>
                     )}
                   </div>

@@ -18,11 +18,24 @@ export const useCookieConsent = () => {
   return context;
 };
 
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 export const CookieProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [consent, setConsent] = useState<ConsentStatus>('undecided');
 
   const acceptCookies = () => {
     setConsent('accepted');
+    // Push event to GTM dataLayer
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'cookie_consent_accepted',
+        consent_status: 'accepted'
+      });
+    }
   };
 
   const rejectCookies = () => {

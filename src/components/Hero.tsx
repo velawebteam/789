@@ -61,17 +61,24 @@ export default function Hero() {
     }
 
     const initPlayer = () => {
+      if (!window.YT || !window.YT.Player) return;
+      
       playerRef.current = new window.YT.Player('hero-video', {
         events: {
           onReady: (event: any) => {
-            event.target.playVideo();
-          },
-          onStateChange: (event: any) => {
-            if (event.data === window.YT.PlayerState.ENDED) {
+            if (event.target && typeof event.target.playVideo === 'function') {
               event.target.playVideo();
             }
-            // Try to resume if paused (except if it was just loaded)
-            if (event.data === window.YT.PlayerState.PAUSED) {
+          },
+          onStateChange: (event: any) => {
+            const YT = window.YT;
+            if (!YT || !event.target || typeof event.target.playVideo !== 'function') return;
+
+            if (event.data === YT.PlayerState.ENDED) {
+              event.target.playVideo();
+            }
+            // Try to resume if paused
+            if (event.data === YT.PlayerState.PAUSED) {
               event.target.playVideo();
             }
           }
@@ -140,9 +147,9 @@ export default function Hero() {
 
           {/* Countdown moved here */}
           <div className="mb-6 md:mb-8 flex flex-col gap-3 md:gap-4">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#FFB800] animate-pulse" />
-              <span className="text-white font-medium tracking-wide text-xs sm:text-sm uppercase">
+            <div className="flex items-start gap-2 md:gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#FFB800] animate-pulse mt-1 md:mt-1.5 flex-shrink-0" />
+              <span className="text-white font-medium tracking-wide text-[10px] sm:text-sm uppercase leading-tight">
                 {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0 
                   ? <span>{t('hero.registrationsOpen')}</span> 
                   : (

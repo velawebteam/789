@@ -11,7 +11,7 @@ interface EnrollmentModalProps {
 
 export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
   const { t } = useLanguage();
-  const { consent } = useCookieConsent();
+  const { consent, acceptCookies } = useCookieConsent();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -286,8 +286,8 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
 
               {/* Closed Warning */}
               <div className="bg-[#FFB800]/10 border border-[#FFB800]/30 rounded-xl p-5">
-                <div className="flex items-center gap-2 text-[#FFB800] font-bold mb-2">
-                  <Clock size={18} />
+                <div className="flex items-center gap-2 text-[#FFB800] font-bold mb-2 text-xs sm:text-base">
+                  <Clock size={18} className="flex-shrink-0" />
                   {t('enrollment.registrationOpens')}
                 </div>
                 <p className="text-gray-400 text-sm mb-4">
@@ -308,7 +308,14 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                   </button>
                   {consent !== 'accepted' && (
                     <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
-                      {t('cookies.consentRequired')}
+                      {t('cookies.consentRequired')}{' '}
+                      <button 
+                        type="button"
+                        onClick={acceptCookies}
+                        className="underline hover:text-white transition-colors"
+                      >
+                        {t('cookies.acceptToProceed')}
+                      </button>
                     </p>
                   )}
                 </div>

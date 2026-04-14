@@ -588,7 +588,7 @@ export const translations: any = {
       essentialTitle: "Essential Cookies",
       essentialDesc: "Necessary for the website to function properly, such as security and navigation.",
       analyticsTitle: "Analytics Cookies",
-      analyticsDesc: "Help us understand how visitors interact with the website by collecting and reporting information anonymously.",
+      analyticsDesc: "Help us understand how visitors interact with the website by collecting and reporting information anonymously. We use Google Tag Manager to manage these analytics tools.",
       functionalTitle: "Functional Cookies",
       functionalDesc: "Allow the website to remember choices you make (such as your language preference).",
       manageTitle: "3. Managing Cookies",
@@ -602,7 +602,8 @@ export const translations: any = {
       accept: "Accept",
       reject: "Reject",
       privacyPolicy: "Privacy Policy",
-      consentRequired: "Please accept cookies to submit this form."
+      consentRequired: "Please accept cookies to submit this form.",
+      acceptToProceed: "Accept to proceed"
     }
   },
   pt: {
@@ -1194,7 +1195,7 @@ export const translations: any = {
       essentialTitle: "Cookies Essenciais",
       essentialDesc: "Necessários para o funcionamento correto do website, como segurança e navegação.",
       analyticsTitle: "Cookies de Analítica",
-      analyticsDesc: "Ajudam-nos a compreender como os visitantes interagem com o website, recolhendo e comunicando informações de forma anónima.",
+      analyticsDesc: "Ajudam-nos a compreender como os visitantes interagem com o website, recolhendo e comunicando informações de forma anónima. Utilizamos o Google Tag Manager para gerir estas ferramentas de análise.",
       functionalTitle: "Cookies Funcionais",
       functionalDesc: "Permitem que o website se lembre de escolhas que faz (como a sua preferência de idioma).",
       manageTitle: "3. Gestão de Cookies",
@@ -1208,7 +1209,8 @@ export const translations: any = {
       accept: "Aceitar",
       reject: "Rejeitar",
       privacyPolicy: "Política de Privacidade",
-      consentRequired: "Por favor, aceite os cookies para submeter este formulário."
+      consentRequired: "Por favor, aceite os cookies para submeter este formulário.",
+      acceptToProceed: "Aceitar para prosseguir"
     }
   },
   hi: {
@@ -1800,7 +1802,7 @@ export const translations: any = {
       essentialTitle: "आवश्यक कुकीज़",
       essentialDesc: "वेबसाइट के ठीक से काम करने के लिए आवश्यक, जैसे सुरक्षा और नेविगेशन।",
       analyticsTitle: "विश्लेषणात्मक कुकीज़",
-      analyticsDesc: "हमें यह समझने में मदद करती हैं कि आगंतुक गुमनाम रूप से जानकारी एकत्र और रिपोर्ट करके वेबसाइट के साथ कैसे इंटरैक्ट करते हैं।",
+      analyticsDesc: "हमें यह समझने में मदद करती हैं कि आगंतुक गुमनाम रूप से जानकारी एकत्र और रिपोर्ट करके वेबसाइट के साथ कैसे इंटरैक्ट करते हैं। हम इन विश्लेषण उपकरणों को प्रबंधित करने के लिए Google टैग प्रबंधक का उपयोग करते हैं।",
       functionalTitle: "कार्यात्मक कुकीज़",
       functionalDesc: "वेबसाइट को आपके द्वारा चुने गए विकल्पों (जैसे आपकी भाषा प्राथमिकता) को याद रखने की अनुमति देती हैं।",
       manageTitle: "3. कुकीज़ का प्रबंधन",
@@ -1814,7 +1816,8 @@ export const translations: any = {
       accept: "स्वीकार करें",
       reject: "अस्वीकार करें",
       privacyPolicy: "गोpनीयता नीति",
-      consentRequired: "इस फॉर्म को सबमिट करने के लिए कृपया कुकीज़ स्वीकार करें।"
+      consentRequired: "इस फॉर्म को सबमिट करने के लिए कृपया कुकीज़ स्वीकार करें।",
+      acceptToProceed: "आगे बढ़ने के लिए स्वीकार करें"
     }
   }
 };
