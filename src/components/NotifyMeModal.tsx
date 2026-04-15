@@ -51,11 +51,6 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
         }
       });
       setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setSelectedCourses([]);
-        onClose();
-      }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('There was an error submitting the form. Please try again.');
@@ -64,7 +59,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
 
   return (
     <div 
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300 ${
+      className={`fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300 ${
         isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
@@ -278,9 +273,15 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                 <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
                   {t('notify.successTitle')}
                 </h3>
-                <p className="text-gray-400">
+                <p className="text-gray-400 mb-8">
                   {t('notify.successDesc')}
                 </p>
+                <button 
+                  onClick={onClose}
+                  className="bg-[#FFB800] text-black font-bold px-8 py-3 rounded-xl hover:bg-[#FFB800]/90 transition-all uppercase tracking-widest text-sm"
+                >
+                  {t('notify.close') || 'Close'}
+                </button>
               </div>
             )}
           </div>

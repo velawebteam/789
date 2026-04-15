@@ -1,13 +1,17 @@
-import { Send, ChevronDown, Upload, Lock, X } from 'lucide-react';
+import { Send, ChevronDown, Upload, Lock, X, LogIn } from 'lucide-react';
 import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 import { useCookieConsent } from '../context/CookieContext';
+import { useAuth } from '../context/AuthContext';
+import { db } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function Contact() {
   const { t } = useLanguage();
   const { consent, acceptCookies } = useCookieConsent();
+  const { user, login, loading } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [fileName, setFileName] = useState('');
@@ -66,6 +70,38 @@ export default function Contact() {
     }
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      await addDoc(collection(db, 'enrolments'), {
+        userId: user?.uid || 'anonymous',
+        userEmail: user?.email || formData.get('email'),
+        userName: formData.get('firstName') + ' ' + formData.get('lastName'),
+        phone: formData.get('phone'),
+        plan: selectedPlan,
+        vehicle: selectedVehicle,
+        hasExperience: hasExperience,
+        hasMindset: hasMindset,
+        needsAssistance: needsAssistance,
+        status: 'pending',
+        submittedAt: serverTimestamp(),
+      });
+      setIsSuccess(true);
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Failed to submit. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-16 md:py-32 bg-[#0a0a0a] relative overflow-hidden">
       <div className="max-w-3xl mx-auto px-6 relative z-10">
@@ -82,7 +118,26 @@ export default function Contact() {
         </div>
 
         <div id="contact-form" className="bg-[#111315] rounded-3xl p-6 md:p-12 border border-white/10">
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Message sent successfully!'); }}>
+          {isSuccess ? (
+            <div className="text-center py-12">
+              <div className="w-20 h-20 bg-[#FFB800]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Send className="text-[#FFB800]" size={40} />
+              </div>
+              <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
+                Application Sent!
+              </h3>
+              <p className="text-gray-400">
+                Thank you for your interest. Our team will review your application and contact you soon.
+              </p>
+              <button 
+                onClick={() => setIsSuccess(false)}
+                className="mt-8 text-[#FFB800] font-bold hover:underline uppercase tracking-widest text-sm"
+              >
+                Send another message
+              </button>
+            </div>
+          ) : (
+            <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.firstName')}</label>
@@ -359,7 +414,7 @@ export default function Contact() {
               <div className="flex flex-col gap-2">
                 <button 
                   type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
-                  disabled={!isRegistrationOpen || consent !== 'accepted'}
+                  disabled={!isRegistrationOpen || consent !== 'accepted' || isSubmitting}
                   className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
                     isRegistrationOpen && consent === 'accepted'
                       ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
@@ -369,7 +424,7 @@ export default function Contact() {
                   {isRegistrationOpen ? (
                     <>
                       <Send size={18} />
-                      {t('contact.sendMessage')}
+                      {isSubmitting ? "SENDING..." : t('contact.sendMessage')}
                     </>
                   ) : (
                     <>
@@ -442,8 +497,9 @@ export default function Contact() {
               </p>
             </div>
           </form>
-        </div>
+        )}
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

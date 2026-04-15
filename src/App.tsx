@@ -18,6 +18,7 @@ import CookieConsent from './components/CookieConsent';
 
 import { LanguageProvider } from './context/LanguageContext';
 import { CookieProvider } from './context/CookieContext';
+import { AuthProvider } from './context/AuthContext';
 
 export default function App() {
   const [isEnrollmentOpen, setIsEnrollmentOpen] = useState(false);
@@ -38,24 +39,26 @@ export default function App() {
 
   return (
     <CookieProvider>
-      <LanguageProvider>
-        <Router>
-          <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="/privacy" element={<PrivacyPage />} />
-              <Route path="/terms" element={<TermsPage />} />
-              <Route path="/cookies" element={<CookiePolicyPage />} />
-            </Routes>
-            <Footer />
-            <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
-            <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
-            <CookieConsent />
-          </div>
-        </Router>
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <Router>
+            <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/privacy" element={<PrivacyPage />} />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/cookies" element={<CookiePolicyPage />} />
+              </Routes>
+              <Footer />
+              <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
+              <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
+              <CookieConsent />
+            </div>
+          </Router>
+        </LanguageProvider>
+      </AuthProvider>
     </CookieProvider>
   );
 }

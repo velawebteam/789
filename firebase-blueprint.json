@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "format": "uri", "description": "User profile picture URL" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role for RBAC" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Enrolment": {
+      "title": "Enrolment",
+      "description": "Course enrolment application",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID of the user who applied" },
+        "courseId": { "type": "string", "description": "ID of the course" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "Application status" },
+        "submittedAt": { "type": "string", "format": "date-time", "description": "Submission timestamp" }
+      },
+      "required": ["userId", "courseId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/enrolments/{enrolmentId}": {
+      "schema": "Enrolment",
+      "description": "Course enrolment documents"
+    }
+  }
+}

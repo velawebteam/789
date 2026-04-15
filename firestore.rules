@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId} (matches auth.uid)
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required, email format)
+    //   - displayName: string
+    //   - photoURL: string (url format)
+    //   - role: string (required, ['admin', 'user'])
+    //   - createdAt: timestamp
+    //
+    // Collection: enrolments
+    // Document ID: auto-generated
+    // Fields:
+    //   - userId: string (required, matches auth.uid)
+    //   - courseId: string (required)
+    //   - status: string (required, ['pending', 'approved', 'rejected'])
+    //   - submittedAt: timestamp
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "realbuilder.backend@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      function isValidUser(data) {
+        return data.keys().hasAll(['uid', 'email', 'role']) &&
+               data.uid == userId &&
+               isValidEmail(data.email) &&
+               data.role in ['admin', 'user'] &&
+               data.email.size() < 100;
+      }
+
+      allow read: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) && 
+                      isValidUser(request.resource.data) && 
+                      request.resource.data.role == 'user'; // Users can't make themselves admins
+      
+      allow update: if (isOwner(userId) && 
+                        isValidUser(request.resource.data) && 
+                        request.resource.data.role == resource.data.role) || // Can't change own role
+                      isAdmin();
+    }
+
+    match /enrolments/{enrolmentId} {
+      function isValidEnrolment(data) {
+        return data.keys().hasAll(['userId', 'status']) &&
+               (isAuthenticated() ? data.userId == request.auth.uid : data.userId == 'anonymous') &&
+               data.status in ['pending', 'approved', 'rejected'] &&
+               (!('courseId' in data) || (data.courseId is string && data.courseId.size() < 50));
+      }
+
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isValidEnrolment(request.resource.data) && 
+                      request.resource.data.status == 'pending';
+      
+      allow update: if isAdmin(); // Only admins can approve/reject
+      
+      allow delete: if isAdmin();
+    }
+  }
+}

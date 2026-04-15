@@ -41,10 +41,6 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
 
       setIsSubmitting(false);
       setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        onClose();
-      }, 3000);
     } catch (err) {
       console.error('Error submitting form:', err);
       setIsSubmitting(false);
@@ -67,7 +63,7 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
   if (!mounted || !isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
@@ -109,9 +105,15 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
               <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
                 {t('enrollment.successTitle')}
               </h3>
-              <p className="text-gray-400">
+              <p className="text-gray-400 mb-8">
                 {t('enrollment.successDesc')}
               </p>
+              <button 
+                onClick={onClose}
+                className="bg-[#FFB800] text-black font-bold px-8 py-3 rounded-xl hover:bg-[#FFB800]/90 transition-all uppercase tracking-widest text-sm"
+              >
+                {t('enrollment.close') || 'Close'}
+              </button>
             </div>
           ) : (
             <>

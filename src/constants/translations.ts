@@ -374,7 +374,8 @@ export const translations: any = {
       registrationDesc: "Submit your application now to join the priority waitlist. We will contact you as soon as spots become available.",
       processing: "Processing...",
       submit: "Submit Application",
-      cancel: "Cancel"
+      cancel: "Cancel",
+      close: "CLOSE"
     },
     notify: {
       title: "Get Notified",
@@ -396,7 +397,8 @@ export const translations: any = {
       missingRequirementsDesc: "Don't worry! We can help you improve your skills before the program.",
       submit: "NOTIFY ME",
       successTitle: "You're on the list!",
-      successDesc: "We'll notify you as soon as new spots open for your selected courses."
+      successDesc: "We'll notify you as soon as new spots open for your selected courses.",
+      close: "CLOSE"
     },
     footer: {
       desc: "Empowering the next generation of builders with practical skills, vehicles, and global opportunities.",
@@ -434,7 +436,7 @@ export const translations: any = {
       feature1: "Become the first Certified",
       feature2: "Be a part of the next generation of construction professionals",
       feature3: "Earn from 1200€ to 2000€/monthly",
-      intensiveDesc: "This is a 10+ hour/day intensive program designed for the BEST —those ready to commit and perform at next level.",
+      intensiveDesc: "This is a 10+ hour/day intensive program designed for the BEST. Those ready to commit and perform at next level.",
       applyNow: "Apply Now",
       firstName: "First Name",
       lastName: "Last Name",
@@ -452,7 +454,8 @@ export const translations: any = {
       areasInterest: "Areas of Interest (Select up to 2)",
       contactMe: "CONTACT ME",
       successTitle: "Application Received!",
-      successDesc: "Thank you for applying to the {brand} Pilot Program. We will review your application and contact you soon."
+      successDesc: "Thank you for applying to the {brand} Pilot Program. We will review your application and contact you soon.",
+      sendAnother: "SEND ANOTHER APPLICATION"
     },
     courses: {
       title: "OUR COURSES",
@@ -981,7 +984,8 @@ export const translations: any = {
       registrationDesc: "Submeta a sua candidatura agora para se juntar à lista de espera prioritária. Iremos contactá-lo assim que houver vagas disponíveis.",
       processing: "A processar...",
       submit: "Submeter Candidatura",
-      cancel: "Cancelar"
+      cancel: "Cancelar",
+      close: "FECHAR"
     },
     notify: {
       title: "Seja Notificado",
@@ -1003,7 +1007,8 @@ export const translations: any = {
       missingRequirementsDesc: "Não se preocupe! Podemos ajudá-lo a melhorar as suas competências antes do programa.",
       submit: "NOTIFICAR-ME",
       successTitle: "Está na lista!",
-      successDesc: "Iremos notificá-lo assim que abrirem novas vagas para os cursos selecionados."
+      successDesc: "Iremos notificá-lo assim que abrirem novas vagas para os cursos selecionados.",
+      close: "FECHAR"
     },
     footer: {
       desc: "Capacitar a próxima geração de construtores com competências práticas, veículos e oportunidades globais.",
@@ -1041,7 +1046,7 @@ export const translations: any = {
       feature1: "Torne-se o primeiro",
       feature2: "Faça parte da próxima geração de profissionais da construção",
       feature3: "Ganhe de 1200€ a 2000€/mensais",
-      intensiveDesc: "Este é um programa intensivo de mais de 10 horas/dia desenhado para os MELHORES — aqueles prontos para se comprometerem e performarem ao próximo nível.",
+      intensiveDesc: "Este é um programa intensivo de mais de 10 horas/dia desenhado para os MELHORES. Aqueles prontos para se comprometerem e performarem ao próximo nível.",
       applyNow: "Candidate-se Agora",
       firstName: "Primeiro Nome",
       lastName: "Apelido",
@@ -1059,7 +1064,8 @@ export const translations: any = {
       areasInterest: "Áreas de Interesse (Selecione até 2)",
       contactMe: "CONTACTE-ME",
       successTitle: "Candidatura Recebida!",
-      successDesc: "Obrigado por se candidatar ao Programa Piloto do {brand}. Iremos rever a sua candidatura e contactá-lo em breve."
+      successDesc: "Obrigado por se candidatar ao Programa Piloto do {brand}. Iremos rever a sua candidatura e contactá-lo em breve.",
+      sendAnother: "ENVIAR OUTRA CANDIDATURA"
     },
     courses: {
       title: "OS NOSSOS CURSOS",
