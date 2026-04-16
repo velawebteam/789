@@ -1,4 +1,5 @@
 import { CheckCircle2, Trophy, Send, ChevronDown } from 'lucide-react';
+import { motion } from 'motion/react';
 import React, { useState } from 'react';
 import BrandName from './BrandName';
 import { COURSES_LIST } from '../constants/courses';
@@ -70,9 +71,16 @@ export default function PilotProgram() {
               <span className="text-white drop-shadow-md">{t('pilotProgram.subtitle')}</span>
             </h2>
             
-            <p className="text-black/80 text-xl font-bold mb-8 max-w-lg">
-              {t('pilotProgram.benefit')}
-            </p>
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-black text-[#FFB800] px-6 py-4 md:px-8 md:py-6 rounded-2xl inline-block mb-10 transform -rotate-2 shadow-[8px_8px_0px_rgba(0,0,0,0.15)] border-2 border-black group cursor-default"
+            >
+              <p className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none group-hover:scale-105 transition-transform duration-300">
+                {t('pilotProgram.benefit')}
+              </p>
+            </motion.div>
 
             <ul className="space-y-6 mb-12">
               <li className="flex items-center gap-4 text-black font-bold text-xl tracking-tight">

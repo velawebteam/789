@@ -1,4 +1,5 @@
 import { X, GraduationCap, Upload, HelpCircle, Clock, Mail, AlertCircle } from 'lucide-react';
+import { motion } from 'motion/react';
 import React, { useState, useEffect } from 'react';
 import { COURSES_LIST } from '../constants/courses';
 import { useLanguage } from '../context/LanguageContext';
@@ -296,9 +297,19 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                   {t('enrollment.registrationDesc')}
                 </p>
                 <div className="flex flex-col gap-2">
-                  <button 
+                  <motion.button 
                     type={consent === 'accepted' ? "submit" : "button"}
                     disabled={isSubmitting || consent !== 'accepted'} 
+                    animate={consent === 'accepted' ? { 
+                      scale: [1, 1.05, 1],
+                    } : {}}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    whileHover={consent === 'accepted' ? { scale: 1.05 } : {}}
+                    whileTap={consent === 'accepted' ? { scale: 0.95 } : {}}
                     className={`w-full font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-opacity text-sm disabled:opacity-70 disabled:cursor-not-allowed uppercase ${
                       consent === 'accepted' 
                         ? "bg-gradient-to-r from-[#FFB800] to-[#FF9500] text-black hover:opacity-90" 
@@ -307,7 +318,7 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                   >
                     <Mail size={16} />
                     {isSubmitting ? t('enrollment.processing') : t('enrollment.submit')}
-                  </button>
+                  </motion.button>
                   {consent !== 'accepted' && (
                     <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
                       {t('cookies.consentRequired')}{' '}

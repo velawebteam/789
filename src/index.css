@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   /* Hide scrollbar for all elements */
   * {
     scrollbar-width: none; /* Firefox */

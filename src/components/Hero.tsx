@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
+import { Clock } from 'lucide-react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -139,10 +140,10 @@ export default function Hero() {
           </h1>
 
           <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 md:mb-8 max-w-xl leading-relaxed">
-            {t('hero.subtitle1')}<br />
-            {t('hero.subtitle2')}<br />
-            <br className="hidden sm:block" />
-            <BrandName /> {t('hero.description')}
+            {t('hero.subtitle1')}
+            <span className="text-[#FFB800] font-bold">{t('hero.subtitleHighlight')}</span>
+            <br /><br />
+            {t('hero.description')}
           </p>
 
           {/* Countdown moved here */}
@@ -185,10 +186,18 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full">
             <motion.button 
-              onClick={() => scrollTo('courses')}
+              onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative group overflow-hidden border border-white/20 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-all hover:border-[#FFB800]/50 w-full sm:w-auto"
+              animate={{ 
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 0.8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="relative group overflow-hidden bg-[#FFB800] text-black px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-colors hover:bg-[#FFB800]/90 w-full sm:w-auto"
             >
               {/* Animated lighting effect */}
               <motion.div 
@@ -201,19 +210,22 @@ export default function Hero() {
                   ease: "linear",
                   repeatDelay: 1
                 }}
-                className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 pointer-events-none"
+                className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 pointer-events-none"
               />
-              <span className="relative z-10 uppercase">{t('hero.exploreCourses')}</span>
+              <div className="relative z-10 flex items-center justify-center gap-2 uppercase">
+                <Clock className="w-4 h-4" />
+                <span>{t('hero.exploreCourses')}</span>
+              </div>
             </motion.button>
 
-            <motion.button 
-              onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+            <motion.a 
+              href="#how-it-works"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative group overflow-hidden bg-[#FFB800] text-black px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-all hover:bg-[#FFB800]/90 w-full sm:w-auto"
+              className="relative group overflow-hidden border border-white/20 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-colors hover:border-[#FFB800]/50 w-full sm:w-auto text-center flex items-center justify-center uppercase"
             >
-              <span className="relative z-10 uppercase">{t('hero.notifyMe')}</span>
-            </motion.button>
+              <span className="relative z-10 whitespace-nowrap">{t('hero.howItWorks')}</span>
+            </motion.a>
           </div>
         </motion.div>
       </div>

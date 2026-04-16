@@ -92,6 +92,9 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   <p className="text-[#FFB800] text-sm font-bold mb-2 uppercase tracking-wider">
                     {t('notify.subtitle')}
                   </p>
+                  <p className="bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black py-1 px-3 rounded-full inline-block mb-3 uppercase tracking-widest animate-pulse">
+                    {t('notify.nonBindingOffer')}
+                  </p>
                   <p className="text-gray-400 text-sm">
                     {t('notify.desc')}
                   </p>
@@ -242,6 +245,14 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                       disabled={consent !== 'accepted'}
                       whileHover={consent === 'accepted' ? { scale: 1.02, backgroundColor: "#FFC800" } : {}}
                       whileTap={consent === 'accepted' ? { scale: 0.98 } : {}}
+                      animate={consent === 'accepted' ? { 
+                        scale: [1, 1.05, 1],
+                      } : {}}
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
                       className={`w-full font-black py-4 rounded-xl tracking-widest transition-colors ${
                         consent === 'accepted'
                           ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90"

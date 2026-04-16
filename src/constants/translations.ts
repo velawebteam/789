@@ -12,11 +12,12 @@ export const translations: any = {
       getStarted: "GET STARTED"
     },
     hero: {
-      title1: "THE REAL",
-      title2: "BUILDER",
-      subtitle1: "For individuals who want real skills.",
-      subtitle2: "For companies who need reliable workers.",
-      description: "transforms beginners into skilled, certified builders — fully equipped, job ready to raise the standard from day one.",
+      title1: "CERTIFIED CONSTRUCTION",
+      title2: "COURSES",
+      subtitle1: "Real Builder offers certified construction courses to help you gain real skills and value yourself as a reliable worker. Learn, apply, get certified and ",
+      subtitleHighlight: "start earning like a professional builder!",
+      subtitle2: "",
+      description: "We transform beginners into skilled, certified builders - fully equipped, job ready to raise the standard from day one.",
       registrationsOpen: "Registrations are Open!",
       registrationsOpenAt: "Registrations open at",
       in: "in",
@@ -24,8 +25,8 @@ export const translations: any = {
       hours: "HOURS",
       mins: "MINS",
       secs: "SECS",
-      exploreCourses: "Explore Courses",
-      notifyMe: "Notify Me"
+      exploreCourses: "Get Free Course",
+      howItWorks: "How It Works"
     },
     brand: {
       academy: " Academy"
@@ -82,7 +83,9 @@ export const translations: any = {
           membersOnly: "MEMBERS ONLY"
         }
       },
-      swipe: "Swipe to explore"
+      swipe: "Swipe to explore",
+      exploreCourses: "Explore courses",
+      getFreeCourse: "Get Free Course"
     },
     pricing: {
       title: "THE REAL BUILDER SYSTEM",
@@ -380,6 +383,7 @@ export const translations: any = {
     notify: {
       title: "Get Notified",
       subtitle: "and apply to get 30% off or free membership",
+      nonBindingOffer: "non-binding offer ends on April 19",
       desc: "Leave your details below and we'll notify you as soon as new courses open.",
       firstName: "First Name",
       lastName: "Last Name",
@@ -622,11 +626,12 @@ export const translations: any = {
       getStarted: "COMEÇAR"
     },
     hero: {
-      title1: "THE REAL",
-      title2: "BUILDER",
-      subtitle1: "Para indivíduos que querem competências reais.",
-      subtitle2: "Para empresas que precisam de trabalhadores fiáveis.",
-      description: "transforma principiantes em construtores qualificados e certificados — totalmente equipados, prontos a trabalhar para elevar o padrão desde o primeiro dia.",
+      title1: "CURSOS DE CONSTRUÇÃO",
+      title2: "CERTIFICADOS",
+      subtitle1: "Real Builder oferece cursos de construção certificados para o ajudar a adquirir competências reais e a valorizar-se como um trabalhador fiável. Aprenda, aplique, obtenha certificação e ",
+      subtitleHighlight: "comece a ganhar como um construtor profissional!",
+      subtitle2: "",
+      description: "Transformamos principiantes em construtores qualificados e certificados - totalmente equipados e prontos para elevar o padrão desde o primeiro dia.",
       registrationsOpen: "As inscrições estão abertas!",
       registrationsOpenAt: "Inscrições abertas na",
       in: "em",
@@ -634,8 +639,8 @@ export const translations: any = {
       hours: "HORAS",
       mins: "MINS",
       secs: "SEGS",
-      exploreCourses: "Explorar Cursos",
-      notifyMe: "Notificar-me"
+      exploreCourses: "Obter Curso Grátis",
+      howItWorks: "Como Funciona"
     },
     brand: {
       academy: " Academia"
@@ -692,7 +697,9 @@ export const translations: any = {
           membersOnly: "APENAS MEMBROS"
         }
       },
-      swipe: "Deslize para explorar"
+      swipe: "Deslize para explorar",
+      exploreCourses: "Explorar cursos",
+      getFreeCourse: "Obter Curso Grátis"
     },
     pricing: {
       title: "O SISTEMA REAL BUILDER",
@@ -990,6 +997,7 @@ export const translations: any = {
     notify: {
       title: "Seja Notificado",
       subtitle: "e candidate-se para obter 30% de desconto ou adesão gratuita",
+      nonBindingOffer: "oferta não vinculativa termina a 19 de abril",
       desc: "Deixe os seus dados abaixo e iremos notificá-lo assim que novos cursos abrirem.",
       firstName: "Primeiro Nome",
       lastName: "Apelido",
