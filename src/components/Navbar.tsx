@@ -205,20 +205,30 @@ export default function Navbar() {
               
               <div className="h-px bg-white/10 my-2"></div>
               
-              {/* Mobile Language Switcher */}
-              <div className="flex items-center gap-4 py-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      setLanguage(lang.code as any);
-                    }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${language === lang.code ? 'border-[#FFB800] text-[#FFB800] bg-[#FFB800]/5' : 'border-white/10 text-gray-400'}`}
+              {/* Mobile Language Switcher & Notify Me */}
+              <div className="flex flex-col gap-4 py-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code as any);
+                        }}
+                        className={`flex-1 flex items-center justify-center gap-2 px-2 py-2 rounded-lg border transition-colors ${language === lang.code ? 'border-[#FFB800] text-[#FFB800] bg-[#FFB800]/5' : 'border-white/10 text-gray-400'}`}
+                      >
+                        <span className="text-sm">{lang.flag}</span>
+                        <span className="text-[10px] font-bold">{lang.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <button 
+                    onClick={() => { window.dispatchEvent(new CustomEvent('openNotifyMe')); setIsMobileMenuOpen(false); }}
+                    className="bg-white/5 border border-[#FFB800]/50 text-[#FFB800] px-4 py-2 rounded-lg text-[10px] font-bold tracking-wider uppercase h-full flex items-center justify-center"
                   >
-                    <span>{lang.flag}</span>
-                    <span className="text-xs font-bold">{lang.label}</span>
+                    {t('navbar.notifyMe')}
                   </button>
-                ))}
+                </div>
               </div>
 
               <div className="h-px bg-white/10 my-2"></div>

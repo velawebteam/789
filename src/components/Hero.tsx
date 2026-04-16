@@ -101,9 +101,9 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-[#0a0a0a]">
+    <section id="hero" className="relative min-h-screen flex items-center pt-24 md:pt-24 overflow-hidden bg-[#0a0a0a]">
       {/* Background Layer */}
-      <div className="absolute top-24 inset-x-0 bottom-0 pointer-events-none overflow-hidden">
+      <div className="absolute top-24 inset-x-0 bottom-0 pointer-events-none overflow-hidden sm:top-24">
         <div className="absolute inset-0 w-full h-full bg-[#0a0a0a]">
           {/* Poster Image (Visible while video loads) */}
           <div 
@@ -125,31 +125,31 @@ export default function Hero() {
       </div>
 
       {/* Content Layer */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full pb-10 md:pb-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full pt-4 pb-12 md:pb-20">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="max-w-3xl"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-none mb-3 md:mb-4 tracking-tight flex flex-col items-start notranslate" translate="no">
-            <div className="relative inline-flex whitespace-nowrap">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white leading-tight sm:leading-none mb-2 md:mb-4 tracking-tight flex flex-col items-start notranslate" translate="no">
+            <div className="relative inline-flex sm:whitespace-nowrap">
               <span>{t('hero.title1')}</span>
             </div>
-            <span className="text-[#FFB800] mt-1 md:mt-2">{t('hero.title2')}</span>
+            <span className="text-[#FFB800] mt-0.5 md:mt-2">{t('hero.title2')}</span>
           </h1>
 
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 md:mb-8 max-w-xl leading-relaxed">
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-4 md:mb-8 max-w-xl leading-relaxed">
             {t('hero.subtitle1')}
             <span className="text-[#FFB800] font-bold">{t('hero.subtitleHighlight')}</span>
-            <br /><br />
+            <br /><br className="hidden sm:block" />
             {t('hero.description')}
           </p>
 
           {/* Countdown moved here */}
-          <div className="mb-6 md:mb-8 flex flex-col gap-3 md:gap-4">
+          <div className="mb-5 md:mb-8 flex flex-col gap-2 md:gap-4">
             <div className="flex items-start gap-2 md:gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#FFB800] animate-pulse mt-1 md:mt-1.5 flex-shrink-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#FFB800] animate-pulse mt-1 md:mt-1.5 flex-shrink-0" />
               <span className="text-white font-medium tracking-wide text-[10px] sm:text-sm uppercase leading-tight">
                 {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0 
                   ? <span>{t('hero.registrationsOpen')}</span> 
@@ -161,7 +161,7 @@ export default function Hero() {
               </span>
             </div>
             
-            <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
+            <div className="flex items-center gap-2.5 sm:gap-4 md:gap-6">
               <div className="flex flex-col items-center">
                 <span className="text-[#FFB800] text-2xl sm:text-3xl md:text-4xl font-black notranslate" translate="no">{pad(timeLeft.days)}</span>
                 <span className="text-gray-400 text-[8px] sm:text-[10px] tracking-widest">{t('hero.days')}</span>

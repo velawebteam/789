@@ -128,7 +128,7 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
               {/* PERSONAL INFORMATION */}
               <section>
                 <h3 className="text-[#FFB800] text-xs font-bold tracking-widest uppercase mb-4">{t('enrollment.personalInfo')}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.firstName')}</label>
                     <input type="text" name="firstName" required placeholder="John" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm" />
@@ -137,13 +137,13 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                     <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.lastName')}</label>
                     <input type="text" name="lastName" required placeholder="Doe" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm" />
                   </div>
-                  <div className="sm:col-span-2">
+                  <div className="col-span-2">
                     <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.email')}</label>
                     <input type="email" name="email" required placeholder="john@example.com" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm" />
                   </div>
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.phone')}</label>
-                    <input type="tel" name="phone" required placeholder="+351 900 000 000" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm" />
+                    <input type="tel" name="phone" required placeholder="+351..." className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm" />
                   </div>
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.city')}</label>
@@ -184,19 +184,19 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
               <section>
                 <h3 className="text-[#FFB800] text-xs font-bold tracking-widest uppercase mb-4">{t('enrollment.skillsAssessment')}</h3>
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.readingWriting')}</label>
-                    <select name="readingSkills" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
-                      <option value="" disabled>{t('enrollment.selectLevel')}</option>
-                      <option value="basic">{t('enrollment.basic')}</option>
-                      <option value="intermediate">{t('enrollment.intermediate')}</option>
-                      <option value="advanced">{t('enrollment.advanced')}</option>
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2">
+                      <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.readingWriting')}</label>
+                      <select name="readingSkills" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
+                        <option value="" disabled>{t('enrollment.selectLevel')}</option>
+                        <option value="basic">{t('enrollment.basic')}</option>
+                        <option value="intermediate">{t('enrollment.intermediate')}</option>
+                        <option value="advanced">{t('enrollment.advanced')}</option>
+                      </select>
+                    </div>
                     <div>
                       <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.portugueseLevel')}</label>
-                      <select name="portugueseLevel" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
+                      <select name="portugueseLevel" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-xs sm:text-sm appearance-none cursor-pointer">
                         <option value="" disabled>{t('enrollment.selectLevelShort')}</option>
                         <option value="none">{t('enrollment.none')}</option>
                         <option value="basic">{t('enrollment.portugueseBasic')}</option>
@@ -206,7 +206,7 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                     </div>
                     <div>
                       <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.englishLevel')}</label>
-                      <select name="englishLevel" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
+                      <select name="englishLevel" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-xs sm:text-sm appearance-none cursor-pointer">
                         <option value="" disabled>{t('enrollment.selectLevelShort')}</option>
                         <option value="none">{t('enrollment.none')}</option>
                         <option value="basic">{t('enrollment.portugueseBasic')}</option>
@@ -214,15 +214,15 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                         <option value="fluent">{t('enrollment.portugueseFluent')}</option>
                       </select>
                     </div>
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.digitalSkills')}</label>
-                    <select name="digitalSkills" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
-                      <option value="" disabled>{t('enrollment.digitalSkillsDesc')}</option>
-                      <option value="basic">{t('enrollment.digitalBasic')}</option>
-                      <option value="intermediate">{t('enrollment.digitalIntermediate')}</option>
-                      <option value="advanced">{t('enrollment.digitalAdvanced')}</option>
-                    </select>
+                    <div className="col-span-2">
+                      <label className="block text-white text-sm font-semibold mb-2">{t('enrollment.digitalSkills')}</label>
+                      <select name="digitalSkills" required defaultValue="" className="w-full bg-[#111315] border border-white/10 rounded-lg p-3 text-white focus:border-[#FFB800] outline-none transition-colors text-sm appearance-none cursor-pointer">
+                        <option value="" disabled>{t('enrollment.digitalSkillsDesc')}</option>
+                        <option value="basic">{t('enrollment.digitalBasic')}</option>
+                        <option value="intermediate">{t('enrollment.digitalIntermediate')}</option>
+                        <option value="advanced">{t('enrollment.digitalAdvanced')}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </section>

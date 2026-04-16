@@ -57,10 +57,10 @@ export default function PilotProgram() {
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* Text Content */}
-          <div>
+          {/* Text Content - Part 1: Headline & Features */}
+          <div className="order-1 lg:order-1 self-start">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/10 border border-black/20 text-black text-xs font-black tracking-widest uppercase mb-6">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
               {t('pilotProgram.limitedOpportunity')}
@@ -82,7 +82,7 @@ export default function PilotProgram() {
               </p>
             </motion.div>
 
-            <ul className="space-y-6 mb-12">
+            <ul className="space-y-6">
               <li className="flex items-center gap-4 text-black font-bold text-xl tracking-tight">
                 <CheckCircle2 size={28} className="shrink-0" />
                 <span>{t('pilotProgram.feature2')}</span>
@@ -92,39 +92,17 @@ export default function PilotProgram() {
                 <span>{t('pilotProgram.feature3')}</span>
               </li>
             </ul>
-
-            <div className="inline-flex bg-black/15 border-l-[8px] border-black px-6 py-4 md:px-8 md:py-5 rounded-r-3xl items-center gap-6 mt-12 shadow-sm max-w-2xl group">
-              <div className="relative shrink-0">
-                {/* Refined 3D Glow Effect Layers */}
-                <div className="absolute -inset-2 bg-[#FFB800] blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 animate-pulse"></div>
-                <div className="absolute inset-0 bg-[#FFD700] blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-                
-                {/* 3D-like Trophy Container */}
-                <div className="relative w-12 h-12 bg-gradient-to-br from-[#FFD700] via-[#FFB800] to-[#B8860B] rounded-xl flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(0,0,0,0.2),inset_2px_2px_4px_rgba(255,255,255,0.5)] transform -rotate-3 group-hover:rotate-0 transition-transform duration-300">
-                  {/* Inner Light Source */}
-                  <div className="absolute w-6 h-6 bg-white/40 blur-md rounded-full"></div>
-                  
-                  <Trophy size={24} className="text-black drop-shadow-[1px_1px_0px_rgba(255,255,255,0.4)] relative z-10" />
-                  
-                  {/* Shine Effect */}
-                  <div className="absolute top-1 left-1 w-4 h-2 bg-white/50 rounded-full blur-[1px] -rotate-45"></div>
-                </div>
-              </div>
-              <p className="text-black font-bold text-sm md:text-base leading-tight uppercase tracking-tight">
-                {t('pilotProgram.intensiveDesc')}
-              </p>
-            </div>
           </div>
 
-          {/* Form */}
-          <div className="bg-[#15181b] rounded-2xl p-6 md:p-10 shadow-2xl border border-white/10">
+          {/* Form - Always Order 2 on Mobile, Right Column on Desktop */}
+          <div className="order-2 lg:order-2 lg:row-span-2 bg-[#15181b] rounded-2xl p-6 md:p-10 shadow-2xl border border-white/10">
             {!isSubmitted ? (
               <>
                 <h3 className="text-2xl font-black text-white mb-6 tracking-tight uppercase">
                   {t('pilotProgram.applyNow')}
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.firstName')}</label>
                       <input type="text" name="firstName" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="John" />
@@ -135,18 +113,18 @@ export default function PilotProgram() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.phone')}</label>
-                      <input type="tel" name="phone" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="+351 900 000 000" />
+                      <input type="tel" name="phone" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="+351..." />
                     </div>
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.email')}</label>
-                      <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="john@example.com" />
+                      <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="john@..." />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('pilotProgram.city')}</label>
                       <input type="text" name="city" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm" placeholder="Lisbon" />
@@ -159,18 +137,18 @@ export default function PilotProgram() {
                           required 
                           value={experience}
                           onChange={(e) => setExperience(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm appearance-none"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-xs sm:text-sm appearance-none"
                         >
                           <option value="" disabled className="bg-[#15181b] text-gray-400">{t('pilotProgram.selectExperience')}</option>
                           <option value="3-5 years" className="bg-[#15181b] text-white">{t('pilotProgram.exp3to5')}</option>
                           <option value="5+ years" className="bg-[#15181b] text-white">{t('pilotProgram.exp5plus')}</option>
                         </select>
-                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('pilotProgram.availableTavira')}</label>
                       <div className="flex gap-4">
@@ -199,7 +177,7 @@ export default function PilotProgram() {
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
                       {t('pilotProgram.areasInterest')}
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                       {areasOfInterest.map(area => {
                         const isSelected = selectedAreas.includes(area.id);
                         const isDisabled = !isSelected && selectedAreas.length >= 2;
@@ -210,15 +188,15 @@ export default function PilotProgram() {
                             type="button"
                             onClick={() => handleAreaToggle(area.id)}
                             disabled={isDisabled}
-                            className={`text-[10px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border transition-all ${
+                            className={`text-[9px] xs:text-[10px] font-bold uppercase tracking-wider px-2 py-2.5 rounded-xl border transition-all text-center flex items-center justify-center min-h-[44px] ${
                               isSelected 
-                                ? 'bg-[#FFB800] border-[#FFB800] text-black' 
+                                ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
                                 : isDisabled
-                                  ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed'
+                                  ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
                                   : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
                             }`}
                           >
-                            {t(`courses_list.${area.id}.name` as any)}
+                            <span className="leading-tight">{t(`courses_list.${area.id}.name` as any)}</span>
                           </button>
                         );
                       })}
@@ -267,6 +245,24 @@ export default function PilotProgram() {
                 </button>
               </div>
             )}
+          </div>
+
+          {/* Text Content - Part 2: Intensive Card - Moves after form on mobile */}
+          <div className="order-3 lg:order-3 self-center">
+            <div className="inline-flex bg-black/15 border-l-[8px] border-black px-6 py-4 md:px-8 md:py-5 rounded-r-3xl items-center gap-6 shadow-sm max-w-2xl group">
+              <div className="relative shrink-0">
+                <div className="absolute -inset-2 bg-[#FFB800] blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 animate-pulse"></div>
+                <div className="absolute inset-0 bg-[#FFD700] blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+                <div className="relative w-12 h-12 bg-gradient-to-br from-[#FFD700] via-[#FFB800] to-[#B8860B] rounded-xl flex items-center justify-center shadow-[4px_4px_10px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(0,0,0,0.2),inset_2px_2px_4px_rgba(255,255,255,0.5)] transform -rotate-3 group-hover:rotate-0 transition-transform duration-300">
+                  <div className="absolute w-6 h-6 bg-white/40 blur-md rounded-full"></div>
+                  <Trophy size={24} className="text-black drop-shadow-[1px_1px_0px_rgba(255,255,255,0.4)] relative z-10" />
+                  <div className="absolute top-1 left-1 w-4 h-2 bg-white/50 rounded-full blur-[1px] -rotate-45"></div>
+                </div>
+              </div>
+              <p className="text-black font-bold text-sm md:text-base leading-tight uppercase tracking-tight">
+                {t('pilotProgram.intensiveDesc')}
+              </p>
+            </div>
           </div>
           
         </div>

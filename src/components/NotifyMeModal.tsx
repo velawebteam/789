@@ -101,7 +101,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.firstName')}</label>
                       <input 
@@ -124,7 +124,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.phone')}</label>
                       <input 
@@ -132,7 +132,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                         name="phone"
                         required
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm"
-                        placeholder="+351 900 000 000"
+                        placeholder="+351..."
                       />
                     </div>
                     <div>
@@ -147,39 +147,41 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.email')}</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      required
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm"
-                      placeholder="john@example.com"
-                    />
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.email')}</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm"
+                        placeholder="john@example.com"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.experience')}</label>
-                    <select 
-                      name="experience"
-                      required
-                      value={experience}
-                      onChange={(e) => setExperience(e.target.value)}
-                      className="w-full bg-[#1a1d21] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm appearance-none"
-                    >
-                      <option value="" disabled>{t('notify.selectExperience')}</option>
-                      <option value="less_than_1">{t('notify.expLess1')}</option>
-                      <option value="1_to_2">{t('notify.exp1to2')}</option>
-                      <option value="3_to_5">{t('notify.exp3to5')}</option>
-                      <option value="5_plus">{t('notify.exp5plus')}</option>
-                    </select>
+                    <div>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.experience')}</label>
+                      <select 
+                        name="experience"
+                        required
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
+                        className="w-full bg-[#1a1d21] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm appearance-none"
+                      >
+                        <option value="" disabled>{t('notify.selectExperience')}</option>
+                        <option value="less_than_1">{t('notify.expLess1')}</option>
+                        <option value="1_to_2">{t('notify.exp1to2')}</option>
+                        <option value="3_to_5">{t('notify.exp3to5')}</option>
+                        <option value="5_plus">{t('notify.exp5plus')}</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
                       {t('notify.coursesInterest')}
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                       {coursesList.map(course => {
                         const isSelected = selectedCourses.includes(course.id);
                         const isDisabled = !isSelected && selectedCourses.length >= 2;
@@ -190,30 +192,15 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                               type="button"
                               onClick={() => handleCourseToggle(course.id)}
                               disabled={isDisabled}
-                              whileHover={!isDisabled ? { scale: 1.05 } : {}}
-                              whileTap={!isDisabled ? { scale: 0.95 } : {}}
-                              animate={isSelected ? { 
-                                scale: [1, 1.05, 1],
-                                boxShadow: [
-                                  "0 0 0px rgba(255, 184, 0, 0)",
-                                  "0 0 15px rgba(255, 184, 0, 0.4)",
-                                  "0 0 0px rgba(255, 184, 0, 0)"
-                                ]
-                              } : {}}
-                              transition={isSelected ? {
-                                duration: 1.5,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                              } : {}}
-                              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                              className={`text-[9px] xs:text-[10px] font-bold uppercase tracking-wider px-2 py-2.5 rounded-xl border transition-all text-center flex items-center justify-center min-h-[44px] ${
                                 isSelected 
-                                  ? 'bg-[#FFB800] border-[#FFB800] text-black font-bold' 
+                                  ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
                                   : isDisabled
-                                    ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed'
-                                    : 'bg-white/5 border-white/10 text-gray-300 hover:border-[#FFB800]/50'
+                                    ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
+                                    : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
                               }`}
                             >
-                              {t(`courses_list.${course.id}.name`)}
+                              <span className="leading-tight">{t(`courses_list.${course.id}.name`)}</span>
                             </motion.button>
                           );
                       })}

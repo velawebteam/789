@@ -14,4 +14,11 @@
   *::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+
+  /* Prevent auto-zoom on mobile (iOS) when focusing inputs */
+  @media (max-width: 767px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+  }
 }
