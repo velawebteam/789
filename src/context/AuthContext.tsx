@@ -64,7 +64,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else if (error.code === 'auth/cancelled-popup-request') {
         // Another popup was opened, ignore this one
         console.log("Login request cancelled (multiple popups).");
+      } else if (error.code === 'auth/unauthorized-domain') {
+        alert("Erro de Autenticação: Este domínio não está autorizado no Firebase Console. Por favor, adicione o domínio atual à lista de 'Domínios Autorizados' nas definições de Autenticação do seu projeto Firebase.");
+        console.error("Unauthorized domain:", window.location.hostname);
       } else {
+        alert(`Ocorreu um erro ao tentar fazer login: ${error.message}`);
         console.error("Login failed:", error);
       }
     } finally {
