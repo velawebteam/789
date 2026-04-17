@@ -15,6 +15,7 @@ import CookiePolicyPage from './pages/CookiePolicyPage';
 import EnrollmentModal from './components/EnrollmentModal';
 import NotifyMeModal from './components/NotifyMeModal';
 import CookieConsent from './components/CookieConsent';
+import SupportChat from './components/SupportChat';
 
 import { LanguageProvider } from './context/LanguageContext';
 import { CookieProvider } from './context/CookieContext';
@@ -55,6 +56,7 @@ export default function App() {
               <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
               <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
               <CookieConsent />
+              <SupportChat />
             </div>
           </Router>
         </LanguageProvider>

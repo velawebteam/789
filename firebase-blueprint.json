@@ -25,6 +25,19 @@
         "submittedAt": { "type": "string", "format": "date-time", "description": "Submission timestamp" }
       },
       "required": ["userId", "courseId", "status"]
+    },
+    "SupportChat": {
+      "title": "SupportChat",
+      "description": "Messages for user support",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "ID of the user who sent/received the message" },
+        "message": { "type": "string", "description": "The chat message content" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the message was sent" },
+        "image_url": { "type": "string", "format": "uri", "description": "Optional image URL attached to message" },
+        "sender_role": { "type": "string", "enum": ["user", "admin"], "description": "Who sent the message" }
+      },
+      "required": ["user_id", "message", "timestamp", "sender_role"]
     }
   },
   "firestore": {
@@ -35,6 +48,10 @@
     "/enrolments/{enrolmentId}": {
       "schema": "Enrolment",
       "description": "Course enrolment documents"
+    },
+    "/support_chats/{chatId}": {
+      "schema": "SupportChat",
+      "description": "Support chat messages"
     }
   }
 }

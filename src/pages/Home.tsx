@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import WhyJoin from '../components/WhyJoin';
 import PilotProgram from '../components/PilotProgram';
 import AboutUs from '../components/AboutUs';
 import HowItWorks from '../components/HowItWorks';
@@ -20,6 +21,7 @@ export default function Home() {
         canonical="https://realbuilder-academy.com/"
       />
       <Hero />
+      <WhyJoin />
       <PilotProgram />
       <AboutUs />
       <HowItWorks />

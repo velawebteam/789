@@ -432,6 +432,24 @@ export const translations: any = {
       q6: "How long does it take to get certified?",
       a6: "The initial RB1 certification (Getting Started) typically takes between 1 to 4 weekends, depending on the specific course track. Advanced certifications (RB2 and RB3) require additional specialized training modules."
     },
+    whyJoin: {
+      whoTitle: "THIS PROGRAM IS FOR YOU IF:",
+      who1: "You want to learn a profession with high market demand",
+      who2: "You are tired of jobs without progression",
+      who3: "You want to work in Portugal or abroad",
+      who4: "You are willing to learn and evolve",
+      who5: "You are hard-working",
+      accessTitle: "BY APPLYING, YOU WILL GET ACCESS TO:",
+      access1: "Practical training in construction",
+      access2: "Mentoring by experienced professionals",
+      access3: "Certification upon completion",
+      access4: "Opportunity to join real projects",
+      access5: "Opportunities in Portugal and abroad",
+      summary1: "Apply to our pilot program and qualify to be selected for one of the 3 available spots for free training and a job contract.",
+      summary2: "Tell us, without commitment, which course areas you would be interested in and be notified when the next courses open.",
+      applyCTA: "Apply Now",
+      notifyCTA: "Notify Me"
+    },
     pilotProgram: {
       limitedOpportunity: "Limited Opportunity",
       title: "3 spots only!",
@@ -456,7 +474,7 @@ export const translations: any = {
       yes: "Yes",
       no: "No",
       areasInterest: "Areas of Interest (Select up to 2)",
-      contactMe: "CONTACT ME",
+      contactMe: "APPLY",
       successTitle: "Application Received!",
       successDesc: "Thank you for applying to the {brand} Pilot Program. We will review your application and contact you soon.",
       sendAnother: "SEND ANOTHER APPLICATION"
@@ -611,6 +629,14 @@ export const translations: any = {
       privacyPolicy: "Privacy Policy",
       consentRequired: "Please accept cookies to submit this form.",
       acceptToProceed: "Accept to proceed"
+    },
+    chat: {
+      support: "Live Support",
+      online: "Online",
+      welcome: "Welcome! How can we help you today?",
+      placeholder: "Type a message...",
+      send: "Send",
+      attachment: "Attachment"
     }
   },
   pt: {
@@ -1046,6 +1072,24 @@ export const translations: any = {
       q6: "Quanto tempo demora a obter a certificação?",
       a6: "A certificação inicial RB1 (Começar) demora normalmente entre 1 a 4 fins de semana, dependendo do percurso específico do curso. As certificações avançadas (RB2 e RB3) requerem módulos de formação especializada adicionais."
     },
+    whyJoin: {
+      whoTitle: "ESTE PROGRAMA É PARA TI SE:",
+      who1: "Queres aprender uma profissão com saída no mercado",
+      who2: "Estás cansado de trabalhos sem progressão",
+      who3: "Queres trabalhar em Portugal ou no estrangeiro",
+      who4: "Estás disposto a aprender e evoluir",
+      who5: "És trabalhador",
+      accessTitle: "AO CANDIDATARES-TE, VAIS TER ACESSO A:",
+      access1: "Formação prática na área da construção",
+      access2: "Acompanhamento por profissionais experientes",
+      access3: "Certificação após conclusão",
+      access4: "Possibilidade de integração em projetos reais",
+      access5: "Oportunidades em Portugal e no estrangeiro",
+      summary1: "Candidata-te ao nosso programa piloto e habilita-te a ser selecionado para ocupar uma das 3 vagas disponíveis para receberes formação gratuíta e um contrato de trabalho.",
+      summary2: "Diz-nos, sem compromissos, que áreas de curso terias interesse em integrar e sê notificado quando os próximos cursos abrirem.",
+      applyCTA: "Candidatar-me",
+      notifyCTA: "Notificar-me"
+    },
     pilotProgram: {
       limitedOpportunity: "Oportunidade Limitada",
       title: "apenas 3 vagas!",
@@ -1070,7 +1114,7 @@ export const translations: any = {
       yes: "Sim",
       no: "Não",
       areasInterest: "Áreas de Interesse (Selecione até 2)",
-      contactMe: "CONTACTE-ME",
+      contactMe: "CANDIDATAR",
       successTitle: "Candidatura Recebida!",
       successDesc: "Obrigado por se candidatar ao Programa Piloto do {brand}. Iremos rever a sua candidatura e contactá-lo em breve.",
       sendAnother: "ENVIAR OUTRA CANDIDATURA"
@@ -1225,6 +1269,14 @@ export const translations: any = {
       privacyPolicy: "Política de Privacidade",
       consentRequired: "Por favor, aceite os cookies para submeter este formulário.",
       acceptToProceed: "Aceitar para prosseguir"
+    },
+    chat: {
+      support: "Apoio ao Vivo",
+      online: "Online",
+      welcome: "Bem-vindo! Como podemos ajudar hoje?",
+      placeholder: "Escreve uma mensagem...",
+      send: "Enviar",
+      attachment: "Anexo"
     }
   },
   hi: {
@@ -1654,6 +1706,24 @@ export const translations: any = {
       q6: "प्रमाणित होने में कितना समय लगता है?",
       a6: "प्रारंभिक RB1 प्रमाणन (शुरुआत करना) में आमतौर पर विशिष्ट पाठ्यक्रम ट्रैक के आधार पर 1 से 4 सप्ताहांत लगते हैं। उन्नत प्रमाणपत्रों (RB2 और RB3) के लिए अतिरिक्त विशेष प्रशिक्षण मॉड्यूल की आवश्यकता होती है।"
     },
+    whyJoin: {
+      whoTitle: "यह कार्यक्रम आपके लिए है यदि:",
+      who1: "आप उच्च बाजार मांग वाले पेशे को सीखना चाहते हैं",
+      who2: "आप बिना प्रगति वाली नौकरियों से थक चुके हैं",
+      who3: "आप पुर्तगाल या विदेश में काम करना चाहते हैं",
+      who4: "आप सीखने और विकसित होने के लिए तैयार हैं",
+      who5: "आप मेहनती हैं",
+      accessTitle: "आवेदन करने पर, आपको मिलेगा:",
+      access1: "निर्माण में व्यावहारिक प्रशिक्षण",
+      access2: "अनुभवी पेशेवरों द्वारा मार्गदर्शन",
+      access3: "पूरा होने पर प्रमाणन",
+      access4: "वास्तविक परियोजनाओं में शामिल होने का अवसर",
+      access5: "पुर्तगाल और विदेश में अवसर",
+      summary1: "हमारे पायलट कार्यक्रम के लिए आवेदन करें और मुफ्त प्रशिक्षण और नौकरी अनुबंध के लिए 3 उपलब्ध स्थानों में से एक के लिए चुने जाने की योग्यता प्राप्त करें",
+      summary2: "हमें बताएं, बिना किसी प्रतिबद्धता के, आप किन पाठ्यक्रम क्षेत्रों में रुचि रखते हैं और अगले पाठ्यक्रम खुलने पर अधिसूचित हों।",
+      applyCTA: "अभी आवेदन करें",
+      notifyCTA: "सूचित करें"
+    },
     pilotProgram: {
       limitedOpportunity: "सीमित अवसर",
       title: "केवल 3 स्थान!",
@@ -1678,7 +1748,7 @@ export const translations: any = {
       yes: "हाँ",
       no: "नहीं",
       areasInterest: "रुचि के क्षेत्र (2 तक चुनें)",
-      contactMe: "मुझसे संपर्क करें",
+      contactMe: "आवेदन करें",
       successTitle: "आवेदन प्राप्त हुआ!",
       successDesc: "{brand} पायलट प्रोग्राम के लिए आवेदन करने के लिए धन्यवाद। हम आपके आवेदन की समीक्षा करेंगे और जल्द ही आपसे संपर्क करेंगे।"
     },
@@ -1832,6 +1902,14 @@ export const translations: any = {
       privacyPolicy: "गोpनीयता नीति",
       consentRequired: "इस फॉर्म को सबमिट करने के लिए कृपया कुकीज़ स्वीकार करें।",
       acceptToProceed: "आगे बढ़ने के लिए स्वीकार करें"
+    },
+    chat: {
+      support: "लाइव सहायता",
+      online: "ऑनलाइन",
+      welcome: "स्वागत है! आज हम आपकी क्या मदद कर सकते हैं?",
+      placeholder: "संदेश टाइप करें...",
+      send: "भेजें",
+      attachment: "अनुलग्नक"
     }
   }
 };

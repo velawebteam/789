@@ -64,8 +64,8 @@ export default function Navbar() {
               onClick={() => setIsLangOpen(!isLangOpen)}
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase"
             >
-              <Globe size={16} className="text-[#FFB800]" />
-              <span className="hidden sm:inline">{languages.find(l => l.code === language)?.label}</span>
+              <Globe size={16} className="text-[#FFB800] hidden sm:block" />
+              <span className="text-[#FFB800] sm:text-gray-400">{languages.find(l => l.code === language)?.label}</span>
             </button>
             
             <AnimatePresence>
@@ -192,7 +192,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#0a0a0a] border-b border-white/10 overflow-hidden"
+            className="lg:hidden bg-[#0a0a0a] border-b border-white/10 overflow-y-auto max-h-[calc(100vh-6rem)]"
           >
             <div className="flex flex-col px-6 py-4 gap-4 text-sm font-semibold tracking-wider text-gray-300 uppercase">
               <button onClick={() => { scrollTo('about'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.about')}</button>
@@ -215,10 +215,9 @@ export default function Navbar() {
                         onClick={() => {
                           setLanguage(lang.code as any);
                         }}
-                        className={`flex-1 flex items-center justify-center gap-2 px-2 py-2 rounded-lg border transition-colors ${language === lang.code ? 'border-[#FFB800] text-[#FFB800] bg-[#FFB800]/5' : 'border-white/10 text-gray-400'}`}
+                        className={`flex-1 flex items-center justify-center px-2 py-2.5 rounded-lg border transition-colors ${language === lang.code ? 'border-[#FFB800] text-[#FFB800] bg-[#FFB800]/5' : 'border-white/10 text-gray-400'}`}
                       >
-                        <span className="text-sm">{lang.flag}</span>
-                        <span className="text-[10px] font-bold">{lang.label}</span>
+                        <span className="text-xs font-black tracking-widest">{lang.label}</span>
                       </button>
                     ))}
                   </div>
