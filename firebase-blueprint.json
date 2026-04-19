@@ -52,6 +52,10 @@
     "/support_chats/{chatId}": {
       "schema": "SupportChat",
       "description": "Support chat messages"
+    },
+    "/maintenance_chats/{chatId}": {
+      "schema": "SupportChat",
+      "description": "Maintenance chat messages"
     }
   }
 }

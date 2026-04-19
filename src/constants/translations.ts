@@ -9,6 +9,8 @@ export const translations: any = {
       partners: "PARTNERS",
       register: "REGISTER",
       notifyMe: "NOTIFY ME",
+      store: "STORE",
+      dashboard: "DASHBOARD",
       getStarted: "GET STARTED"
     },
     hero: {
@@ -636,7 +638,32 @@ export const translations: any = {
       welcome: "Welcome! How can we help you today?",
       placeholder: "Type a message...",
       send: "Send",
-      attachment: "Attachment"
+      attachment: "Attachment",
+      maintenance: "Maintenance",
+      dashboardTitle: "Support Lobby"
+    },
+    store: {
+      title: "OFFICIAL STORE",
+      subtitle: "Gear up with the official Real Builder equipment and merchandise.",
+      buyNow: "BUY NOW",
+      addCart: "ADD TO CART",
+      viewProduct: "VIEW PRODUCT",
+      categories: {
+        all: "ALL",
+        apparel: "APPAREL",
+        tools: "TOOLS",
+        accessories: "ACCESSORIES"
+      },
+      products: {
+        p1: { name: "Pro Cotton T-Shirt", desc: "Premium comfort for the modern builder." },
+        p2: { name: "Performance Hoodie", desc: "Designed for intensive on-site training sessions." },
+        p3: { name: "Safety Master Gloves", desc: "Cut-resistant, high-grip professional gear." },
+        p4: { name: "RB Foundation Cap", desc: "Classic look, professional standard." },
+        p5: { name: "Precision Measuring Set", desc: "Technical accuracy for every project." },
+        p6: { name: "Heavy Duty Tool Belt", desc: "Engineered for maximum organization and durability." }
+      },
+      joinTitle: "WANT TO BECOME A",
+      joinButton: "Join the Academy"
     }
   },
   pt: {
@@ -649,6 +676,8 @@ export const translations: any = {
       partners: "PARCEIROS",
       register: "REGISTAR",
       notifyMe: "NOTIFICAR-ME",
+      store: "LOJA",
+      dashboard: "DASHBOARD",
       getStarted: "COMEÇAR"
     },
     hero: {
@@ -1276,7 +1305,32 @@ export const translations: any = {
       welcome: "Bem-vindo! Como podemos ajudar hoje?",
       placeholder: "Escreve uma mensagem...",
       send: "Enviar",
-      attachment: "Anexo"
+      attachment: "Anexo",
+      maintenance: "Manutenção",
+      dashboardTitle: "Área de Suporte"
+    },
+    store: {
+      title: "LOJA OFICIAL",
+      subtitle: "Equipa-te com o equipamento e merchandise oficial da Real Builder.",
+      buyNow: "COMPRAR AGORA",
+      addCart: "ADICIONAR AO CARRINHO",
+      viewProduct: "VER PRODUTO",
+      categories: {
+        all: "GERAL",
+        apparel: "VESTUÁRIO",
+        tools: "FERRAMENTAS",
+        accessories: "ACESSÓRIOS"
+      },
+      products: {
+        p1: { name: "T-Shirt Pro Cotton", desc: "Conforto premium para o construtor moderno." },
+        p2: { name: "Hoodie Performance", desc: "Desenhado para sessões intensivas de treino no local." },
+        p3: { name: "Luvas Safety Master", desc: "Equipamento profissional resistente a cortes e com alta aderência." },
+        p4: { name: "Boné RB Foundation", desc: "Look clássico, padrão profissional." },
+        p5: { name: "Kit de Medição de Precisão", desc: "Precisão técnica para cada projeto." },
+        p6: { name: "Cinto de Ferramentas Heavy Duty", desc: "Concebido para máxima organização e durabilidade." }
+      },
+      joinTitle: "QUERES TORNAR-TE UM",
+      joinButton: "Juntar-me à Academia"
     }
   },
   hi: {
@@ -1289,6 +1343,8 @@ export const translations: any = {
       partners: "भागीदार",
       register: "पंजीकरण",
       notifyMe: "मुझे सूचित करें",
+      store: "स्टोर",
+      dashboard: "डैशबोर्ड",
       getStarted: "शुरू करें"
     },
     hero: {
@@ -1909,7 +1965,32 @@ export const translations: any = {
       welcome: "स्वागत है! आज हम आपकी क्या मदद कर सकते हैं?",
       placeholder: "संदेश टाइप करें...",
       send: "भेजें",
-      attachment: "अनुलग्नक"
+      attachment: "अनुलग्नक",
+      maintenance: "रखरखाव",
+      dashboardTitle: "सहायता लॉबी"
+    },
+    store: {
+      title: "आधिकारिक स्टोर",
+      subtitle: "आधिकारिक Real Builder उपकरणों और मर्केंडाइज के साथ खुद को तैयार करें।",
+      buyNow: "अभी खरीदें",
+      addCart: "कार्ट में जोड़ें",
+      viewProduct: "उत्पाद देखें",
+      categories: {
+        all: "सभी",
+        apparel: "पोशाक",
+        tools: "उपकरण",
+        accessories: "सहायक उपकरण"
+      },
+      products: {
+        p1: { name: "Pro Cotton T-Shirt", desc: "आधुनिक बिल्डर के लिए प्रीमियम आराम।" },
+        p2: { name: "Performance Hoodie", desc: "गहन ऑन-साइट प्रशिक्षण सत्रों के लिए डिज़ाइन किया गया।" },
+        p3: { name: "Safety Master Gloves", desc: "कट-प्रतिरोधी, उच्च-पकड़ पेशेवर गियर।" },
+        p4: { name: "RB Foundation Cap", desc: "क्लासिक लुक, पेशेवर मानक।" },
+        p5: { name: "Precision Measuring Set", desc: "हर प्रोजेक्ट के लिए तकनीकी सटीकता।" },
+        p6: { name: "Heavy Duty Tool Belt", desc: "अधिकतम संगठन और स्थायित्व के लिए इंजीनियर किया गया।" }
+      },
+      joinTitle: "क्या आप एक बनना चाहते हैं",
+      joinButton: "अकादमी में शामिल हों"
     }
   }
 };

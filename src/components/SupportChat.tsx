@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, Send, X, Loader2, ShieldCheck } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
@@ -22,7 +23,10 @@ export default function SupportChat() {
   const [isSending, setIsSending] = useState(false);
   const { user } = useAuth();
   const { t } = useLanguage();
+  const location = useLocation();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isDashboardOrAdmin = location.pathname === '/dashboard' || location.pathname === '/admin';
 
   useEffect(() => {
     if (!user || !isOpen) return;
@@ -74,7 +78,7 @@ export default function SupportChat() {
     }
   };
 
-  if (!user) return null;
+  if (!user || isDashboardOrAdmin) return null;
 
   return (
     <div className="fixed bottom-6 left-6 z-[60]">

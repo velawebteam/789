@@ -1,4 +1,4 @@
-import { Info, Menu, X, Globe, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { Info, Menu, X, Globe, LogIn, LogOut, MessageSquare, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -37,8 +37,8 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a] border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-2 cursor-pointer">
+      <div className="w-full px-6 h-24 flex items-center relative">
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-2 cursor-pointer shrink-0 z-10">
           <img 
             src="https://lh3.googleusercontent.com/d/1JcDlCqhCcECmb6aCnMHr_G_Qj-FeGBHn" 
             alt="Real Builder Logo" 
@@ -47,7 +47,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-6 text-xs font-semibold tracking-wider text-gray-300 uppercase">
+        <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-6 text-xs font-semibold tracking-wider text-gray-300 uppercase whitespace-nowrap">
           <button onClick={() => scrollTo('about')} className="hover:text-white transition-colors">{t('navbar.about')}</button>
           <button onClick={() => scrollTo('how-it-works')} className="hover:text-white transition-colors">{t('navbar.howItWorks')}</button>
           <button onClick={() => scrollTo('pricing')} className="hover:text-white transition-colors">{t('navbar.pricing')}</button>
@@ -55,9 +55,10 @@ export default function Navbar() {
           <button onClick={() => scrollTo('professionals')} className="hover:text-white transition-colors">{t('navbar.professionals')}</button>
           <button onClick={() => scrollTo('partners')} className="hover:text-white transition-colors">{t('navbar.partners')}</button>
           <button onClick={() => scrollTo('contact-form')} className="hover:text-white transition-colors">{t('navbar.register')}</button>
+          <Link to="/store" className="hover:text-white transition-colors uppercase">{t('navbar.store')}</Link>
         </div>
 
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-4 md:gap-6 ml-auto z-10">
           {/* Language Switcher */}
           <div className="relative">
             <button 
@@ -71,10 +72,10 @@ export default function Navbar() {
             <AnimatePresence>
               {isLangOpen && (
                 <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[120px]"
+                  initial={{ opacity: 0, y: 10, x: '-50%' }}
+                  animate={{ opacity: 1, y: 0, x: '-50%' }}
+                  exit={{ opacity: 0, y: 10, x: '-50%' }}
+                  className="absolute left-1/2 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[140px]"
                 >
                   {languages.map((lang) => (
                     <button
@@ -131,9 +132,17 @@ export default function Navbar() {
                           <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Logged in as</p>
                           <p className="text-xs font-bold text-white truncate">{user.displayName || user.email}</p>
                         </div>
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5"
+                        >
+                          <MessageSquare size={14} className="text-[#FFB800]" />
+                          <span>{t('navbar.dashboard')}</span>
+                        </Link>
                         <button
                           onClick={() => { logout(); setIsUserMenuOpen(false); }}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5"
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5 border-t border-white/5"
                         >
                           <LogOut size={14} />
                           <span>Logout</span>
@@ -202,6 +211,7 @@ export default function Navbar() {
               <button onClick={() => { scrollTo('professionals'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.professionals')}</button>
               <button onClick={() => { scrollTo('partners'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.partners')}</button>
               <button onClick={() => { scrollTo('contact-form'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.register')}</button>
+              <Link to="/store" onClick={() => setIsMobileMenuOpen(false)} className="text-left hover:text-white py-2 uppercase">{t('navbar.store')}</Link>
               
               <div className="h-px bg-white/10 my-2"></div>
               
@@ -249,6 +259,14 @@ export default function Navbar() {
                         <p className="text-xs font-bold text-white">{user.displayName || user.email}</p>
                       </div>
                     </div>
+                    <Link 
+                      to="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2 text-white font-bold"
+                    >
+                      <MessageSquare size={18} className="text-[#FFB800]" />
+                      <span>{t('navbar.dashboard')}</span>
+                    </Link>
                     <button 
                       onClick={() => { logout(); setIsMobileMenuOpen(false); }}
                       className="flex items-center gap-3 px-3 py-2 text-red-400 font-bold"
