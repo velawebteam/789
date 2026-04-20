@@ -40,8 +40,10 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && 
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-         ((request.auth.token.email == "vela.web.team@gmail.com" || request.auth.token.email == "realbuilder.backend@gmail.com") && request.auth.token.email_verified == true));
+        (
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+          ((request.auth.token.email == "vela.web.team@gmail.com" || request.auth.token.email == "realbuilder.backend@gmail.com") && request.auth.token.email_verified == true)
+        );
     }
 
     function isValidEmail(email) {
@@ -126,6 +128,69 @@ service cloud.firestore {
                       (request.resource.data.sender_role == 'user' ? request.resource.data.user_id == request.auth.uid : isAdmin());
       
       allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /clients/{clientId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    match /time_logs/{logId} {
+      function isValidTimeLog(data) {
+        return data.keys().hasAll(['userId', 'clientId', 'projectId', 'date', 'startTime']) &&
+               data.userId == request.auth.uid &&
+               data.clientId is string &&
+               data.projectId is string &&
+               data.date is string &&
+               data.startTime is timestamp;
+      }
+
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidTimeLog(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && (
+        // Allow updating endTime and durationMinutes
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['endTime', 'durationMinutes', 'reportText', 'reportImages'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /maintenance_logs/{logId} {
+      function isValidMaintenanceLog(data) {
+        return data.keys().hasAll(['userId', 'projectId', 'date', 'type', 'images', 'completedAt']) &&
+               data.userId == request.auth.uid &&
+               data.projectId is string &&
+               data.date is string &&
+               data.type in ['daily', 'weekly'] &&
+               data.images is map &&
+               data.completedAt is timestamp;
+      }
+
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidMaintenanceLog(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /weekly_status/{statusId} {
+      function isValidWeeklyStatus(data) {
+        return data.keys().hasAll(['userId', 'weekNumber', 'year', 'status', 'startedAt']) &&
+               data.userId == request.auth.uid &&
+               data.weekNumber is int &&
+               data.year is int &&
+               data.status in ['open', 'closed'] &&
+               data.startedAt is timestamp;
+      }
+
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidWeeklyStatus(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'closedAt'])
+      );
       allow delete: if isAdmin();
     }
   }

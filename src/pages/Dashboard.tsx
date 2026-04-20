@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
@@ -13,7 +14,9 @@ import {
   ArrowLeft, 
   Wrench, 
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Camera,
+  X
 } from 'lucide-react';
 
 interface Message {
@@ -36,6 +39,9 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,24 +86,47 @@ export default function Dashboard() {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !message.trim() || isSending) return;
+    if (!user || (!message.trim() && !imageFile) || isSending) return;
 
     setIsSending(true);
     const collectionName = selectedType === 'support' ? 'support_chats' : 'maintenance_chats';
 
     try {
+      let imageUrl = null;
+      
+      if (imageFile) {
+        const fileRef = ref(storage, `chats/${collectionName}/${user.uid}_${Date.now()}`);
+        const uploadResult = await uploadBytes(fileRef, imageFile);
+        imageUrl = await getDownloadURL(uploadResult.ref);
+      }
+
       await addDoc(collection(db, collectionName), {
         user_id: user.uid,
         message: message.trim(),
         timestamp: serverTimestamp(),
         sender_role: 'user',
-        image_url: null
+        image_url: imageUrl
       });
+      
       setMessage('');
+      setImageFile(null);
+      setImagePreview(null);
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -251,7 +280,15 @@ export default function Dashboard() {
                           ? 'bg-[#FFB800] text-black rounded-tr-none' 
                           : 'bg-[#1a1c1e] text-white border border-white/10 rounded-tl-none shadow-lg'
                       }`}>
-                        <p>{msg.message}</p>
+                        {msg.image_url && (
+                          <img 
+                            src={msg.image_url} 
+                            alt="Chat attachment" 
+                            className="rounded-xl mb-3 max-w-full h-auto cursor-pointer hover:opacity-90 transition-opacity border border-black/10"
+                            onClick={() => window.open(msg.image_url, '_blank')}
+                          />
+                        )}
+                        {msg.message && <p>{msg.message}</p>}
                       </div>
                       <p className={`text-[10px] font-bold tracking-widest uppercase ${msg.sender_role === 'user' ? 'text-right text-[#FFB800]/70' : 'text-left text-gray-600'}`}>
                         {msg.sender_role === 'admin' ? 'Agent' : 'You'} • {msg.timestamp?.toDate ? new Intl.DateTimeFormat('pt-PT', { hour: '2-digit', minute: '2-digit' }).format(msg.timestamp.toDate()) : '...'}
@@ -264,7 +301,42 @@ export default function Dashboard() {
 
             {/* Input Form */}
             <form onSubmit={handleSendMessage} className="p-6 border-t border-white/10 bg-white/[0.02]">
+              <AnimatePresence>
+                {imagePreview && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="mb-4 relative inline-block group"
+                  >
+                    <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded-2xl border-2 border-[#FFB800] shadow-xl" />
+                    <button 
+                      type="button"
+                      onClick={() => { setImageFile(null); setImagePreview(null); }}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform"
+                    >
+                      <X size={14} />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="flex items-end gap-3 max-w-4xl mx-auto">
+                <input 
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-14 h-14 bg-white/5 border border-white/10 text-gray-400 rounded-2xl flex items-center justify-center hover:bg-white/10 hover:text-white transition-all shrink-0"
+                >
+                  <Camera size={24} />
+                </button>
+
                 <div className="flex-1 bg-[#1a1c1e] border border-white/10 rounded-2xl focus-within:border-[#FFB800] transition-all overflow-hidden shadow-inner">
                   <textarea 
                     rows={1}

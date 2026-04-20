@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, Send, X, Loader2, ShieldCheck } from 'lucide-react';
+import { MessageSquare, Send, X, Loader2, ShieldCheck, Camera } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -21,6 +22,9 @@ export default function SupportChat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const { t } = useLanguage();
   const location = useLocation();
@@ -59,22 +63,43 @@ export default function SupportChat() {
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!user || !message.trim()) return;
+    if (!user || (!message.trim() && !imageFile)) return;
 
     setIsSending(true);
     try {
+      let imageUrl = null;
+      if (imageFile) {
+        const fileRef = ref(storage, `chats/support_chats/${user.uid}_${Date.now()}`);
+        const uploadResult = await uploadBytes(fileRef, imageFile);
+        imageUrl = await getDownloadURL(uploadResult.ref);
+      }
+
       await addDoc(collection(db, 'support_chats'), {
         user_id: user.uid,
         message: message.trim(),
         timestamp: serverTimestamp(),
         sender_role: 'user',
-        image_url: null
+        image_url: imageUrl
       });
       setMessage('');
+      setImageFile(null);
+      setImagePreview(null);
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -157,7 +182,42 @@ export default function SupportChat() {
 
             {/* Input */}
             <form onSubmit={handleSendMessage} className="p-4 border-t border-white/10 bg-white/5">
+              <AnimatePresence>
+                {imagePreview && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="mb-3 relative inline-block group"
+                  >
+                    <img src={imagePreview} alt="Preview" className="w-20 h-20 object-cover rounded-xl border-2 border-[#FFB800] shadow-xl" />
+                    <button 
+                      type="button"
+                      onClick={() => { setImageFile(null); setImagePreview(null); }}
+                      className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg"
+                    >
+                      <X size={12} />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="relative flex items-end gap-2">
+                <input 
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="p-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl hover:bg-white/10 hover:text-white transition-all shrink-0"
+                >
+                  <Camera size={20} />
+                </button>
+
                 <div className="flex-1 bg-white/5 border border-white/10 rounded-xl overflow-hidden focus-within:border-[#FFB800] transition-colors">
                   <textarea 
                     rows={1}

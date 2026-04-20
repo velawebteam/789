@@ -11,6 +11,7 @@ export const translations: any = {
       notifyMe: "NOTIFY ME",
       store: "STORE",
       dashboard: "DASHBOARD",
+      clockIn: "CLOCK-IN",
       getStarted: "GET STARTED"
     },
     hero: {
@@ -129,7 +130,7 @@ export const translations: any = {
         off100: "100% OFF",
         desc: "Get a 100% discount on any course of your interest.",
         counter: "20 get 30% off - 2 get 100% off",
-        ends: "non-binding offer ends on April 19",
+        ends: "non-binding offer ends on April 22",
         claim: "CLAIM YOUR OFFER",
         actionRequired: "Action Required",
         claim100: "Claim 100% Off"
@@ -385,7 +386,7 @@ export const translations: any = {
     notify: {
       title: "Get Notified",
       subtitle: "and apply to get 30% off or free membership",
-      nonBindingOffer: "non-binding offer ends on April 19",
+      nonBindingOffer: "non-binding offer ends on April 22",
       desc: "Leave your details below and we'll notify you as soon as new courses open.",
       firstName: "First Name",
       lastName: "Last Name",
@@ -664,6 +665,41 @@ export const translations: any = {
       },
       joinTitle: "WANT TO BECOME A",
       joinButton: "Join the Academy"
+    },
+    timeTracker: {
+      title: "Clock-In",
+      subtitle: "Time Tracking & Maintenance Records",
+      noData: "No data found",
+      seedDesc: "Initialize the system with some sample clients and projects.",
+      seedButton: "Seed Sample Data",
+      client: "Client",
+      project: "Project",
+      selectClient: "Select a Client",
+      selectProject: "Select a Project",
+      selectToStart: "<<< Select a project to start >>>",
+      checkIn: "Check-in",
+      checkOut: "Check-out",
+      status: "Status",
+      working: "Working",
+      start: "Start",
+      checkoutComplete: "Check-out Complete",
+      finishedAt: "Finished at",
+      maintenanceReport: "Maintenance Report",
+      reportPlaceholder: "Describe the tasks performed...",
+      upload: "Upload",
+      formIncomplete: "The form must be completed to allow check-out",
+      restrictedTitle: "Access Restricted",
+      restrictedDesc: "This content is not available for you. This area is exclusive of our students/colaborators. Want to become one?",
+      restrictedButton: "Register Now!",
+      startWeek: "Start Week",
+      closeWeek: "Close Week",
+      weekClosed: "Week Closed",
+      weekStartedOn: "Week started on",
+      weekClosedOn: "Week closed on",
+      weeklyMaintenanceRequired: "Weekly maintenance is required before closing the week.",
+      restartWeek: "Restart Week",
+      weekNotStartedTitle: "First Step",
+      weekNotStartedDesc: "You must start the work week to be able to clock-in."
     }
   },
   pt: {
@@ -678,6 +714,7 @@ export const translations: any = {
       notifyMe: "NOTIFICAR-ME",
       store: "LOJA",
       dashboard: "DASHBOARD",
+      clockIn: "PICAR O PONTO",
       getStarted: "COMEÇAR"
     },
     hero: {
@@ -796,7 +833,7 @@ export const translations: any = {
         off100: "100% DESCONTO",
         desc: "Obtenha 100% de desconto em qualquer curso do seu interesse.",
         counter: "20 recebem 30% de desconto - 2 recebem 100% de desconto",
-        ends: "oferta não vinculativa termina a 19 de abril",
+        ends: "oferta não vinculativa termina a 22 de abril",
         claim: "RECLAMAR OFERTA",
         actionRequired: "Ação Necessária",
         claim100: "Reclamar 100% de Desconto"
@@ -1052,7 +1089,7 @@ export const translations: any = {
     notify: {
       title: "Seja Notificado",
       subtitle: "e candidate-se para obter 30% de desconto ou adesão gratuita",
-      nonBindingOffer: "oferta não vinculativa termina a 19 de abril",
+      nonBindingOffer: "oferta não vinculativa termina a 22 de abril",
       desc: "Deixe os seus dados abaixo e iremos notificá-lo assim que novos cursos abrirem.",
       firstName: "Primeiro Nome",
       lastName: "Apelido",
@@ -1331,6 +1368,41 @@ export const translations: any = {
       },
       joinTitle: "QUERES TORNAR-TE UM",
       joinButton: "Juntar-me à Academia"
+    },
+    timeTracker: {
+      title: "Picar o Ponto",
+      subtitle: "Registo de Tempo e Manutenção",
+      noData: "Nenhum dado encontrado",
+      seedDesc: "Inicialize o sistema com alguns clientes e projetos de exemplo.",
+      seedButton: "Semear Dados de Exemplo",
+      client: "Cliente",
+      project: "Projeto",
+      selectClient: "Selecione um Cliente",
+      selectProject: "Selecione um Projeto",
+      selectToStart: "<<< Selecione um projeto para começar >>>",
+      checkIn: "Picar o Ponto",
+      checkOut: "Check-out",
+      status: "Estado",
+      working: "Em Trabalho",
+      start: "Início",
+      checkoutComplete: "Check-out Completo",
+      finishedAt: "Terminado às",
+      maintenanceReport: "Relatório de Manutenção",
+      reportPlaceholder: "Descreva as tarefas realizadas...",
+      upload: "Carregar",
+      formIncomplete: "O formulário deve estar completo para permitir o check-out",
+      restrictedTitle: "Acesso Restrito",
+      restrictedDesc: "Este conteúdo não está disponível para si. Esta área é exclusiva dos nossos alunos/colaboradores. Queres tornar-te um?",
+      restrictedButton: "Registar Agora!",
+      startWeek: "Iniciar Semana",
+      closeWeek: "Fechar Semana",
+      weekClosed: "Semana Fechada",
+      weekStartedOn: "Semana iniciada em",
+      weekClosedOn: "Semana fechada em",
+      weeklyMaintenanceRequired: "A manutenção semanal é obrigatória para fechar a semana.",
+      restartWeek: "Reiniciar Semana",
+      weekNotStartedTitle: "Primeiro Passo",
+      weekNotStartedDesc: "Deve iniciar a semana de trabalho para poder picar o ponto."
     }
   },
   hi: {
@@ -1345,6 +1417,7 @@ export const translations: any = {
       notifyMe: "मुझे सूचित करें",
       store: "स्टोर",
       dashboard: "डैशबोर्ड",
+      clockIn: "हाजिरी लगाएं",
       getStarted: "शुरू करें"
     },
     hero: {
@@ -1460,7 +1533,7 @@ export const translations: any = {
         off100: "100% छूट",
         desc: "अपनी रुचि के किसी भी कोर्स पर 100% छूट प्राप्त करें।",
         counter: "20 को 30% की छूट - 2 को 100% की छूट",
-        ends: "गैर-बाध्यकारी ऑफर 19 अप्रैल को समाप्त हो रहा है",
+        ends: "गैर-बाध्यकारी ऑफर 22 अप्रैल को समाप्त हो रहा है",
         claim: "अपना ऑफर प्राप्त करें",
         actionRequired: "कार्रवाई आवश्यक",
         claim100: "100% छूट का दावा करें"
@@ -1991,6 +2064,32 @@ export const translations: any = {
       },
       joinTitle: "क्या आप एक बनना चाहते हैं",
       joinButton: "अकादमी में शामिल हों"
+    },
+    timeTracker: {
+      title: "हाजिरी लगाएं",
+      subtitle: "समय ट्रैकिंग और रखरखाव रिकॉर्ड",
+      noData: "कोई डेटा नहीं मिला",
+      seedDesc: "सिस्टम को कुछ नमूना क्लाइंट और प्रोजेक्ट के साथ प्रारंभ करें।",
+      seedButton: "नमूना डेटा डालें",
+      client: "क्लाइंट",
+      project: "प्रोजेक्ट",
+      selectClient: "एक क्लाइंट चुनें",
+      selectProject: "एक प्रोजेक्ट चुनें",
+      selectToStart: "<<< शुरू करने के लिए एक प्रोजेक्ट चुनें >>>",
+      checkIn: "हाजिरी लगाएं",
+      checkOut: "चेक-आउट",
+      status: "स्थिति",
+      working: "काम जारी है",
+      start: "शुरुआत",
+      checkoutComplete: "चेक-आउट पूरा हुआ",
+      finishedAt: "समाप्त हुआ",
+      maintenanceReport: "रखरखाव रिपोर्ट",
+      reportPlaceholder: "किए गए कार्यों का वर्णन करें...",
+      upload: "अपलोड करें",
+      formIncomplete: "चेक-आउट की अनुमति देने के लिए फ़ॉर्म पूरा होना चाहिए",
+      restrictedTitle: "पहुँच प्रतिबंधित",
+      restrictedDesc: "यह सामग्री आपके लिए उपलब्ध नहीं है। यह क्षेत्र हमारे छात्रों/सहयोगियों के लिए विशिष्ट है। एक बनना चाहते हैं?",
+      restrictedButton: "अभी पंजीकरण करें!"
     }
   }
 };

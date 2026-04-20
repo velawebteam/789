@@ -15,6 +15,8 @@ import TermsPage from './pages/TermsPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
+import TimeTracker from './pages/TimeTracker';
+import Maintenance from './pages/Maintenance';
 import EnrollmentModal from './components/EnrollmentModal';
 import NotifyMeModal from './components/NotifyMeModal';
 import CookieConsent from './components/CookieConsent';
@@ -57,6 +59,8 @@ export default function App() {
                 <Route path="/cookies" element={<CookiePolicyPage />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/clock-in" element={<TimeTracker />} />
+                <Route path="/maintenance" element={<Maintenance />} />
               </Routes>
               <Footer />
               <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />

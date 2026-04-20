@@ -1,4 +1,4 @@
-import { Info, Menu, X, Globe, LogIn, LogOut, MessageSquare, User as UserIcon } from 'lucide-react';
+import { Info, Menu, X, Globe, LogIn, LogOut, MessageSquare, Clock, User as UserIcon, Building2, Wrench } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -12,6 +12,8 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { user, login, logout, loading } = useAuth();
+  const allowedEmails = ['vela.web.team@gmail.com', 'realbuilder.backend@gmail.com'];
+  const isAuthorized = user && allowedEmails.includes(user.email || '');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -104,62 +106,90 @@ export default function Navbar() {
 
           {/* User Auth */}
           <div className="relative hidden md:block">
-            {!loading && (
-              user ? (
-                <div className="relative">
-                  <button 
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-                  >
-                    {user.photoURL ? (
-                      <img src={user.photoURL} alt={user.displayName || ''} className="w-8 h-8 rounded-full border border-[#FFB800]/50" />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                        <UserIcon size={16} />
-                      </div>
-                    )}
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isUserMenuOpen && (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute right-0 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[160px]"
-                      >
-                        <div className="px-4 py-3 border-b border-white/5">
-                          <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Logged in as</p>
-                          <p className="text-xs font-bold text-white truncate">{user.displayName || user.email}</p>
-                        </div>
-                        <Link
-                          to="/dashboard"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5"
-                        >
-                          <MessageSquare size={14} className="text-[#FFB800]" />
-                          <span>{t('navbar.dashboard')}</span>
-                        </Link>
-                        <button
-                          onClick={() => { logout(); setIsUserMenuOpen(false); }}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5 border-t border-white/5"
-                        >
-                          <LogOut size={14} />
-                          <span>Logout</span>
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
+            {loading ? (
+              <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center animate-pulse">
+                <div className="w-4 h-4 rounded-full bg-white/10" />
+              </div>
+            ) : user ? (
+              <div className="relative">
                 <button 
-                  onClick={login}
-                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                 >
-                  <LogIn size={16} className="text-[#FFB800]" />
-                  <span>Login</span>
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt={user.displayName || ''} className="w-8 h-8 rounded-full border border-[#FFB800]/50" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+                      <UserIcon size={16} />
+                    </div>
+                  )}
                 </button>
-              )
+                
+                <AnimatePresence>
+                  {isUserMenuOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[160px] z-50"
+                    >
+                      <div className="px-4 py-3 border-b border-white/5">
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Logged in as</p>
+                        <p className="text-xs font-bold text-white truncate">{user.displayName || user.email}</p>
+                      </div>
+                      {isAuthorized && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-[#FFB800] transition-colors hover:bg-white/5 border-b border-white/5 bg-[#FFB800]/5"
+                        >
+                          <Building2 size={14} />
+                          <span>Admin Panel</span>
+                        </Link>
+                      )}
+                      <Link
+                        to="/clock-in"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5"
+                      >
+                        <Clock size={14} className="text-[#FFB800]" />
+                        <span>{t('navbar.clockIn')}</span>
+                      </Link>
+                      <Link
+                        to="/maintenance"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
+                      >
+                        <Wrench size={14} className="text-[#FFB800]" />
+                        <span>Maintenance</span>
+                      </Link>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
+                      >
+                        <MessageSquare size={14} className="text-[#FFB800]" />
+                        <span>{t('navbar.dashboard')}</span>
+                      </Link>
+                      <button 
+                        onClick={() => { logout(); setIsUserMenuOpen(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5 border-t border-white/5"
+                      >
+                        <LogOut size={14} />
+                        <span>Logout</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <button 
+                onClick={login}
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase"
+              >
+                <LogIn size={16} className="text-[#FFB800]" />
+                <span>Login</span>
+              </button>
             )}
           </div>
           
@@ -243,9 +273,14 @@ export default function Navbar() {
               <div className="h-px bg-white/10 my-2"></div>
 
               {/* Mobile Auth */}
-              {!loading && (
-                user ? (
-                  <div className="flex flex-col gap-4 py-2">
+              <div className="py-2">
+                {loading ? (
+                  <div className="flex items-center gap-3 px-3 py-2">
+                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 animate-pulse" />
+                    <div className="h-4 w-24 bg-white/5 rounded animate-pulse" />
+                  </div>
+                ) : user ? (
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-3 px-3 py-2">
                       {user.photoURL ? (
                         <img src={user.photoURL} alt={user.displayName || ''} className="w-10 h-10 rounded-full border border-[#FFB800]/50" />
@@ -259,6 +294,32 @@ export default function Navbar() {
                         <p className="text-xs font-bold text-white">{user.displayName || user.email}</p>
                       </div>
                     </div>
+                    {isAuthorized && (
+                      <Link 
+                        to="/admin"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2 text-[#FFB800] font-bold bg-[#FFB800]/5 border-y border-white/5"
+                      >
+                        <Building2 size={18} />
+                        <span>Admin Panel</span>
+                      </Link>
+                    )}
+                    <Link 
+                      to="/clock-in"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2 text-white font-bold"
+                    >
+                      <Clock size={18} className="text-[#FFB800]" />
+                      <span>{t('navbar.clockIn')}</span>
+                    </Link>
+                    <Link 
+                      to="/maintenance"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2 text-white font-bold"
+                    >
+                      <Wrench size={18} className="text-[#FFB800]" />
+                      <span>Maintenance</span>
+                    </Link>
                     <Link 
                       to="/dashboard"
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -283,8 +344,8 @@ export default function Navbar() {
                     <LogIn size={18} />
                     <span>Login</span>
                   </button>
-                )
-              )}
+                )}
+              </div>
 
               <div className="h-px bg-white/10 my-2"></div>
               <button 

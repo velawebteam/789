@@ -38,6 +38,77 @@
         "sender_role": { "type": "string", "enum": ["user", "admin"], "description": "Who sent the message" }
       },
       "required": ["user_id", "message", "timestamp", "sender_role"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Customer information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Client name" }
+      },
+      "required": ["name"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Project associated with a client",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string", "description": "ID of the client" },
+        "name": { "type": "string", "description": "Project name" }
+      },
+      "required": ["clientId", "name"]
+    },
+    "TimeLog": {
+      "title": "TimeLog",
+      "description": "Detailed log of work hours and report",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID of the user" },
+        "userEmail": { "type": "string", "description": "Email of the worker" },
+        "userName": { "type": "string", "description": "Name of the worker" },
+        "clientId": { "type": "string", "description": "ID of the client" },
+        "clientName": { "type": "string", "description": "Name of the client" },
+        "projectId": { "type": "string", "description": "ID of the project" },
+        "projectName": { "type": "string", "description": "Name of the project" },
+        "date": { "type": "string", "description": "Date in YYYY-MM-DD format" },
+        "startTime": { "type": "string", "format": "date-time", "description": "Clock-in time" },
+        "endTime": { "type": "string", "format": "date-time", "description": "Clock-out time" },
+        "durationMinutes": { "type": "number", "description": "Total duration in minutes" },
+        "reportText": { "type": "string", "description": "Maintenance report text" },
+        "reportImages": { "type": "array", "items": { "type": "string" }, "description": "URLs of uploaded images" }
+      },
+      "required": ["userId", "clientId", "projectId", "date", "startTime"]
+    },
+    "MaintenanceLog": {
+      "title": "MaintenanceLog",
+      "description": "Report of daily/weekly equipment maintenance",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID of the worker" },
+        "userEmail": { "type": "string", "description": "Email of the worker" },
+        "userName": { "type": "string", "description": "Name of the worker" },
+        "projectId": { "type": "string", "description": "ID of the project" },
+        "projectName": { "type": "string", "description": "Name of the project" },
+        "date": { "type": "string", "description": "Date in YYYY-MM-DD format" },
+        "type": { "type": "string", "enum": ["daily", "weekly"], "description": "Maintenance frequency" },
+        "images": { "type": "object", "description": "Task ID mapping to image URLs" },
+        "completedAt": { "type": "string", "format": "date-time", "description": "Submission time" }
+      },
+      "required": ["userId", "projectId", "date", "type", "images", "completedAt"]
+    },
+    "WeeklyStatus": {
+      "title": "WeeklyStatus",
+      "description": "Weekly lifecycle tracking for a worker",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID of the worker" },
+        "weekNumber": { "type": "number", "description": "ISO week number" },
+        "year": { "type": "number", "description": "Year" },
+        "status": { "type": "string", "enum": ["open", "closed"], "description": "Status of the work week" },
+        "startedAt": { "type": "string", "format": "date-time", "description": "When the week was started" },
+        "closedAt": { "type": "string", "format": "date-time", "description": "When the week was closed" }
+      },
+      "required": ["userId", "weekNumber", "year", "status", "startedAt"]
     }
   },
   "firestore": {
@@ -56,6 +127,26 @@
     "/maintenance_chats/{chatId}": {
       "schema": "SupportChat",
       "description": "Maintenance chat messages"
+    },
+    "/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Client registry"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Project registry"
+    },
+    "/time_logs/{logId}": {
+      "schema": "TimeLog",
+      "description": "Daily work logs"
+    },
+    "/maintenance_logs/{logId}": {
+      "schema": "MaintenanceLog",
+      "description": "Equipment maintenance records"
+    },
+    "/weekly_status/{statusId}": {
+      "schema": "WeeklyStatus",
+      "description": "Weekly status for workers"
     }
   }
 }
