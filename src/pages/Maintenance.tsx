@@ -29,6 +29,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+import { ALLOWED_EMAILS } from '../constants/auth';
+
 interface MaintenanceTask {
   id: string;
   label: string;
@@ -51,6 +53,7 @@ const WEEKLY_TASKS: MaintenanceTask[] = [
 export default function Maintenance() {
   const { user, loading: authLoading } = useAuth();
   const { t } = useLanguage();
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly'>('daily');
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [isWeekOpen, setIsWeekOpen] = useState(false);
@@ -266,6 +269,36 @@ export default function Maintenance() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <Loader2 className="animate-spin text-[#FFB800]" size={48} />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white flex items-center justify-center px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] p-10 text-center shadow-2xl"
+        >
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
+            <AlertCircle className="text-red-500" size={40} />
+          </div>
+          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">
+            {t('timeTracker.restrictedTitle')}
+          </h2>
+          <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+            {t('timeTracker.restrictedDesc')}
+          </p>
+          <button 
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('openNotifyMe'));
+            }}
+            className="w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all transform active:scale-95 shadow-[0_0_20px_rgba(255,184,0,0.2)]"
+          >
+            {t('timeTracker.restrictedButton')}
+          </button>
+        </motion.div>
       </div>
     );
   }

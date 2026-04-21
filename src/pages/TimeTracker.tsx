@@ -36,6 +36,8 @@ import {
   Lock
 } from 'lucide-react';
 
+import { ALLOWED_EMAILS } from '../constants/auth';
+
 interface Client {
   id: string;
   name: string;
@@ -81,8 +83,7 @@ interface WeeklyStatus {
 export default function TimeTracker() {
   const { user, loading: authLoading } = useAuth();
   const { language, t } = useLanguage();
-  const allowedEmails = ['vela.web.team@gmail.com', 'realbuilder.backend@gmail.com'];
-  const isAuthorized = user && allowedEmails.includes(user.email || '');
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
 
   const [clients, setClients] = useState<Client[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
