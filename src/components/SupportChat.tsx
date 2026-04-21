@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, Send, X, Loader2, ShieldCheck, Camera } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -30,7 +30,7 @@ export default function SupportChat() {
   const location = useLocation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const isDashboardOrAdmin = location.pathname === '/dashboard' || location.pathname === '/admin';
+  const isDashboardOrAdmin = location.pathname === '/chat' || location.pathname === '/admin';
 
   useEffect(() => {
     if (!user || !isOpen) return;
@@ -69,9 +69,40 @@ export default function SupportChat() {
     try {
       let imageUrl = null;
       if (imageFile) {
-        const fileRef = ref(storage, `chats/support_chats/${user.uid}_${Date.now()}`);
-        const uploadResult = await uploadBytes(fileRef, imageFile);
-        imageUrl = await getDownloadURL(uploadResult.ref);
+        const fileExtension = imageFile.name.split('.').pop();
+        const fileName = `${user.uid}_${Date.now()}.${fileExtension}`;
+        const fileRef = ref(storage, `chats/support_chats/${fileName}`);
+        
+        console.log(`[STORAGE] Starting SupportChat upload: ${fileName}`);
+        
+        const metadata = {
+          contentType: imageFile.type,
+          customMetadata: {
+            userId: user.uid,
+            userName: user.displayName || 'Worker',
+            type: 'chat_attachment'
+          }
+        };
+
+        const uploadTask = uploadBytesResumable(fileRef, imageFile, metadata);
+
+        imageUrl = await new Promise<string>((resolve, reject) => {
+          uploadTask.on('state_changed',
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log(`[STORAGE] SupportChat upload: ${progress.toFixed(2)}% done - State: ${snapshot.state}`);
+            },
+            (error) => {
+              console.error("[STORAGE ERROR] SupportChat upload failed:", error.code, error.message);
+              reject(error);
+            },
+            async () => {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
+              console.log("[STORAGE SUCCESS] SupportChat upload complete. URL retrieved.");
+              resolve(url);
+            }
+          );
+        });
       }
 
       await addDoc(collection(db, 'support_chats'), {
@@ -224,7 +255,7 @@ export default function SupportChat() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={t('chat.placeholder')}
-                    className="w-full bg-transparent p-3 text-sm text-white focus:outline-none resize-none max-h-32"
+                    className="w-full bg-transparent p-3 text-xs md:text-sm text-white focus:outline-none resize-none max-h-32"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
@@ -233,7 +264,7 @@ export default function SupportChat() {
                     }}
                   />
                   <div className="px-3 py-1 flex items-center justify-end border-t border-white/5 bg-black/20">
-                    <span className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">Enter to send</span>
+                    <span className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">{t('chat.enterToSend')}</span>
                   </div>
                 </div>
                 <button

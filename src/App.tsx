@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,7 +14,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import Admin from './pages/Admin';
-import Dashboard from './pages/Dashboard';
+import Chat from './pages/Chat';
 import TimeTracker from './pages/TimeTracker';
 import Maintenance from './pages/Maintenance';
 import EnrollmentModal from './components/EnrollmentModal';
@@ -25,6 +25,40 @@ import SupportChat from './components/SupportChat';
 import { LanguageProvider } from './context/LanguageContext';
 import { CookieProvider } from './context/CookieContext';
 import { AuthProvider } from './context/AuthContext';
+
+function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, setIsNotifyMeOpen }: 
+  { isEnrollmentOpen: boolean, setIsEnrollmentOpen: (o: boolean) => void, isNotifyMeOpen: boolean, setIsNotifyMeOpen: (o: boolean) => void }) {
+  const location = useLocation();
+  const restrictedPaths = ['/chat', '/clock-in', '/maintenance'];
+  const isRestrictedPath = restrictedPaths.includes(location.pathname);
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
+      <div className={isRestrictedPath ? 'hidden md:block' : ''}>
+        <Navbar />
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/cookies" element={<CookiePolicyPage />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/clock-in" element={<TimeTracker />} />
+        <Route path="/maintenance" element={<Maintenance />} />
+      </Routes>
+      <div className={isRestrictedPath ? 'hidden md:block' : ''}>
+        <Footer />
+      </div>
+      <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
+      <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
+      <CookieConsent />
+      <SupportChat />
+    </div>
+  );
+}
 
 export default function App() {
   const [isEnrollmentOpen, setIsEnrollmentOpen] = useState(false);
@@ -48,26 +82,12 @@ export default function App() {
       <AuthProvider>
         <LanguageProvider>
           <Router>
-            <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/store" element={<Store />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="/cookies" element={<CookiePolicyPage />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/clock-in" element={<TimeTracker />} />
-                <Route path="/maintenance" element={<Maintenance />} />
-              </Routes>
-              <Footer />
-              <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
-              <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
-              <CookieConsent />
-              <SupportChat />
-            </div>
+            <AppContent 
+              isEnrollmentOpen={isEnrollmentOpen} 
+              setIsEnrollmentOpen={setIsEnrollmentOpen}
+              isNotifyMeOpen={isNotifyMeOpen}
+              setIsNotifyMeOpen={setIsNotifyMeOpen}
+            />
           </Router>
         </LanguageProvider>
       </AuthProvider>

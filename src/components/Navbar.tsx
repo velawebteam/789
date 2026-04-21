@@ -134,7 +134,7 @@ export default function Navbar() {
                       className="absolute right-0 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[160px] z-50"
                     >
                       <div className="px-4 py-3 border-b border-white/5">
-                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Logged in as</p>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{t('navbar.loggedInAs')}</p>
                         <p className="text-xs font-bold text-white truncate">{user.displayName || user.email}</p>
                       </div>
                       {isAuthorized && (
@@ -144,7 +144,7 @@ export default function Navbar() {
                           className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-[#FFB800] transition-colors hover:bg-white/5 border-b border-white/5 bg-[#FFB800]/5"
                         >
                           <Building2 size={14} />
-                          <span>Admin Panel</span>
+                          <span>{t('navbar.adminPanel')}</span>
                         </Link>
                       )}
                       <Link
@@ -161,22 +161,22 @@ export default function Navbar() {
                         className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
                       >
                         <Wrench size={14} className="text-[#FFB800]" />
-                        <span>Maintenance</span>
+                        <span>{t('maintenance.title')}</span>
                       </Link>
                       <Link
-                        to="/dashboard"
+                        to="/chat"
                         onClick={() => setIsUserMenuOpen(false)}
                         className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
                       >
                         <MessageSquare size={14} className="text-[#FFB800]" />
-                        <span>{t('navbar.dashboard')}</span>
+                        <span>{t('navbar.chat')}</span>
                       </Link>
                       <button 
                         onClick={() => { logout(); setIsUserMenuOpen(false); }}
                         className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5 border-t border-white/5"
                       >
                         <LogOut size={14} />
-                        <span>Logout</span>
+                        <span>{t('navbar.logout')}</span>
                       </button>
                     </motion.div>
                   )}
@@ -188,7 +188,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase"
               >
                 <LogIn size={16} className="text-[#FFB800]" />
-                <span>Login</span>
+                <span>{t('navbar.login')}</span>
               </button>
             )}
           </div>
@@ -290,7 +290,7 @@ export default function Navbar() {
                         </div>
                       )}
                       <div>
-                        <p className="text-[10px] text-gray-500 uppercase tracking-widest">Logged in as</p>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest">{t('navbar.loggedInAs')}</p>
                         <p className="text-xs font-bold text-white">{user.displayName || user.email}</p>
                       </div>
                     </div>
@@ -301,7 +301,7 @@ export default function Navbar() {
                         className="flex items-center gap-3 px-3 py-2 text-[#FFB800] font-bold bg-[#FFB800]/5 border-y border-white/5"
                       >
                         <Building2 size={18} />
-                        <span>Admin Panel</span>
+                        <span>{t('navbar.adminPanel')}</span>
                       </Link>
                     )}
                     <Link 
@@ -318,22 +318,22 @@ export default function Navbar() {
                       className="flex items-center gap-3 px-3 py-2 text-white font-bold"
                     >
                       <Wrench size={18} className="text-[#FFB800]" />
-                      <span>Maintenance</span>
+                      <span>{t('maintenance.title')}</span>
                     </Link>
                     <Link 
-                      to="/dashboard"
+                      to="/chat"
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center gap-3 px-3 py-2 text-white font-bold"
                     >
                       <MessageSquare size={18} className="text-[#FFB800]" />
-                      <span>{t('navbar.dashboard')}</span>
+                      <span>{t('navbar.chat')}</span>
                     </Link>
                     <button 
                       onClick={() => { logout(); setIsMobileMenuOpen(false); }}
                       className="flex items-center gap-3 px-3 py-2 text-red-400 font-bold"
                     >
                       <LogOut size={18} />
-                      <span>Logout</span>
+                      <span>{t('navbar.logout')}</span>
                     </button>
                   </div>
                 ) : (
@@ -342,7 +342,7 @@ export default function Navbar() {
                     className="flex items-center gap-3 px-3 py-2 text-[#FFB800] font-bold"
                   >
                     <LogIn size={18} />
-                    <span>Login</span>
+                    <span>{t('navbar.login')}</span>
                   </button>
                 )}
               </div>

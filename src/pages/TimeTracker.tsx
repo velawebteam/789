@@ -9,7 +9,9 @@ import {
   updateDoc, 
   doc, 
   serverTimestamp,
-  getDoc
+  getDoc,
+  orderBy,
+  limit
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth } from '../lib/firebase';
@@ -18,6 +20,7 @@ import { getWeekNumber } from '../lib/date-utils';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { 
   Clock, 
   CheckCircle2, 
@@ -76,7 +79,7 @@ interface WeeklyStatus {
 }
 
 export default function TimeTracker() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { language, t } = useLanguage();
   const allowedEmails = ['vela.web.team@gmail.com', 'realbuilder.backend@gmail.com'];
   const isAuthorized = user && allowedEmails.includes(user.email || '');
@@ -85,6 +88,7 @@ export default function TimeTracker() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedClient, setSelectedClient] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<string>('');
+  const [checkoutMessage, setCheckoutMessage] = useState<string>('');
   const [activeLog, setActiveLog] = useState<TimeLog | null>(null);
   const [weeklyStatus, setWeeklyStatus] = useState<WeeklyStatus | null>(null);
   const [loading, setLoading] = useState(true);
@@ -95,7 +99,12 @@ export default function TimeTracker() {
   const isFriday = new Date().getDay() === 5;
 
   useEffect(() => {
-    if (!user) return;
+    if (authLoading) return;
+
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const q = query(collection(db, 'clients'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -110,12 +119,12 @@ export default function TimeTracker() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => {
-    if (!selectedClient) {
+    if (authLoading || !user || !selectedClient) {
       setProjects([]);
-      setSelectedProject('');
+      if (!selectedClient) setSelectedProject('');
       return;
     }
 
@@ -138,20 +147,48 @@ export default function TimeTracker() {
   }, [selectedClient]);
 
   useEffect(() => {
-    if (user && selectedProject) {
-      checkTodayLog();
-    } else {
-      setActiveLog(null);
-    }
-  }, [user, selectedProject]);
+    if (authLoading || !user) return;
+
+    // Check for ANY active session for this user
+    const q = query(
+      collection(db, 'time_logs'),
+      where('userId', '==', user.uid),
+      orderBy('startTime', 'desc'),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        const log = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as TimeLog;
+        if (!log.endTime) {
+          setActiveLog(log);
+          // Auto-select if nothing selected
+          if (!selectedProject) {
+            setSelectedClient(log.clientId);
+            setSelectedProject(log.projectId);
+          }
+        } else {
+          setActiveLog(null);
+        }
+      } else {
+        setActiveLog(null);
+      }
+      setLoading(false);
+    }, (err) => {
+      console.error("Error fetching active log:", err);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [user, authLoading]);
 
   useEffect(() => {
     if (user && activeLog && !activeLog.endTime) {
-      const today = new Date().toISOString().split('T')[0];
+      const logDate = activeLog.date;
       const mq = query(
         collection(db, 'maintenance_logs'),
         where('userId', '==', user.uid),
-        where('date', '==', today)
+        where('date', '==', logDate)
       );
 
       const unsubscribe = onSnapshot(mq, (snapshot) => {
@@ -248,34 +285,7 @@ export default function TimeTracker() {
     }
   };
 
-  const checkTodayLog = async () => {
-    if (!user || !selectedProject) return;
-    
-    const today = new Date().toISOString().split('T')[0];
-    try {
-      const q = query(
-        collection(db, 'time_logs'), 
-        where('userId', '==', user.uid),
-        where('projectId', '==', selectedProject),
-        where('date', '==', today)
-      );
-      let snapshot;
-      try {
-        snapshot = await getDocs(q);
-      } catch (err) {
-        handleFirestoreError(err, 'list', 'time_logs');
-      }
-      
-      if (snapshot && !snapshot.empty) {
-        const log = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as TimeLog;
-        setActiveLog(log);
-      } else {
-        setActiveLog(null);
-      }
-    } catch (err) {
-      console.error("Error checking today's log:", err);
-    }
-  };
+// Active log is managed by real-time listener above
 
   const handleCheckIn = async () => {
     if (!user || !selectedClient || !selectedProject || isProcessing) return;
@@ -291,7 +301,7 @@ export default function TimeTracker() {
       const newLog = {
         userId: user.uid,
         userEmail: user.email || '',
-        userName: user.displayName || 'Trabalhador',
+        userName: user.displayName || t('timeTracker.worker'),
         clientId: selectedClient,
         clientName: client?.name || '',
         projectId: selectedProject,
@@ -311,7 +321,7 @@ export default function TimeTracker() {
       setActiveLog({ id: docRef.id, ...newLog, startTime: new Date() } as TimeLog);
     } catch (err) {
       console.error("Check-in error:", err);
-      setError("Failed to check-in. Please try again.");
+      setError(t('timeTracker.checkInError'));
     } finally {
       setIsProcessing(false);
     }
@@ -323,7 +333,7 @@ export default function TimeTracker() {
     // Safety check for maintenance
     const needsWeekly = isFriday;
     if (!isMaintenanceComplete.daily || (needsWeekly && !isMaintenanceComplete.weekly)) {
-      setError("Complete Maintenance to finish the day");
+      setError(t('timeTracker.dailyMaintenanceRequired'));
       return;
     }
 
@@ -345,7 +355,8 @@ export default function TimeTracker() {
       try {
         await updateDoc(logRef, {
           endTime: serverTimestamp(),
-          durationMinutes: durationMinutes
+          durationMinutes: durationMinutes,
+          message: checkoutMessage.trim()
         });
       } catch (err) {
         handleFirestoreError(err, 'update', `time_logs/${activeLog.id}`);
@@ -360,7 +371,7 @@ export default function TimeTracker() {
       
     } catch (err) {
       console.error("Check-out error:", err);
-      setError("Failed to check-out. Error saving report.");
+      setError(t('timeTracker.checkOutError'));
     } finally {
       setIsProcessing(false);
     }
@@ -378,7 +389,7 @@ export default function TimeTracker() {
 
   if (!isAuthorized) {
     return (
-      <div className="min-h-screen pt-40 pb-12 bg-[#0a0a0a] text-white flex items-center justify-center px-6">
+      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white flex items-center justify-center px-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -407,7 +418,7 @@ export default function TimeTracker() {
   }
 
   return (
-    <div className="min-h-screen pt-40 pb-12 bg-[#0a0a0a] text-white">
+    <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white">
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header Section */}
@@ -435,7 +446,7 @@ export default function TimeTracker() {
                     {t('timeTracker.weekStartedOn')}
                   </p>
                   <p className="text-[11px] font-bold text-white">
-                    Week {weeklyStatus.weekNumber} - {weeklyStatus.year}
+                    {t('timeTracker.weekLabel')} {weeklyStatus.weekNumber} - {weeklyStatus.year}
                   </p>
                 </div>
                 
@@ -517,7 +528,7 @@ export default function TimeTracker() {
                     <AlertCircle className="text-[#FFB800]" size={16} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Localização do Projeto</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">{t('timeTracker.projectLocation')}</p>
                     <p className="text-sm font-bold text-gray-300">
                       {projects.find(p => p.id === selectedProject)?.location}
                     </p>
@@ -650,27 +661,39 @@ export default function TimeTracker() {
                           <Wrench className="text-red-500" size={32} />
                         </div>
                         <div>
-                          <h3 className="text-xl font-black uppercase italic tracking-tighter text-white mb-2">Complete Maintenance to finish the day</h3>
+                          <h3 className="text-xl font-black uppercase italic tracking-tighter text-white mb-2">{t('timeTracker.dailyMaintenanceRequired')}</h3>
                           <p className="text-gray-500 text-sm max-w-sm mx-auto">
-                            Daily maintenance{isFriday ? ' and Weekly maintenance' : ''} is required before checking out.
+                            {t('timeTracker.dailyMaintenanceRequired')}
                           </p>
                         </div>
-                        <a 
-                          href="/maintenance"
+                        <Link 
+                          to="/maintenance"
                           className="inline-flex items-center gap-2 bg-white text-black px-8 py-3 rounded-xl font-black uppercase text-xs hover:bg-[#FFB800] transition-all"
                         >
-                          Go to Maintenance
+                          {t('chat.maintenance')}
                           <ChevronRight size={16} />
-                        </a>
+                        </Link>
                       </div>
                     ) : (
                       <div className="bg-green-500/10 border border-green-500/20 rounded-3xl p-6 flex items-center gap-4">
                         <CheckCircle2 size={24} className="text-green-500" />
-                        <p className="text-sm font-bold text-white uppercase tracking-tight">Maintenance Complete! You can now finish the day.</p>
+                        <p className="text-sm font-bold text-white uppercase tracking-tight">{t('timeTracker.checkoutComplete')}</p>
                       </div>
                     )}
 
-                    <div className="pt-8 border-t border-white/5">
+                    <div className="pt-8 border-t border-white/5 space-y-6">
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-[#FFB800] ml-2">
+                          {t('timeTracker.leaveMessage')}
+                        </label>
+                        <textarea
+                          value={checkoutMessage}
+                          onChange={(e) => setCheckoutMessage(e.target.value)}
+                          placeholder={t('timeTracker.messagePlaceholder')}
+                          className="w-full bg-black/40 border border-white/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-[#FFB800] transition-colors resize-none h-24"
+                        />
+                      </div>
+
                       <button 
                         onClick={handleCheckOut}
                         disabled={!canCheckOut || isProcessing}

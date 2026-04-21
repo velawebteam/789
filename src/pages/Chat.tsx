@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -12,9 +12,7 @@ import {
   User, 
   Loader2, 
   ArrowLeft, 
-  Wrench, 
   ShieldCheck,
-  ChevronRight,
   Camera,
   X
 } from 'lucide-react';
@@ -28,13 +26,10 @@ interface Message {
   image_url?: string;
 }
 
-type ChatType = 'support' | 'maintenance';
-
-export default function Dashboard() {
+export default function Chat() {
   const { user, loading: authLoading } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [selectedType, setSelectedType] = useState<ChatType>('support');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
@@ -54,7 +49,7 @@ export default function Dashboard() {
     if (!user) return;
 
     setLoading(true);
-    const collectionName = selectedType === 'support' ? 'support_chats' : 'maintenance_chats';
+    const collectionName = 'support_chats';
     
     const q = query(
       collection(db, collectionName),
@@ -76,7 +71,7 @@ export default function Dashboard() {
     });
 
     return () => unsubscribe();
-  }, [user, selectedType]);
+  }, [user]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -89,15 +84,34 @@ export default function Dashboard() {
     if (!user || (!message.trim() && !imageFile) || isSending) return;
 
     setIsSending(true);
-    const collectionName = selectedType === 'support' ? 'support_chats' : 'maintenance_chats';
+    const collectionName = 'support_chats';
 
     try {
       let imageUrl = null;
       
       if (imageFile) {
         const fileRef = ref(storage, `chats/${collectionName}/${user.uid}_${Date.now()}`);
-        const uploadResult = await uploadBytes(fileRef, imageFile);
-        imageUrl = await getDownloadURL(uploadResult.ref);
+        
+        console.log(`Starting Chat upload...`);
+        const uploadTask = uploadBytesResumable(fileRef, imageFile);
+
+        imageUrl = await new Promise<string>((resolve, reject) => {
+          uploadTask.on('state_changed',
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log(`Chat upload: ${progress.toFixed(2)}% done`);
+            },
+            (error) => {
+              console.error("Chat upload failed:", error);
+              reject(error);
+            },
+            async () => {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
+              console.log("Chat upload complete.");
+              resolve(url);
+            }
+          );
+        });
       }
 
       await addDoc(collection(db, collectionName), {
@@ -139,76 +153,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-8 bg-[#0a0a0a]">
+    <div className="min-h-screen md:pt-24 pt-8 pb-8 bg-[#0a0a0a]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 h-[calc(100vh-140px)]">
         <div className="bg-[#111315] border border-white/10 rounded-3xl h-full flex overflow-hidden shadow-2xl">
           
-          {/* Sidebar: Chat Selection */}
-          <div className="w-full md:w-80 lg:w-96 border-r border-white/10 flex flex-col hidden sm:flex">
-            <div className="p-6 border-b border-white/10 bg-white/[0.02]">
-              <h2 className="text-xl font-black text-white uppercase italic tracking-tighter mb-1">{t('chat.dashboardTitle') || 'User Lobby'}</h2>
-              <p className="text-xs text-gray-500 font-bold tracking-widest uppercase">Center Hub</p>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              <button
-                onClick={() => setSelectedType('support')}
-                className={`w-full p-4 rounded-2xl flex items-center gap-4 transition-all border ${
-                  selectedType === 'support' 
-                    ? 'bg-[#FFB800]/10 border-[#FFB800]/50 text-white' 
-                    : 'bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/[0.05] hover:border-white/10'
-                }`}
-              >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                  selectedType === 'support' ? 'bg-[#FFB800] text-black' : 'bg-white/5'
-                }`}>
-                  <ShieldCheck size={24} />
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-bold uppercase tracking-tight">{t('chat.support')}</p>
-                  <p className="text-[10px] opacity-60 font-medium">Customer Support Agent</p>
-                </div>
-                <ChevronRight size={16} className={selectedType === 'support' ? 'opacity-100' : 'opacity-20'} />
-              </button>
-
-              <button
-                onClick={() => setSelectedType('maintenance')}
-                className={`w-full p-4 rounded-2xl flex items-center gap-4 transition-all border ${
-                  selectedType === 'maintenance' 
-                    ? 'bg-[#FFB800]/10 border-[#FFB800]/50 text-white' 
-                    : 'bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/[0.05] hover:border-white/10'
-                }`}
-              >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                  selectedType === 'maintenance' ? 'bg-[#FFB800] text-black' : 'bg-white/5'
-                }`}>
-                  <Wrench size={24} />
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-bold uppercase tracking-tight">{t('chat.maintenance') || 'Maintenance'}</p>
-                  <p className="text-[10px] opacity-60 font-medium">Technical Assistance</p>
-                </div>
-                <ChevronRight size={16} className={selectedType === 'maintenance' ? 'opacity-100' : 'opacity-20'} />
-              </button>
-            </div>
-
-            <div className="p-6 border-t border-white/10 bg-white/[0.01]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center overflow-hidden border border-white/10">
-                  {user.photoURL ? (
-                    <img src={user.photoURL} alt="" referrerPolicy="no-referrer" />
-                  ) : (
-                    <User size={20} className="text-gray-500" />
-                  )}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-bold text-white truncate">{user.displayName || 'User'}</p>
-                  <p className="text-[10px] text-gray-500 truncate">{user.email}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Main Chat Area */}
           <div className="flex-1 flex flex-col bg-[#0a0a0a]/50">
             {/* Header */}
@@ -216,38 +164,22 @@ export default function Dashboard() {
               <div className="flex items-center gap-4">
                 <button 
                   onClick={() => navigate('/')}
-                  className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
+                  className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white hidden md:block"
                 >
                   <ArrowLeft size={20} />
                 </button>
                 <div className="w-10 h-10 rounded-xl bg-[#FFB800] flex items-center justify-center text-black">
-                  {selectedType === 'support' ? <ShieldCheck size={20} /> : <Wrench size={20} />}
+                  <ShieldCheck size={20} />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white uppercase tracking-tight">
-                    {selectedType === 'support' ? t('chat.support') : (t('chat.maintenance') || 'Maintenance Team')}
+                    {t('chat.support')}
                   </h4>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                     <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Active Support</span>
                   </div>
                 </div>
-              </div>
-
-              {/* Mobile Type Selector Dropdown or Toggle could go here if needed */}
-              <div className="sm:hidden flex gap-2">
-                 <button 
-                    onClick={() => setSelectedType('support')}
-                    className={`p-2 rounded-lg border ${selectedType === 'support' ? 'bg-[#FFB800] text-black border-[#FFB800]' : 'bg-white/5 text-gray-400 border-white/10'}`}
-                 >
-                    <ShieldCheck size={18} />
-                 </button>
-                 <button 
-                    onClick={() => setSelectedType('maintenance')}
-                    className={`p-2 rounded-lg border ${selectedType === 'maintenance' ? 'bg-[#FFB800] text-black border-[#FFB800]' : 'bg-white/5 text-gray-400 border-white/10'}`}
-                 >
-                    <Wrench size={18} />
-                 </button>
               </div>
             </div>
 
@@ -268,7 +200,7 @@ export default function Dashboard() {
                   </div>
                   <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-2">No messages yet</h3>
                   <p className="text-gray-500 text-sm max-w-xs mx-auto">
-                    Start the conversation by sending a message to our {selectedType === 'support' ? 'support' : 'maintenance'} team.
+                    Start the conversation by sending a message to our support team.
                   </p>
                 </div>
               ) : (
@@ -343,7 +275,7 @@ export default function Dashboard() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={t('chat.placeholder')}
-                    className="w-full bg-transparent p-4 text-sm text-white focus:outline-none resize-none max-h-40"
+                    className="w-full bg-transparent md:p-4 p-3 text-xs md:text-sm text-white focus:outline-none resize-none max-h-40"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();

@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /maintenance/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /chats/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == "vela.web.team@gmail.com" || 
+        request.auth.token.email == "realbuilder.backend@gmail.com"
+      );
+    }
+  }
+}

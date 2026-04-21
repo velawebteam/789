@@ -10,12 +10,14 @@ import {
   orderBy,
   limit
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { handleFirestoreError } from '../lib/firestore-errors';
 import { getWeekNumber } from '../lib/date-utils';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { 
   Wrench, 
   Camera, 
@@ -47,12 +49,14 @@ const WEEKLY_TASKS: MaintenanceTask[] = [
 ];
 
 export default function Maintenance() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly'>('daily');
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [isWeekOpen, setIsWeekOpen] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [activeProjectName, setActiveProjectName] = useState<string | null>(null);
+  const [activeLogDate, setActiveLogDate] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -64,41 +68,53 @@ export default function Maintenance() {
   const isFriday = new Date().getDay() === 5;
 
   useEffect(() => {
-    if (!user) return;
+    if (authLoading) return;
 
-    // Check if user is clocked in today
-    const today = new Date().toISOString().split('T')[0];
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    // Check if user is clocked in
     const q = query(
       collection(db, 'time_logs'),
       where('userId', '==', user.uid),
-      where('date', '==', today),
       orderBy('startTime', 'desc'),
       limit(1)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       if (!snapshot.empty) {
-        const log = snapshot.docs[0].data();
+        const log = snapshot.docs[0].data() as any;
         if (!log.endTime) {
           setIsClockedIn(true);
           setActiveProjectId(log.projectId);
           setActiveProjectName(log.projectName);
+          setActiveLogDate(log.date);
         } else {
           setIsClockedIn(false);
+          setActiveProjectId(null);
+          setActiveProjectName(null);
+          setActiveLogDate(null);
         }
       } else {
         setIsClockedIn(false);
+        setActiveProjectId(null);
+        setActiveProjectName(null);
+        setActiveLogDate(null);
       }
       setLoading(false);
     }, (err) => {
       handleFirestoreError(err, 'list', 'time_logs');
+      setLoading(false);
     });
 
-    // Check maintenance status for today
+    // Check maintenance status for the active session date (or today)
+    const targetDate = activeLogDate || new Date().toISOString().split('T')[0];
     const mq = query(
       collection(db, 'maintenance_logs'),
       where('userId', '==', user.uid),
-      where('date', '==', today)
+      where('date', '==', targetDate)
     );
 
     const unsubscribeMaintenance = onSnapshot(mq, (snapshot) => {
@@ -137,7 +153,7 @@ export default function Maintenance() {
       unsubscribeMaintenance();
       unsubscribeWeek();
     };
-  }, [user]);
+  }, [user, authLoading, activeLogDate]);
 
   const handleFileChange = (type: 'daily' | 'weekly', taskId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -162,25 +178,61 @@ export default function Maintenance() {
     
     // Validate all images
     if (tasks.some(t => !images[t.id]?.file)) {
-      alert('Please upload all required images.');
+      alert(t('maintenance.uploadRequired'));
       return;
     }
 
     setIsSubmitting(true);
-    const today = new Date().toISOString().split('T')[0];
+    const targetDate = activeLogDate || new Date().toISOString().split('T')[0];
 
     try {
       const imageUrls: Record<string, string> = {};
       
-      for (const task of tasks) {
+      const uploadPromises = tasks.map(async (task) => {
         const item = images[task.id];
-        if (item.file) {
-          const fileRef = ref(storage, `maintenance/${user.uid}/${today}/${type}/${task.id}_${Date.now()}`);
-          const uploadResult = await uploadBytes(fileRef, item.file);
-          const url = await getDownloadURL(uploadResult.ref);
-          imageUrls[task.id] = url;
-        }
-      }
+        if (!item.file) return;
+
+        const fileExtension = item.file.name.split('.').pop();
+        const fileName = `${task.id}_${Date.now()}.${fileExtension}`;
+        const fileRef = ref(storage, `maintenance/${user.uid}/${targetDate}/${type}/${fileName}`);
+        
+        console.log(`Starting upload for task: ${task.id} (${fileName})`);
+        
+        // Add metadata to ensure correct content type and ownership info
+        const metadata = {
+          contentType: item.file.type,
+          customMetadata: {
+            userId: user.uid,
+            userName: user.displayName || 'Worker',
+            projectId: activeProjectId || 'none',
+            date: targetDate,
+            task: task.id
+          }
+        };
+
+        const uploadTask = uploadBytesResumable(fileRef, item.file, metadata);
+
+        return new Promise<void>((resolve, reject) => {
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log(`[STORAGE] Uploading ${task.id}: ${progress.toFixed(2)}% - State: ${snapshot.state}`);
+            }, 
+            (error) => {
+              console.error(`[STORAGE ERROR] Upload failed for ${task.id}:`, error.code, error.message);
+              reject(error);
+            }, 
+            async () => {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
+              imageUrls[task.id] = url;
+              console.log(`[STORAGE SUCCESS] Upload complete for ${task.id}. URL retrieved.`);
+              resolve();
+            }
+          );
+        });
+      });
+
+      await Promise.all(uploadPromises);
 
       try {
         await addDoc(collection(db, 'maintenance_logs'), {
@@ -189,7 +241,7 @@ export default function Maintenance() {
           userName: user.displayName || 'Worker',
           projectId: activeProjectId,
           projectName: activeProjectName,
-          date: today,
+          date: targetDate,
           type: type,
           images: imageUrls,
           completedAt: serverTimestamp()
@@ -204,7 +256,7 @@ export default function Maintenance() {
 
     } catch (error) {
       console.error(`Error submitting ${type} maintenance:`, error);
-      alert('Failed to submit maintenance. Please try again.');
+      alert(t('maintenance.uploadError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -220,21 +272,21 @@ export default function Maintenance() {
 
   if (activeTab === 'daily' && !isClockedIn && !completedToday.daily) {
     return (
-      <div className="min-h-screen pt-40 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] p-10 text-center shadow-2xl">
+      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] md:p-10 p-6 text-center shadow-2xl">
           <div className="w-20 h-20 bg-[#FFB800]/10 rounded-full flex items-center justify-center mx-auto mb-8">
             <Clock className="text-[#FFB800]" size={40} />
           </div>
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">Clock in first</h2>
+          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">{t('maintenance.clockInFirst')}</h2>
           <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-            You must be clocked into a project to unlock today's maintenance checklist.
+            {t('maintenance.clockInFirstDesc')}
           </p>
-          <a 
-            href="/clock-in"
-            className="block w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all shadow-[0_0_20px_rgba(255,184,0,0.2)]"
+          <Link 
+            to="/clock-in"
+            className="block w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all shadow-[0_0_20px_rgba(255,184,0,0.2)] text-sm md:text-base px-2"
           >
-            Go to Clock In
-          </a>
+            {t('maintenance.goToClockIn')}
+          </Link>
         </div>
       </div>
     );
@@ -242,32 +294,46 @@ export default function Maintenance() {
 
   if (activeTab === 'weekly' && !isWeekOpen && !completedToday.weekly) {
     return (
-      <div className="min-h-screen pt-40 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] p-10 text-center shadow-2xl">
+      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] md:p-10 p-6 text-center shadow-2xl">
           <div className="w-20 h-20 bg-[#FFB800]/10 rounded-full flex items-center justify-center mx-auto mb-8">
             <Calendar className="text-[#FFB800]" size={40} />
           </div>
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">Week not started</h2>
+          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">{t('maintenance.weekNotStarted')}</h2>
           <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-            You must start the work week in the Clock-In page to unlock the weekly maintenance checklist.
+            {t('maintenance.weekNotStartedDesc')}
           </p>
-          <a 
-            href="/clock-in"
-            className="block w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all shadow-[0_0_20px_rgba(255,184,0,0.2)]"
+          <Link 
+            to="/clock-in"
+            className="block w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all shadow-[0_0_20px_rgba(255,184,0,0.2)] text-sm md:text-base px-2"
           >
-            Go to Clock In
-          </a>
+            {t('maintenance.goToClockIn')}
+          </Link>
         </div>
       </div>
     );
   }
+
+  const DAILY_TASKS: MaintenanceTask[] = [
+    { id: 'vec_inside', label: t('maintenance.tasks.vec_inside') },
+    { id: 'tools_air', label: t('maintenance.tasks.tools_air') },
+    { id: 'batteries', label: t('maintenance.tasks.batteries') },
+    { id: 'buckets_towels', label: t('maintenance.tasks.buckets_towels') }
+  ];
+
+  const WEEKLY_TASKS: MaintenanceTask[] = [
+    { id: 'wear_materials', label: t('maintenance.tasks.wear_materials') },
+    { id: 'boxes_clean', label: t('maintenance.tasks.boxes_clean') },
+    { id: 'drill_lubricated', label: t('maintenance.tasks.drill_lubricated') },
+    { id: 'sander_lubricated', label: t('maintenance.tasks.sander_lubricated') }
+  ];
 
   const tasks = activeTab === 'daily' ? DAILY_TASKS : WEEKLY_TASKS;
   const currentImages = activeTab === 'daily' ? dailyImages : weeklyImages;
   const isTabCompleted = activeTab === 'daily' ? completedToday.daily : completedToday.weekly;
 
   return (
-    <div className="min-h-screen pt-40 pb-20 bg-[#0a0a0a] text-white">
+    <div className="min-h-screen md:pt-40 pt-10 pb-20 bg-[#0a0a0a] text-white">
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header */}
@@ -277,10 +343,10 @@ export default function Maintenance() {
               <div className="p-2 bg-[#FFB800]/10 rounded-lg">
                 <Wrench className="text-[#FFB800]" size={24} />
               </div>
-              <h1 className="text-3xl font-black italic uppercase tracking-tighter">Maintenance</h1>
+              <h1 className="text-3xl font-black italic uppercase tracking-tighter">{t('maintenance.title')}</h1>
             </div>
             <p className="text-gray-500 font-mono text-[10px] uppercase tracking-widest">
-              {activeProjectName ? `Active on: ${activeProjectName}` : 'Viewing Status'}
+              {activeProjectName ? t('maintenance.activeProject', { project: activeProjectName }) : t('maintenance.viewingStatus')}
             </p>
           </div>
 
@@ -289,13 +355,13 @@ export default function Maintenance() {
               onClick={() => setActiveTab('daily')}
               className={`flex-1 md:w-32 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'daily' ? 'bg-[#FFB800] text-black' : 'text-gray-500 hover:text-white'}`}
             >
-              Daily
+              {t('maintenance.daily')}
             </button>
             <button
               onClick={() => setActiveTab('weekly')}
               className={`flex-1 md:w-32 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'weekly' ? (isFriday ? 'bg-[#FFB800] text-black' : 'bg-white/10 text-white') : 'text-gray-500 hover:text-white'} flex items-center justify-center gap-2`}
             >
-              Weekly
+              {t('maintenance.weekly')}
               {isFriday && <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />}
             </button>
           </div>
@@ -311,11 +377,18 @@ export default function Maintenance() {
               <CheckCircle2 className="text-green-500" size={48} />
             </div>
             <h2 className="text-3xl font-black uppercase italic tracking-tighter mb-4 text-green-500">
-              {activeTab === 'daily' ? 'Daily' : 'Weekly'} Maintenance Done
+              {t('maintenance.checklistCompleted', { type: activeTab === 'daily' ? t('maintenance.daily') : t('maintenance.weekly') })}
             </h2>
-            <p className="text-gray-400 text-sm max-w-sm mx-auto leading-relaxed">
-              Today's checklist has been submitted and verified. You're all set for this task!
+            <p className="text-gray-400 text-sm max-w-sm mx-auto leading-relaxed mb-10">
+              {t('maintenance.checklistCompletedDesc')}
             </p>
+            <Link
+              to="/clock-in"
+              className="inline-flex items-center gap-3 bg-white text-black px-10 py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-[#FFB800] transition-all transform active:scale-95 shadow-xl"
+            >
+              {t('maintenance.goToClockIn')}
+              <ChevronRight size={20} />
+            </Link>
           </motion.div>
         ) : (
           <div className="space-y-8">
@@ -346,7 +419,7 @@ export default function Maintenance() {
                         <div className="w-full h-full rounded-2xl overflow-hidden border border-[#FFB800]/20">
                           <img src={currentImages[task.id].preview!} alt="Task Preview" className="w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-[#FFB800] text-black px-3 py-1 rounded-full">Change Photo</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-[#FFB800] text-black px-3 py-1 rounded-full">{t('maintenance.changePhoto')}</span>
                           </div>
                         </div>
                       ) : (
@@ -354,7 +427,9 @@ export default function Maintenance() {
                           <div className="p-3 bg-white/5 rounded-full group-hover:bg-[#FFB800]/20 transition-colors">
                             <Camera className="text-gray-400 group-hover:text-[#FFB800]" size={24} />
                           </div>
-                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">{task.id.includes('drill') || task.id.includes('sander') ? 'Take photo' : 'Upload photo'}</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+                            {task.id.includes('drill') || task.id.includes('sander') ? t('maintenance.takePhoto') : t('maintenance.photoRequired')}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -373,14 +448,14 @@ export default function Maintenance() {
                   <Loader2 className="animate-spin" size={24} />
                 ) : (
                   <>
-                    Submit {activeTab === 'daily' ? 'Daily' : 'Weekly'} Report
+                    {t('maintenance.submitReport', { type: activeTab === 'daily' ? t('maintenance.daily') : t('maintenance.weekly') })}
                     <ChevronRight size={24} />
                   </>
                 )}
               </button>
               
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
-                All photos are required for submission
+                {t('maintenance.allPhotosRequired')}
               </p>
             </div>
           </div>
@@ -397,8 +472,8 @@ export default function Maintenance() {
               <AlertCircle size={20} className="text-red-500" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white mb-1 uppercase tracking-tight">Friday Requirement</p>
-              <p className="text-xs text-gray-400">Weekly maintenance is also required today before you can clock out.</p>
+              <p className="text-xs font-bold text-white mb-1 uppercase tracking-tight">{t('maintenance.fridayRequirement')}</p>
+              <p className="text-xs text-gray-400">{t('maintenance.fridayRequirementDesc')}</p>
             </div>
           </motion.div>
         )}

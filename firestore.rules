@@ -38,11 +38,15 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    function isVerified() {
+      return isAuthenticated() && (request.auth.token.email_verified == true || request.auth.token.firebase.sign_in_provider == 'google.com');
+    }
+
     function isAdmin() {
-      return isAuthenticated() && 
+      return isVerified() && 
         (
           (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-          ((request.auth.token.email == "vela.web.team@gmail.com" || request.auth.token.email == "realbuilder.backend@gmail.com") && request.auth.token.email_verified == true)
+          (request.auth.token.email in ["vela.web.team@gmail.com", "realbuilder.backend@gmail.com"])
         );
     }
 
@@ -57,39 +61,38 @@ service cloud.firestore {
     match /users/{userId} {
       function isValidUser(data) {
         return data.keys().hasAll(['uid', 'email', 'role']) &&
-               data.uid == userId &&
-               isValidEmail(data.email) &&
-               data.role in ['admin', 'user'] &&
-               data.email.size() < 100;
+               data.uid == request.auth.uid &&
+               data.email == request.auth.token.email &&
+               data.role in ['admin', 'user'];
       }
 
       allow read: if isOwner(userId) || isAdmin();
       
       allow create: if isOwner(userId) && 
                       isValidUser(request.resource.data) && 
-                      request.resource.data.role == 'user'; // Users can't make themselves admins
+                      request.resource.data.role == 'user';
       
       allow update: if (isOwner(userId) && 
                         isValidUser(request.resource.data) && 
-                        request.resource.data.role == resource.data.role) || // Can't change own role
+                        request.resource.data.role == resource.data.role &&
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName', 'photoURL'])) ||
                       isAdmin();
     }
 
     match /enrolments/{enrolmentId} {
       function isValidEnrolment(data) {
         return data.keys().hasAll(['userId', 'status']) &&
-               (isAuthenticated() ? data.userId == request.auth.uid : data.userId == 'anonymous') &&
-               data.status in ['pending', 'approved', 'rejected'] &&
-               (!('courseId' in data) || (data.courseId is string && data.courseId.size() < 50));
+               data.userId == request.auth.uid &&
+               data.status in ['pending', 'approved', 'rejected'];
       }
 
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       
-      allow create: if isValidEnrolment(request.resource.data) && 
+      allow create: if isVerified() && isValidEnrolment(request.resource.data) && 
                       request.resource.data.status == 'pending';
       
-      allow update: if isAdmin(); // Only admins can approve/reject
-      
+      allow update: if isAdmin();
       allow delete: if isAdmin();
     }
 
@@ -132,12 +135,14 @@ service cloud.firestore {
     }
 
     match /clients/{clientId} {
-      allow read: if isAuthenticated();
+      allow list: if isAuthenticated();
+      allow get: if isAuthenticated();
       allow write: if isAdmin();
     }
 
     match /projects/{projectId} {
-      allow read: if isAuthenticated();
+      allow list: if isAuthenticated();
+      allow get: if isAuthenticated();
       allow write: if isAdmin();
     }
 
@@ -148,13 +153,13 @@ service cloud.firestore {
                data.clientId is string &&
                data.projectId is string &&
                data.date is string &&
-               data.startTime is timestamp;
+               data.startTime == request.time;
       }
 
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isAuthenticated() && isValidTimeLog(request.resource.data);
       allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && (
-        // Allow updating endTime and durationMinutes
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['endTime', 'durationMinutes', 'reportText', 'reportImages'])
       );
       allow delete: if isAdmin();
@@ -168,10 +173,11 @@ service cloud.firestore {
                data.date is string &&
                data.type in ['daily', 'weekly'] &&
                data.images is map &&
-               data.completedAt is timestamp;
+               data.completedAt == request.time;
       }
 
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isAuthenticated() && isValidMaintenanceLog(request.resource.data);
       allow delete: if isAdmin();
     }
@@ -183,10 +189,11 @@ service cloud.firestore {
                data.weekNumber is int &&
                data.year is int &&
                data.status in ['open', 'closed'] &&
-               data.startedAt is timestamp;
+               data.startedAt == request.time;
       }
 
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isAuthenticated() && isValidWeeklyStatus(request.resource.data);
       allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && (
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'closedAt'])
