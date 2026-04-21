@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { ALLOWED_EMAILS, ADMIN_EMAILS } from '../constants/auth';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,8 +13,8 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { user, login, logout, loading } = useAuth();
-  const allowedEmails = ['vela.web.team@gmail.com', 'realbuilder.backend@gmail.com'];
-  const isAuthorized = user && allowedEmails.includes(user.email || '');
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
+  const isAdmin = user && ADMIN_EMAILS.includes(user.email || '');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -137,7 +138,7 @@ export default function Navbar() {
                         <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{t('navbar.loggedInAs')}</p>
                         <p className="text-xs font-bold text-white truncate">{user.displayName || user.email}</p>
                       </div>
-                      {isAuthorized && (
+                      {isAdmin && (
                         <Link
                           to="/admin"
                           onClick={() => setIsUserMenuOpen(false)}
@@ -294,7 +295,7 @@ export default function Navbar() {
                         <p className="text-xs font-bold text-white">{user.displayName || user.email}</p>
                       </div>
                     </div>
-                    {isAuthorized && (
+                    {isAdmin && (
                       <Link 
                         to="/admin"
                         onClick={() => setIsMobileMenuOpen(false)}

@@ -12,6 +12,8 @@ import {
   Building2, HardHat, Plus, Trash2, Power, PowerOff, Camera, X, CheckCircle2
 } from 'lucide-react';
 
+import { ALLOWED_EMAILS, ADMIN_EMAILS } from '../constants/auth';
+
 interface Client {
   id: string;
   name: string;
@@ -181,18 +183,16 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const adminEmails = ['vela.web.team@gmail.com', 'realbuilder.backend@gmail.com'];
-
   useEffect(() => {
     if (!authLoading) {
-      if (!user || !adminEmails.includes(user.email || '')) {
+      if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
         navigate('/');
       }
     }
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    if (!user || !adminEmails.includes(user.email || '')) return;
+    if (!user || !ADMIN_EMAILS.includes(user.email || '')) return;
 
     if (selectedTab !== 'support') {
       setLoading(false);
@@ -254,7 +254,7 @@ export default function Admin() {
 
   // Real-time clients and projects listener
   useEffect(() => {
-    if (!user || !adminEmails.includes(user.email || '')) return;
+    if (!user || !ADMIN_EMAILS.includes(user.email || '')) return;
 
     const unsubscribeClients = onSnapshot(collection(db, 'clients'), (snapshot) => {
       setClients(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Client)));
@@ -486,7 +486,7 @@ export default function Admin() {
     chat.user_id.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (authLoading || (!user || !adminEmails.includes(user.email || ''))) {
+  if (authLoading || (!user || !ADMIN_EMAILS.includes(user.email || ''))) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <Loader2 className="animate-spin text-[#FFB800]" size={48} />
