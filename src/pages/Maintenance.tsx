@@ -57,47 +57,6 @@ export default function Maintenance() {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly'>('daily');
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthorized) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-            <Lock className="text-red-500" size={40} />
-          </div>
-          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h1>
-          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
-            {t('common.unauthorizedDesc')}
-          </p>
-          <div className="flex flex-col gap-3">
-            {!user && (
-              <button 
-                onClick={login}
-                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
-              >
-                <LogIn size={16} />
-                <span>{t('navbar.login')}</span>
-              </button>
-            )}
-            <button 
-              onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
-            >
-              {t('common.backToHome')}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [isWeekOpen, setIsWeekOpen] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
@@ -114,7 +73,7 @@ export default function Maintenance() {
   const isFriday = new Date().getDay() === 5;
 
   useEffect(() => {
-    if (authLoading) return;
+    if (authLoading || !isAuthorized) return;
 
     if (!user) {
       setLoading(false);
@@ -139,7 +98,6 @@ export default function Maintenance() {
           setActiveLogDate(log.date);
         } else {
           setIsClockedIn(false);
-          // Keep last project context for report submission if needed
           setActiveProjectId(log.projectId);
           setActiveProjectName(log.projectName);
           setActiveLogDate(log.date);
@@ -156,7 +114,6 @@ export default function Maintenance() {
       setLoading(false);
     });
 
-    // Check maintenance status for the active session date (or today)
     const targetDate = activeLogDate || new Date().toISOString().split('T')[0];
     const mq = query(
       collection(db, 'maintenance_logs'),
@@ -172,11 +129,8 @@ export default function Maintenance() {
         if (data.type === 'weekly') stats.weekly = true;
       });
       setCompletedToday(stats);
-    }, (err) => {
-      handleFirestoreError(err, 'list', 'maintenance_logs');
     });
 
-    // Check if week is open
     const { week, year } = getWeekNumber(new Date());
     const wq = query(
       collection(db, 'weekly_status'),
@@ -191,8 +145,6 @@ export default function Maintenance() {
       } else {
         setIsWeekOpen(false);
       }
-    }, (err) => {
-      handleFirestoreError(err, 'list', 'weekly_status');
     });
 
     return () => {
@@ -200,7 +152,7 @@ export default function Maintenance() {
       unsubscribeMaintenance();
       unsubscribeWeek();
     };
-  }, [user, authLoading, activeLogDate]);
+  }, [user, authLoading, isAuthorized, activeLogDate]);
 
   const handleFileChange = (type: 'daily' | 'weekly', taskId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -218,7 +170,7 @@ export default function Maintenance() {
   };
 
   const handleSubmit = async (type: 'daily' | 'weekly') => {
-    if (!user || isSubmitting) return;
+    if (!user || isSubmitting || !isAuthorized) return;
     
     if (!activeProjectId) {
       alert(t('maintenance.clockInFirst'));
@@ -228,7 +180,6 @@ export default function Maintenance() {
     const tasks = type === 'daily' ? MAINTENANCE_DAILY_TASKS : MAINTENANCE_WEEKLY_TASKS;
     const images = type === 'daily' ? dailyImages : weeklyImages;
     
-    // Validate all images
     if (tasks.some(t => !images[t.id]?.file)) {
       alert(t('maintenance.uploadRequired'));
       return;
@@ -239,7 +190,6 @@ export default function Maintenance() {
 
     try {
       const imageUrls: Record<string, string> = {};
-      
       const uploadPromises = tasks.map(async (task) => {
         const item = images[task.id];
         if (!item.file) return;
@@ -248,9 +198,6 @@ export default function Maintenance() {
         const fileName = `${task.id}_${Date.now()}.${fileExtension}`;
         const fileRef = ref(storage, `maintenance/${user.uid}/${targetDate}/${type}/${fileName}`);
         
-        console.log(`Starting upload for task: ${task.id} (${fileName})`);
-        
-        // Add metadata to ensure correct content type and ownership info
         const metadata = {
           contentType: item.file.type,
           customMetadata: {
@@ -265,44 +212,28 @@ export default function Maintenance() {
         const uploadTask = uploadBytesResumable(fileRef, item.file, metadata);
 
         return new Promise<void>((resolve, reject) => {
-          uploadTask.on('state_changed', 
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`[STORAGE] Uploading ${task.id}: ${progress.toFixed(2)}% - State: ${snapshot.state}`);
-            }, 
-            (error) => {
-              console.error(`[STORAGE ERROR] Upload failed for ${task.id}:`, error.code, error.message);
-              reject(error);
-            }, 
-            async () => {
-              const url = await getDownloadURL(uploadTask.snapshot.ref);
-              imageUrls[task.id] = url;
-              console.log(`[STORAGE SUCCESS] Upload complete for ${task.id}. URL retrieved.`);
-              resolve();
-            }
-          );
+          uploadTask.on('state_changed', null, (err) => reject(err), async () => {
+            const url = await getDownloadURL(uploadTask.snapshot.ref);
+            imageUrls[task.id] = url;
+            resolve();
+          });
         });
       });
 
       await Promise.all(uploadPromises);
 
-      try {
-        await addDoc(collection(db, 'maintenance_logs'), {
-          userId: user.uid,
-          userEmail: user.email,
-          userName: user.displayName || 'Worker',
-          projectId: activeProjectId,
-          projectName: activeProjectName,
-          date: targetDate,
-          type: type,
-          images: imageUrls,
-          completedAt: serverTimestamp()
-        });
-      } catch (err) {
-        handleFirestoreError(err, 'create', 'maintenance_logs');
-      }
+      await addDoc(collection(db, 'maintenance_logs'), {
+        userId: user.uid,
+        userEmail: user.email,
+        userName: user.displayName || 'Worker',
+        projectId: activeProjectId,
+        projectName: activeProjectName,
+        date: targetDate,
+        type: type,
+        images: imageUrls,
+        completedAt: serverTimestamp()
+      });
 
-      // Reset form for this tab
       if (type === 'daily') setDailyImages({});
       else setWeeklyImages({});
 
@@ -313,6 +244,47 @@ export default function Maintenance() {
       setIsSubmitting(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <Loader2 className="animate-spin text-[#FFB800]" size={48} />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+            <Lock className="text-red-500" size={40} />
+          </div>
+          <h2 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h2>
+          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
+            {t('common.unauthorizedDesc')}
+          </p>
+          <div className="flex flex-col gap-3">
+            {!user && (
+              <button 
+                onClick={login}
+                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+              >
+                <LogIn size={16} />
+                <span>{t('navbar.login')}</span>
+              </button>
+            )}
+            <Link 
+              to="/"
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs text-center"
+            >
+              {t('common.backToHome')}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

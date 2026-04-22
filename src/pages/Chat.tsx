@@ -35,47 +35,6 @@ export default function Chat() {
   const navigate = useNavigate();
 
   const [message, setMessage] = useState('');
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthorized) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-            <Lock className="text-red-500" size={40} />
-          </div>
-          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h1>
-          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
-            {t('common.unauthorizedDesc')}
-          </p>
-          <div className="flex flex-col gap-3">
-            {!user && (
-              <button 
-                onClick={login}
-                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
-              >
-                <LogIn size={16} />
-                <span>{t('navbar.login')}</span>
-              </button>
-            )}
-            <button 
-              onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
-            >
-              {t('common.backToHome')}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -85,11 +44,7 @@ export default function Chat() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Removed redirect logic to allow showing restricted view
-  }, []);
-
-  useEffect(() => {
-    if (!user) return;
+    if (!user || !isAuthorized) return;
 
     setLoading(true);
     const collectionName = 'support_chats';
@@ -114,7 +69,7 @@ export default function Chat() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, isAuthorized]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -124,7 +79,7 @@ export default function Chat() {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || (!message.trim() && !imageFile) || isSending) return;
+    if (!user || (!message.trim() && !imageFile) || isSending || !isAuthorized) return;
 
     setIsSending(true);
     const collectionName = 'support_chats';
@@ -134,23 +89,14 @@ export default function Chat() {
       
       if (imageFile) {
         const fileRef = ref(storage, `chats/${collectionName}/${user.uid}_${Date.now()}`);
-        
-        console.log(`Starting Chat upload...`);
         const uploadTask = uploadBytesResumable(fileRef, imageFile);
 
         imageUrl = await new Promise<string>((resolve, reject) => {
           uploadTask.on('state_changed',
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`Chat upload: ${progress.toFixed(2)}% done`);
-            },
-            (error) => {
-              console.error("Chat upload failed:", error);
-              reject(error);
-            },
+            null,
+            (error) => reject(error),
             async () => {
               const url = await getDownloadURL(uploadTask.snapshot.ref);
-              console.log("Chat upload complete.");
               resolve(url);
             }
           );

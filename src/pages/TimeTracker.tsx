@@ -89,47 +89,6 @@ export default function TimeTracker() {
   const { language, t } = useLanguage();
   const navigate = useNavigate();
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthorized) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-            <Lock className="text-red-500" size={40} />
-          </div>
-          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h1>
-          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
-            {t('common.unauthorizedDesc')}
-          </p>
-          <div className="flex flex-col gap-3">
-            {!user && (
-              <button 
-                onClick={login}
-                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
-              >
-                <LogIn size={16} />
-                <span>{t('navbar.login')}</span>
-              </button>
-            )}
-            <button 
-              onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
-            >
-              {t('common.backToHome')}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const [clients, setClients] = useState<Client[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedClient, setSelectedClient] = useState<string>('');
@@ -145,7 +104,7 @@ export default function TimeTracker() {
   const isFriday = new Date().getDay() === 5;
 
   useEffect(() => {
-    if (authLoading) return;
+    if (authLoading || !isAuthorized) return;
 
     if (!user) {
       setLoading(false);
@@ -210,7 +169,6 @@ export default function TimeTracker() {
       setProjects(sortedProjects);
 
       if (!isAdmin) {
-        // Identify clients for these projects that the user might not own
         const collabClientIds = projectsData
           .filter(p => !p.ownerEmail || p.ownerEmail !== user.email)
           .map(p => p.clientId);
@@ -236,17 +194,13 @@ export default function TimeTracker() {
       unsubscribe();
       unsubscribeProjects();
     };
-  }, [user, authLoading, isAdmin]);
+  }, [user, authLoading, isAdmin, isAuthorized]);
 
-  // Remove the old projects fetch effect that was tied to selectedClient
-  // as we now pre-fetch projects to determine the client list.
-  // We should still filter the visible projects based on selectedClient.
   const visibleProjects = projects.filter(p => !selectedClient || p.clientId === selectedClient);
 
   useEffect(() => {
-    if (authLoading || !user) return;
+    if (authLoading || !user || !isAuthorized) return;
 
-    // Check for ANY active session for this user
     const q = query(
       collection(db, 'time_logs'),
       where('userId', '==', user.uid),
@@ -259,7 +213,6 @@ export default function TimeTracker() {
         const log = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as TimeLog;
         if (!log.endTime) {
           setActiveLog(log);
-          // Auto-select if nothing selected
           if (!selectedProject) {
             setSelectedClient(log.clientId);
             setSelectedProject(log.projectId);
@@ -277,14 +230,12 @@ export default function TimeTracker() {
     });
 
     return () => unsubscribe();
-  }, [user, authLoading]);
+  }, [user, authLoading, isAuthorized]);
 
   useEffect(() => {
-    if (authLoading || !user) return;
+    if (authLoading || !user || !isAuthorized) return;
 
-    // We check for maintenance logs for the active session date OR today
     const targetDate = activeLog?.date || new Date().toISOString().split('T')[0];
-    
     const mq = query(
       collection(db, 'maintenance_logs'),
       where('userId', '==', user.uid),
@@ -299,15 +250,13 @@ export default function TimeTracker() {
         if (data.type === 'weekly') stats.weekly = true;
       });
       setIsMaintenanceComplete(stats);
-    }, (err) => {
-      handleFirestoreError(err, 'list', 'maintenance_logs');
     });
 
     return () => unsubscribe();
-  }, [user, authLoading, activeLog?.date]);
+  }, [user, authLoading, isAuthorized, activeLog?.date]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isAuthorized) return;
 
     const { week, year } = getWeekNumber(new Date());
     const wq = query(
@@ -323,15 +272,13 @@ export default function TimeTracker() {
       } else {
         setWeeklyStatus(null);
       }
-    }, (err) => {
-      handleFirestoreError(err, 'list', 'weekly_status');
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, isAuthorized]);
 
   const handleStartWeek = async () => {
-    if (!user || isProcessing) return;
+    if (!user || isProcessing || !isAuthorized) return;
     setIsProcessing(true);
     setError(null);
     const { week, year } = getWeekNumber(new Date());
@@ -342,7 +289,6 @@ export default function TimeTracker() {
         await updateDoc(docRef, {
           status: 'open',
           startedAt: serverTimestamp(),
-          // Remove closedAt when re-opening
         });
       } else {
         await addDoc(collection(db, 'weekly_status'), {
@@ -361,7 +307,7 @@ export default function TimeTracker() {
   };
 
   const handleCloseWeek = async () => {
-    if (!user || !weeklyStatus || isProcessing) return;
+    if (!user || !weeklyStatus || isProcessing || !isAuthorized) return;
     
     if (!isMaintenanceComplete.weekly) {
       setError(t('timeTracker.weeklyMaintenanceRequired'));
@@ -384,10 +330,8 @@ export default function TimeTracker() {
     }
   };
 
-// Active log is managed by real-time listener above
-
   const handleCheckIn = async () => {
-    if (!user || !selectedClient || !selectedProject || isProcessing) return;
+    if (!user || !selectedClient || !selectedProject || isProcessing || !isAuthorized) return;
     
     setIsProcessing(true);
     setError(null);
@@ -409,14 +353,7 @@ export default function TimeTracker() {
         startTime: serverTimestamp(),
       };
       
-      let docRef;
-      try {
-        docRef = await addDoc(collection(db, 'time_logs'), newLog);
-      } catch (err) {
-        handleFirestoreError(err, 'create', 'time_logs');
-        return; // handleFirestoreError throws anyway, but for TS
-      }
-      
+      const docRef = await addDoc(collection(db, 'time_logs'), newLog);
       setActiveLog({ id: docRef.id, ...newLog, startTime: new Date() } as TimeLog);
     } catch (err) {
       console.error("Check-in error:", err);
@@ -427,11 +364,9 @@ export default function TimeTracker() {
   };
 
   const handleCheckOut = async () => {
-    if (!activeLog || !user || isProcessing) return;
+    if (!activeLog || !user || isProcessing || !isAuthorized) return;
     
-    // Safety check for maintenance
-    const needsWeekly = isFriday;
-    if (!isMaintenanceComplete.daily || (needsWeekly && !isMaintenanceComplete.weekly)) {
+    if (!isMaintenanceComplete.daily || (isFriday && !isMaintenanceComplete.weekly)) {
       setError(t('timeTracker.dailyMaintenanceRequired'));
       return;
     }
@@ -440,28 +375,20 @@ export default function TimeTracker() {
     setError(null);
     
     try {
-      // 1. Update doc
       const logRef = doc(db, 'time_logs', activeLog.id);
       const now = new Date();
-      
-      // Calculate duration in minutes
       let durationMinutes = 0;
       const start = activeLog.startTime?.toDate ? activeLog.startTime.toDate() : (activeLog.startTime instanceof Date ? activeLog.startTime : null);
       if (start) {
         durationMinutes = Math.round((now.getTime() - start.getTime()) / (1000 * 60));
       }
 
-      try {
-        await updateDoc(logRef, {
-          endTime: serverTimestamp(),
-          durationMinutes: durationMinutes,
-          message: checkoutMessage.trim()
-        });
-      } catch (err) {
-        handleFirestoreError(err, 'update', `time_logs/${activeLog.id}`);
-      }
+      await updateDoc(logRef, {
+        endTime: serverTimestamp(),
+        durationMinutes: durationMinutes,
+        message: checkoutMessage.trim()
+      });
       
-      // Update local state
       setActiveLog({
         ...activeLog,
         endTime: now,
@@ -478,7 +405,7 @@ export default function TimeTracker() {
 
   const canCheckOut = isMaintenanceComplete.daily && (!isFriday || isMaintenanceComplete.weekly);
 
-  if (loading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <Loader2 className="animate-spin text-[#FFB800]" size={40} />
