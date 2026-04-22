@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { ALLOWED_EMAILS } from '../constants/auth';
 import { ShoppingBag, ArrowRight, Lock, LogIn } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const products = [
   {
@@ -93,6 +94,11 @@ export default function Store() {
 
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
+      <SEO 
+        title={`${t('store.title')} | Real Builder Academy`}
+        description={t('store.subtitle')}
+        canonical="https://realbuilder-academy.com/store"
+      />
       {/* Background Decorative Elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[#FFB800]/5 blur-[120px] -z-10 animate-pulse" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-white/5 blur-[120px] -z-10" />

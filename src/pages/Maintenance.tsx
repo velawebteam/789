@@ -18,6 +18,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { 
   Wrench, 
   Camera, 
@@ -407,6 +408,10 @@ export default function Maintenance() {
 
   return (
     <div className="min-h-screen md:pt-40 pt-10 pb-20 bg-[#0a0a0a] text-white">
+      <SEO 
+        title={`${t('maintenance.title')} | Real Builder Academy`}
+        description="Registo de manutenção diária e semanal da frota e ferramentas."
+      />
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header */}

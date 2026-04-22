@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
@@ -229,6 +230,10 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen md:pt-24 pt-8 pb-8 bg-[#0a0a0a]">
+      <SEO 
+        title={`${t('chat.support')} | Real Builder Academy`}
+        description="Canal de suporte direto e seguro para membros do Real Builder."
+      />
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 h-[calc(100vh-140px)]">
         <div className="bg-[#111315] border border-white/10 rounded-3xl h-full flex overflow-hidden shadow-2xl">
           

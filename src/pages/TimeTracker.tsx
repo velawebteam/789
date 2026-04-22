@@ -22,6 +22,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { 
   Clock, 
   CheckCircle2, 
@@ -520,6 +521,10 @@ export default function TimeTracker() {
 
   return (
     <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white">
+      <SEO 
+        title={`${t('timeTracker.title')} | Real Builder Academy`}
+        description="Sistema de registo de horas e gestão de presenças em obra."
+      />
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header Section */}

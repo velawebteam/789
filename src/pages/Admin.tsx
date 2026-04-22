@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 import { ADMIN_EMAILS } from '../constants/auth';
+import SEO from '../components/SEO';
 
 interface ChatMessage {
   id: string;
@@ -304,6 +305,10 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen pt-20 md:pt-24 pb-4 md:pb-8 bg-[#0a0a0a]">
+      <SEO 
+        title={`${t('admin.title')} | Real Builder Academy`}
+        description="Portal de administração para gestão de suporte e acessos."
+      />
       <div className="max-w-[1400px] mx-auto px-0 md:px-6 h-[calc(100svh-100px)] md:h-[calc(100vh-140px)] flex flex-col gap-4">
         
         {/* Tab Switcher */}
