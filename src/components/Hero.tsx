@@ -132,8 +132,8 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="max-w-3xl"
         >
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white leading-tight sm:leading-none mb-2 md:mb-4 tracking-tight flex flex-col items-start notranslate" translate="no">
-            <div className="relative inline-flex sm:whitespace-nowrap">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white leading-tight sm:leading-none mb-2 md:mb-4 tracking-tight flex flex-col items-start notranslate" translate="no">
+            <div className="relative inline-flex lg:whitespace-nowrap">
               <span>{t('hero.title1')}</span>
             </div>
             <span className="text-[#FFB800] mt-0.5 md:mt-2">{t('hero.title2')}</span>
