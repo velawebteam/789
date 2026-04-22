@@ -11,7 +11,8 @@ import {
   serverTimestamp,
   getDoc,
   orderBy,
-  limit
+  limit,
+  or
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth } from '../lib/firebase';
@@ -20,7 +21,7 @@ import { getWeekNumber } from '../lib/date-utils';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   Clock, 
   CheckCircle2, 
@@ -33,10 +34,11 @@ import {
   HardHat,
   Wrench,
   CalendarDays,
-  Lock
+  Lock,
+  LogIn
 } from 'lucide-react';
 
-import { ALLOWED_EMAILS } from '../constants/auth';
+import { ALLOWED_EMAILS, ADMIN_EMAILS } from '../constants/auth';
 
 interface Client {
   id: string;
@@ -50,6 +52,7 @@ interface Project {
   name: string;
   location?: string;
   workers?: string[];
+  ownerEmail?: string;
   active?: boolean;
 }
 
@@ -81,9 +84,52 @@ interface WeeklyStatus {
 }
 
 export default function TimeTracker() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading } = useAuth();
   const { language, t } = useLanguage();
-  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
+  const navigate = useNavigate();
+  const isAuthorized = user && (ALLOWED_EMAILS.includes(user.email || '') || ADMIN_EMAILS.includes(user.email || ''));
+  const isAdmin = user && ADMIN_EMAILS.includes(user.email || '');
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+            <Lock className="text-red-500" size={40} />
+          </div>
+          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h1>
+          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
+            {t('common.unauthorizedDesc')}
+          </p>
+          <div className="flex flex-col gap-3">
+            {!user && (
+              <button 
+                onClick={login}
+                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+              >
+                <LogIn size={16} />
+                <span>{t('navbar.login')}</span>
+              </button>
+            )}
+            <button 
+              onClick={() => navigate('/')}
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
+            >
+              {t('common.backToHome')}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const [clients, setClients] = useState<Client[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -107,45 +153,96 @@ export default function TimeTracker() {
       return;
     }
 
-    const q = query(collection(db, 'clients'));
+    // Fetch clients
+    const clientsBaseQuery = collection(db, 'clients');
+    const q = isAdmin 
+      ? query(clientsBaseQuery)
+      : query(clientsBaseQuery, where('ownerEmail', '==', user.email));
+    
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const clientsData = snapshot.docs
+      const fetchedClients = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Client))
         .filter(c => c.active !== false);
-      setClients(clientsData);
+      
+      const sortedClients = [...fetchedClients].sort((a: any, b: any) => {
+        const dateA = a.createdAt?.seconds || 0;
+        const dateB = b.createdAt?.seconds || 0;
+        return dateB - dateA;
+      });
+
+      if (isAdmin) {
+        setClients(sortedClients);
+      } else {
+        setClients(prev => {
+          const combined = [...prev, ...sortedClients];
+          const unique = Array.from(new Map(combined.map(item => [item.id, item])).values());
+          return unique;
+        });
+      }
       setLoading(false);
     }, (err) => {
       console.error("Error fetching clients:", err);
       setLoading(false);
     });
 
-    return () => unsubscribe();
-  }, [user, authLoading]);
+    // Fetch projects
+    const projectsBaseQuery = collection(db, 'projects');
+    const pq = isAdmin
+      ? query(projectsBaseQuery)
+      : query(
+          projectsBaseQuery,
+          or(
+            where('ownerEmail', '==', user.email),
+            where('workers', 'array-contains', user.email)
+          )
+        );
 
-  useEffect(() => {
-    if (authLoading || !user || !selectedClient) {
-      setProjects([]);
-      if (!selectedClient) setSelectedProject('');
-      return;
-    }
-
-    const q = query(collection(db, 'projects'), where('clientId', '==', selectedClient));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribeProjects = onSnapshot(pq, async (snapshot) => {
       const projectsData = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Project))
-        .filter(p => {
-          const isActive = p.active !== false;
-          // Admins see everything, workers only see assigned projects
-          const isAssigned = isAuthorized || (user.email && p.workers?.includes(user.email.toLowerCase()));
-          return isActive && isAssigned;
-        });
-      setProjects(projectsData);
-    }, (err) => {
-      console.error("Error fetching projects:", err);
+        .filter(p => p.active !== false);
+      
+      const sortedProjects = [...projectsData].sort((a: any, b: any) => {
+        const dateA = a.createdAt?.seconds || 0;
+        const dateB = b.createdAt?.seconds || 0;
+        return dateB - dateA;
+      });
+
+      setProjects(sortedProjects);
+
+      if (!isAdmin) {
+        // Identify clients for these projects that the user might not own
+        const collabClientIds = projectsData
+          .filter(p => !p.ownerEmail || p.ownerEmail !== user.email)
+          .map(p => p.clientId);
+
+        if (collabClientIds.length > 0) {
+          for (const clientId of collabClientIds) {
+            const cDoc = await getDoc(doc(db, 'clients', clientId));
+            if (cDoc.exists()) {
+              const cData = { id: cDoc.id, ...cDoc.data() } as Client;
+              if (cData.active !== false) {
+                setClients(prev => {
+                  if (prev.find(c => c.id === cData.id)) return prev;
+                  return [...prev, cData];
+                });
+              }
+            }
+          }
+        }
+      }
     });
 
-    return () => unsubscribe();
-  }, [selectedClient]);
+    return () => {
+      unsubscribe();
+      unsubscribeProjects();
+    };
+  }, [user, authLoading]);
+
+  // Remove the old projects fetch effect that was tied to selectedClient
+  // as we now pre-fetch projects to determine the client list.
+  // We should still filter the visible projects based on selectedClient.
+  const visibleProjects = projects.filter(p => !selectedClient || p.clientId === selectedClient);
 
   useEffect(() => {
     if (authLoading || !user) return;
@@ -390,30 +487,33 @@ export default function TimeTracker() {
 
   if (!isAuthorized) {
     return (
-      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white flex items-center justify-center px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] p-10 text-center shadow-2xl"
-        >
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
-            <AlertCircle className="text-red-500" size={40} />
+      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+            <Lock className="text-red-500" size={40} />
           </div>
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-4">
-            {t('timeTracker.restrictedTitle')}
-          </h2>
-          <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-            {t('timeTracker.restrictedDesc')}
+          <h2 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h2>
+          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
+            {t('common.unauthorizedDesc')}
           </p>
-          <button 
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('openNotifyMe'));
-            }}
-            className="w-full bg-[#FFB800] text-black py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-white transition-all transform active:scale-95 shadow-[0_0_20px_rgba(255,184,0,0.2)]"
-          >
-            {t('timeTracker.restrictedButton')}
-          </button>
-        </motion.div>
+          <div className="flex flex-col gap-3">
+            {!user && (
+              <button 
+                onClick={login}
+                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+              >
+                <LogIn size={16} />
+                <span>{t('navbar.login')}</span>
+              </button>
+            )}
+            <Link 
+              to="/"
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs inline-block text-center"
+            >
+              {t('common.backToHome')}
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
@@ -508,7 +608,7 @@ export default function TimeTracker() {
               className="w-full bg-black/40 border border-white/5 rounded-2xl px-4 py-4 text-sm font-bold appearance-none focus:outline-none focus:border-[#FFB800] transition-colors disabled:opacity-20"
             >
               <option value="">{t('timeTracker.selectProject')}</option>
-              {projects.map(p => (
+              {visibleProjects.map(p => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
@@ -523,7 +623,7 @@ export default function TimeTracker() {
               exit={{ opacity: 0, height: 0 }}
               className="mb-8"
             >
-              {projects.find(p => p.id === selectedProject)?.location && (
+              {visibleProjects.find(p => p.id === selectedProject)?.location && (
                 <div className="bg-[#1a1c1e] border border-[#FFB800]/20 rounded-2xl p-4 flex items-start gap-3">
                   <div className="mt-0.5">
                     <AlertCircle className="text-[#FFB800]" size={16} />
@@ -531,7 +631,7 @@ export default function TimeTracker() {
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">{t('timeTracker.projectLocation')}</p>
                     <p className="text-sm font-bold text-gray-300">
-                      {projects.find(p => p.id === selectedProject)?.location}
+                      {visibleProjects.find(p => p.id === selectedProject)?.location}
                     </p>
                   </div>
                 </div>

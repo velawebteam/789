@@ -14,9 +14,11 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import Admin from './pages/Admin';
+import WorkersPanel from './pages/WorkersPanel';
 import Chat from './pages/Chat';
 import TimeTracker from './pages/TimeTracker';
 import Maintenance from './pages/Maintenance';
+import Billing from './pages/Billing';
 import EnrollmentModal from './components/EnrollmentModal';
 import NotifyMeModal from './components/NotifyMeModal';
 import CookieConsent from './components/CookieConsent';
@@ -29,12 +31,12 @@ import { AuthProvider } from './context/AuthContext';
 function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, setIsNotifyMeOpen }: 
   { isEnrollmentOpen: boolean, setIsEnrollmentOpen: (o: boolean) => void, isNotifyMeOpen: boolean, setIsNotifyMeOpen: (o: boolean) => void }) {
   const location = useLocation();
-  const restrictedPaths = ['/chat', '/clock-in', '/maintenance'];
+  const restrictedPaths = ['/chat', '/clock-in', '/maintenance', '/workers', '/admin', '/billing'];
   const isRestrictedPath = restrictedPaths.includes(location.pathname);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
-      <div className={isRestrictedPath ? 'hidden md:block' : ''}>
+      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
         <Navbar />
       </div>
       <Routes>
@@ -45,11 +47,13 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/cookies" element={<CookiePolicyPage />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/workers" element={<WorkersPanel />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/clock-in" element={<TimeTracker />} />
         <Route path="/maintenance" element={<Maintenance />} />
+        <Route path="/billing" element={<Billing />} />
       </Routes>
-      <div className={isRestrictedPath ? 'hidden md:block' : ''}>
+      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
         <Footer />
       </div>
       <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />

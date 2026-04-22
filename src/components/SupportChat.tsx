@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, Send, X, Loader2, ShieldCheck, Camera } from 'lucide-react';
+import { MessageSquare, Send, X, Loader2, ShieldCheck, Camera, Lock, LogIn } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { ALLOWED_EMAILS } from '../constants/auth';
 
 interface Message {
   id: string;
@@ -25,15 +26,16 @@ export default function SupportChat() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const { t } = useLanguage();
   const location = useLocation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
 
   const isDashboardOrAdmin = location.pathname === '/chat' || location.pathname === '/admin';
 
   useEffect(() => {
-    if (!user || !isOpen) return;
+    if (!user || !isOpen || !isAuthorized) return;
 
     const q = query(
       collection(db, 'support_chats'),
@@ -53,7 +55,7 @@ export default function SupportChat() {
     });
 
     return () => unsubscribe();
-  }, [user, isOpen]);
+  }, [user, isOpen, isAuthorized]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -134,7 +136,7 @@ export default function SupportChat() {
     }
   };
 
-  if (!user || isDashboardOrAdmin) return null;
+  if (isDashboardOrAdmin) return null;
 
   return (
     <div className="fixed bottom-6 left-6 z-[60]">
@@ -168,7 +170,30 @@ export default function SupportChat() {
               </button>
             </div>
 
-            {/* Messages */}
+            {!isAuthorized ? (
+              <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0a0a0a]/50">
+                <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mb-4 border border-red-500/20">
+                  <Lock className="text-red-500" size={24} />
+                </div>
+                <h4 className="text-white font-bold mb-2 uppercase tracking-tight italic">
+                  {t('common.unauthorized')}
+                </h4>
+                <p className="text-[10px] text-gray-400 leading-relaxed max-w-[180px] mb-4">
+                  {t('common.unauthorizedDesc')}
+                </p>
+                {!user && (
+                  <button 
+                    onClick={login}
+                    className="flex items-center gap-2 bg-[#FFB800] text-black px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all"
+                  >
+                    <LogIn size={14} />
+                    <span>{t('navbar.login')}</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <>
+                {/* Messages */}
             <div 
               ref={scrollRef}
               className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide"
@@ -276,9 +301,11 @@ export default function SupportChat() {
                 </button>
               </div>
             </form>
-          </motion.div>
+          </>
         )}
-      </AnimatePresence>
+      </motion.div>
+    )}
+  </AnimatePresence>
 
       <motion.button
         whileHover={{ scale: 1.05 }}

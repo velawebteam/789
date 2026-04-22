@@ -135,15 +135,17 @@ service cloud.firestore {
     }
 
     match /clients/{clientId} {
-      allow list: if isAuthenticated();
-      allow get: if isAuthenticated();
-      allow write: if isAdmin();
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.ownerEmail == request.auth.token.email);
+      allow create: if isVerified() && request.resource.data.ownerEmail == request.auth.token.email;
+      allow update: if isAdmin() || (resource.data.ownerEmail == request.auth.token.email && request.resource.data.ownerEmail == resource.data.ownerEmail);
+      allow delete: if isAdmin();
     }
 
     match /projects/{projectId} {
-      allow list: if isAuthenticated();
-      allow get: if isAuthenticated();
-      allow write: if isAdmin();
+      allow read: if isAdmin() || (isAuthenticated() && (resource.data.ownerEmail == request.auth.token.email || request.auth.token.email in resource.data.workers));
+      allow create: if isVerified() && request.resource.data.ownerEmail == request.auth.token.email;
+      allow update: if isAdmin() || (resource.data.ownerEmail == request.auth.token.email && request.resource.data.ownerEmail == resource.data.ownerEmail);
+      allow delete: if isAdmin();
     }
 
     match /time_logs/{logId} {

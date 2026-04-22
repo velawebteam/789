@@ -1,4 +1,4 @@
-import { Info, Menu, X, Globe, LogIn, LogOut, MessageSquare, Clock, User as UserIcon, Building2, Wrench } from 'lucide-react';
+import { Info, Menu, X, Globe, LogIn, LogOut, MessageSquare, Clock, User as UserIcon, Building2, Wrench, ShoppingBag, HardHat, Receipt } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -58,7 +58,6 @@ export default function Navbar() {
           <button onClick={() => scrollTo('professionals')} className="hover:text-white transition-colors">{t('navbar.professionals')}</button>
           <button onClick={() => scrollTo('partners')} className="hover:text-white transition-colors">{t('navbar.partners')}</button>
           <button onClick={() => scrollTo('contact-form')} className="hover:text-white transition-colors">{t('navbar.register')}</button>
-          <Link to="/store" className="hover:text-white transition-colors uppercase">{t('navbar.store')}</Link>
         </div>
 
         <div className="flex items-center gap-4 md:gap-6 ml-auto z-10">
@@ -144,10 +143,33 @@ export default function Navbar() {
                           onClick={() => setIsUserMenuOpen(false)}
                           className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-[#FFB800] transition-colors hover:bg-white/5 border-b border-white/5 bg-[#FFB800]/5"
                         >
-                          <Building2 size={14} />
+                          <MessageSquare size={14} />
                           <span>{t('navbar.adminPanel')}</span>
                         </Link>
                       )}
+                      
+                      {(isAdmin || isAuthorized) && (
+                        <Link
+                          to="/workers"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-[#FFB800] transition-colors hover:bg-white/5 border-b border-white/5 bg-[#FFB800]/5"
+                        >
+                          <HardHat size={14} />
+                          <span>{t('navbar.workersPanel')}</span>
+                        </Link>
+                      )}
+
+                      {(isAdmin || isAuthorized) && (
+                        <Link
+                          to="/billing"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5"
+                        >
+                          <Receipt size={14} className="text-[#FFB800]" />
+                          <span>{t('navbar.billing')}</span>
+                        </Link>
+                      )}
+                      
                       <Link
                         to="/clock-in"
                         onClick={() => setIsUserMenuOpen(false)}
@@ -172,6 +194,15 @@ export default function Navbar() {
                         <MessageSquare size={14} className="text-[#FFB800]" />
                         <span>{t('navbar.chat')}</span>
                       </Link>
+                      <Link
+                        to="/store"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
+                      >
+                        <ShoppingBag size={14} className="text-[#FFB800]" />
+                        <span>{t('navbar.store')}</span>
+                      </Link>
+                      
                       <button 
                         onClick={() => { logout(); setIsUserMenuOpen(false); }}
                         className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-red-400 transition-colors hover:bg-white/5 border-t border-white/5"
@@ -242,7 +273,18 @@ export default function Navbar() {
               <button onClick={() => { scrollTo('professionals'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.professionals')}</button>
               <button onClick={() => { scrollTo('partners'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.partners')}</button>
               <button onClick={() => { scrollTo('contact-form'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.register')}</button>
-              <Link to="/store" onClick={() => setIsMobileMenuOpen(false)} className="text-left hover:text-white py-2 uppercase">{t('navbar.store')}</Link>
+              
+              {user && (
+                <>
+                  <div className="h-px bg-white/10 my-2"></div>
+                  {(isAdmin || isAuthorized) && (
+                    <Link to="/workers" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-[#FFB800] py-2 uppercase font-black">{t('navbar.workersPanel')}</Link>
+                  )}
+                  {isAdmin && (
+                    <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-[#FFB800] py-2 uppercase font-black">{t('navbar.adminPanel')}</Link>
+                  )}
+                </>
+              )}
               
               <div className="h-px bg-white/10 my-2"></div>
               
@@ -303,6 +345,26 @@ export default function Navbar() {
                       >
                         <Building2 size={18} />
                         <span>{t('navbar.adminPanel')}</span>
+                      </Link>
+                    )}
+                    {(isAdmin || isAuthorized) && (
+                      <Link 
+                        to="/workers"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2 text-[#FFB800] font-bold"
+                      >
+                        <HardHat size={18} />
+                        <span>{t('navbar.workersPanel')}</span>
+                      </Link>
+                    )}
+                    {(isAdmin || isAuthorized) && (
+                      <Link 
+                        to="/billing"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2 text-white font-bold"
+                      >
+                        <Receipt size={18} className="text-[#FFB800]" />
+                        <span>{t('navbar.billing')}</span>
                       </Link>
                     )}
                     <Link 

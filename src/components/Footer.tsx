@@ -54,6 +54,16 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Members Area */}
+          <div className="flex flex-col gap-4">
+            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Members Area</h4>
+            <Link to="/store" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.store')}</Link>
+            <Link to="/chat" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.chat')}</Link>
+            <Link to="/maintenance" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('maintenance.title')}</Link>
+            <Link to="/clock-in" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.clockIn')}</Link>
+            <Link to="/billing" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.billing')}</Link>
+          </div>
+
           {/* Links */}
           <div className="flex flex-col gap-4">
             <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">{t('footer.legal')}</h4>

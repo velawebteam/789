@@ -12,11 +12,18 @@ export const translations: any = {
       store: "STORE",
       chat: "CHAT",
       clockIn: "CLOCK-IN",
+      workersPanel: "WORKERS PANEL",
+      billing: "BILLING",
       getStarted: "GET STARTED",
       adminPanel: "ADMIN PANEL",
       logout: "LOGOUT",
       login: "LOGIN",
       loggedInAs: "Logged in as"
+    },
+    common: {
+      unauthorized: "Access Restricted",
+      unauthorizedDesc: "This area is restricted and exclusive to Real Builder members.",
+      backToHome: "Back to Home"
     },
     hero: {
       title1: "CERTIFIED CONSTRUCTION",
@@ -747,7 +754,7 @@ export const translations: any = {
       }
     },
     admin: {
-      title: "Support Center",
+      title: "Admin Panel",
       support: "Support",
       maintenance: "Maintenance",
       clients: "Clients",
@@ -769,16 +776,40 @@ export const translations: any = {
       start: "Start",
       end: "End",
       location: "Location",
-      searchChats: "Search chats...",
-      noChats: "No chats found",
-      supportPortal: "Support Portal",
+      searchChats: "Search conversations...",
+      noChats: "No conversations found",
+      supportPortal: "Admin Portal",
       portalDesc: "Select a conversation from the list to start responding to users.",
       loggedInAs: "Logged in as",
       admin: "Admin",
       user: "User",
       finishProject: "Finish Project",
       activateProject: "Activate Project",
-      deleteConfirm: "Are you sure you want to delete this {type}?"
+      deleteConfirm: "Are you sure you want to delete this {type}?",
+      unknownClient: "Unknown Client"
+    },
+    workers: {
+      title: "Workers Panel",
+      clients: "Clients",
+      hours: "Hours",
+      filterByProject: "Filter by Project",
+      allProjects: "All Projects",
+      startDate: "Start Date",
+      endDate: "End Date",
+      totalHoursCalculation: "Total Hours",
+      date: "Date",
+      worker: "Worker",
+      project: "Project",
+      start: "Start",
+      end: "End",
+      duration: "Duration",
+      noLogs: "No time logs found for the selected filters.",
+      inProgress: "In Progress",
+      activeStatus: "Active"
+    },
+    billing: {
+      title: "Billing",
+      comingSoon: "Coming Soon"
     }
   },
   pt: {
@@ -794,7 +825,18 @@ export const translations: any = {
       store: "LOJA",
       chat: "CHAT",
       clockIn: "PICAR O PONTO",
-      getStarted: "COMEÇAR"
+      workersPanel: "PAINEL TRABALHADOR",
+      billing: "FATURAÇÃO",
+      getStarted: "COMEÇAR",
+      adminPanel: "PAINEL ADMIN",
+      logout: "SAIR",
+      login: "LOGIN",
+      loggedInAs: "Sessão iniciada como"
+    },
+    common: {
+      unauthorized: "Acesso Restrito",
+      unauthorizedDesc: "Esta área é restrita e exclusiva para membros Real Builder.",
+      backToHome: "Voltar ao Início"
     },
     hero: {
       title1: "CURSOS DE CONSTRUÇÃO",
@@ -1526,7 +1568,7 @@ export const translations: any = {
       }
     },
     admin: {
-      title: "Centro de Suporte",
+      title: "Painel Admin",
       support: "Suporte",
       maintenance: "Manutenção",
       clients: "Clientes",
@@ -1550,14 +1592,38 @@ export const translations: any = {
       location: "Localização",
       searchChats: "Pesquisar conversas...",
       noChats: "Nenhuma conversa encontrada",
-      supportPortal: "Portal de Suporte",
+      supportPortal: "Portal Admin",
       portalDesc: "Selecione uma conversa da lista para começar a responder aos utilizadores.",
       loggedInAs: "Sessão iniciada como",
       admin: "Admin",
       user: "Utilizador",
       finishProject: "Finalizar Projeto",
       activateProject: "Ativar Projeto",
-      deleteConfirm: "Tem a certeza que deseja eliminar este {type}?"
+      deleteConfirm: "Tem a certeza que deseja eliminar este {type}?",
+      unknownClient: "Cliente Desconhecido"
+    },
+    workers: {
+      title: "Painel Trabalhador",
+      clients: "Clientes",
+      hours: "Horas",
+      filterByProject: "Filtrar por Projeto",
+      allProjects: "Todos os Projetos",
+      startDate: "Data Início",
+      endDate: "Data Fim",
+      totalHoursCalculation: "Total de Horas",
+      date: "Data",
+      worker: "Trabalhador",
+      project: "Projeto",
+      start: "Início",
+      end: "Fim",
+      duration: "Duração",
+      noLogs: "Não foram encontrados registos para os filtros selecionados.",
+      inProgress: "Em curso",
+      activeStatus: "Ativo"
+    },
+    billing: {
+      title: "Faturação",
+      comingSoon: "Em Breve"
     }
   },
   hi: {
@@ -1578,6 +1644,11 @@ export const translations: any = {
       logout: "लॉगआउट",
       login: "लॉगिन",
       loggedInAs: "के रूप में लॉग इन किया"
+    },
+    common: {
+      unauthorized: "पहुंच प्रतिबंधित है",
+      unauthorizedDesc: "यह क्षेत्र अधिकृत श्रमिकों और प्रशासकों के लिए आरक्षित है। यदि आपको लगता है कि आपके पास पहुंच होनी चाहिए, तो कृपया अपने प्रबंधक से संपर्क करें।",
+      backToHome: "होम पर वापस जाएं"
     },
     hero: {
       title1: "THE REAL",

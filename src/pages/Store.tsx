@@ -1,6 +1,10 @@
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { ShoppingBag, ArrowRight } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { ALLOWED_EMAILS } from '../constants/auth';
+import { ShoppingBag, ArrowRight, Lock, LogIn } from 'lucide-react';
 
 const products = [
   {
@@ -35,10 +39,61 @@ const products = [
 
 export default function Store() {
   const { t } = useLanguage();
+  const { user, login, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
+
+  useEffect(() => {
+    if (!authLoading && !isAuthorized && user) {
+      // If user is logged in but not authorized, we still show the restricted view if we want, 
+      // but the user said "same restrictions", which in Maintenance/Clock-In means showing an unauthorized message.
+    }
+  }, [user, authLoading, isAuthorized]);
 
   const handleRedirect = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+            <Lock className="text-red-500" size={40} />
+          </div>
+          <h1 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h1>
+          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
+            {t('common.unauthorizedDesc')}
+          </p>
+          <div className="flex flex-col gap-3">
+            {!user && (
+              <button 
+                onClick={login}
+                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+              >
+                <LogIn size={16} />
+                <span>{t('navbar.login')}</span>
+              </button>
+            )}
+            <button 
+              onClick={() => navigate('/')}
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs"
+            >
+              {t('common.backToHome')}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0a0a]">
