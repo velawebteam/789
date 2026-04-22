@@ -279,29 +279,31 @@ export default function TimeTracker() {
   }, [user, authLoading]);
 
   useEffect(() => {
-    if (user && activeLog && !activeLog.endTime) {
-      const logDate = activeLog.date;
-      const mq = query(
-        collection(db, 'maintenance_logs'),
-        where('userId', '==', user.uid),
-        where('date', '==', logDate)
-      );
+    if (authLoading || !user) return;
 
-      const unsubscribe = onSnapshot(mq, (snapshot) => {
-        const stats = { daily: false, weekly: false };
-        snapshot.docs.forEach(doc => {
-          const data = doc.data();
-          if (data.type === 'daily') stats.daily = true;
-          if (data.type === 'weekly') stats.weekly = true;
-        });
-        setIsMaintenanceComplete(stats);
-      }, (err) => {
-        handleFirestoreError(err, 'list', 'maintenance_logs');
+    // We check for maintenance logs for the active session date OR today
+    const targetDate = activeLog?.date || new Date().toISOString().split('T')[0];
+    
+    const mq = query(
+      collection(db, 'maintenance_logs'),
+      where('userId', '==', user.uid),
+      where('date', '==', targetDate)
+    );
+
+    const unsubscribe = onSnapshot(mq, (snapshot) => {
+      const stats = { daily: false, weekly: false };
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.type === 'daily') stats.daily = true;
+        if (data.type === 'weekly') stats.weekly = true;
       });
+      setIsMaintenanceComplete(stats);
+    }, (err) => {
+      handleFirestoreError(err, 'list', 'maintenance_logs');
+    });
 
-      return () => unsubscribe();
-    }
-  }, [user, activeLog]);
+    return () => unsubscribe();
+  }, [user, authLoading, activeLog?.date]);
 
   useEffect(() => {
     if (!user) return;

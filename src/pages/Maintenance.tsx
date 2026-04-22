@@ -36,18 +36,18 @@ interface MaintenanceTask {
   label: string;
 }
 
-const DAILY_TASKS: MaintenanceTask[] = [
-  { id: 'vec_inside', label: 'Inside of the vehicle' },
-  { id: 'tools_air', label: 'Blow off tools with air' },
-  { id: 'batteries', label: 'All batteries on charge' },
-  { id: 'buckets_towels', label: 'Buckets and towels cleaned' }
+const MAINTENANCE_DAILY_TASKS = [
+  { id: 'vec_inside', labelKey: 'maintenance.tasks.vec_inside' },
+  { id: 'tools_air', labelKey: 'maintenance.tasks.tools_air' },
+  { id: 'batteries', labelKey: 'maintenance.tasks.batteries' },
+  { id: 'buckets_towels', labelKey: 'maintenance.tasks.buckets_towels' }
 ];
 
-const WEEKLY_TASKS: MaintenanceTask[] = [
-  { id: 'wear_materials', label: 'Wear materials ordered' },
-  { id: 'boxes_clean', label: 'All boxes opened and blown clean' },
-  { id: 'drill_lubricated', label: 'Screwdriver/Drill - Wiped Clean; Chuck Lubricated' },
-  { id: 'sander_lubricated', label: 'Bellt Sander- Blown clean thoroughly; Bearings lubricated; screws tightened; belt checked' }
+const MAINTENANCE_WEEKLY_TASKS = [
+  { id: 'wear_materials', labelKey: 'maintenance.tasks.wear_materials' },
+  { id: 'boxes_clean', labelKey: 'maintenance.tasks.boxes_clean' },
+  { id: 'drill_lubricated', labelKey: 'maintenance.tasks.drill_lubricated' },
+  { id: 'sander_lubricated', labelKey: 'maintenance.tasks.sander_lubricated' }
 ];
 
 export default function Maintenance() {
@@ -138,9 +138,10 @@ export default function Maintenance() {
           setActiveLogDate(log.date);
         } else {
           setIsClockedIn(false);
-          setActiveProjectId(null);
-          setActiveProjectName(null);
-          setActiveLogDate(null);
+          // Keep last project context for report submission if needed
+          setActiveProjectId(log.projectId);
+          setActiveProjectName(log.projectName);
+          setActiveLogDate(log.date);
         }
       } else {
         setIsClockedIn(false);
@@ -216,9 +217,14 @@ export default function Maintenance() {
   };
 
   const handleSubmit = async (type: 'daily' | 'weekly') => {
-    if (!user || !activeProjectId || isSubmitting) return;
+    if (!user || isSubmitting) return;
+    
+    if (!activeProjectId) {
+      alert(t('maintenance.clockInFirst'));
+      return;
+    }
 
-    const tasks = type === 'daily' ? DAILY_TASKS : WEEKLY_TASKS;
+    const tasks = type === 'daily' ? MAINTENANCE_DAILY_TASKS : MAINTENANCE_WEEKLY_TASKS;
     const images = type === 'daily' ? dailyImages : weeklyImages;
     
     // Validate all images
@@ -392,21 +398,10 @@ export default function Maintenance() {
     );
   }
 
-  const DAILY_TASKS: MaintenanceTask[] = [
-    { id: 'vec_inside', label: t('maintenance.tasks.vec_inside') },
-    { id: 'tools_air', label: t('maintenance.tasks.tools_air') },
-    { id: 'batteries', label: t('maintenance.tasks.batteries') },
-    { id: 'buckets_towels', label: t('maintenance.tasks.buckets_towels') }
-  ];
+  const tasks = activeTab === 'daily' 
+    ? MAINTENANCE_DAILY_TASKS.map(task => ({ ...task, label: t(task.labelKey) }))
+    : MAINTENANCE_WEEKLY_TASKS.map(task => ({ ...task, label: t(task.labelKey) }));
 
-  const WEEKLY_TASKS: MaintenanceTask[] = [
-    { id: 'wear_materials', label: t('maintenance.tasks.wear_materials') },
-    { id: 'boxes_clean', label: t('maintenance.tasks.boxes_clean') },
-    { id: 'drill_lubricated', label: t('maintenance.tasks.drill_lubricated') },
-    { id: 'sander_lubricated', label: t('maintenance.tasks.sander_lubricated') }
-  ];
-
-  const tasks = activeTab === 'daily' ? DAILY_TASKS : WEEKLY_TASKS;
   const currentImages = activeTab === 'daily' ? dailyImages : weeklyImages;
   const isTabCompleted = activeTab === 'daily' ? completedToday.daily : completedToday.weekly;
 
