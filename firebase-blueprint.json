@@ -109,9 +109,24 @@
         "closedAt": { "type": "string", "format": "date-time", "description": "When the week was closed" }
       },
       "required": ["userId", "weekNumber", "year", "status", "startedAt"]
+    },
+    "AccessRule": {
+      "title": "AccessRule",
+      "description": "Pre-defined role for a specific email",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "role": { "type": "string", "enum": ["admin", "worker", "user"], "description": "Assigned role" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["email", "role"]
     }
   },
   "firestore": {
+    "/access_rules/{email}": {
+      "schema": "AccessRule",
+      "description": "Registry of pre-authorized email roles"
+    },
     "/users/{userId}": {
       "schema": "User",
       "description": "User profile documents"

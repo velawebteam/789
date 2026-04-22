@@ -31,7 +31,7 @@ import { AuthProvider } from './context/AuthContext';
 function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, setIsNotifyMeOpen }: 
   { isEnrollmentOpen: boolean, setIsEnrollmentOpen: (o: boolean) => void, isNotifyMeOpen: boolean, setIsNotifyMeOpen: (o: boolean) => void }) {
   const location = useLocation();
-  const restrictedPaths = ['/chat', '/clock-in', '/maintenance', '/workers', '/admin', '/billing'];
+  const restrictedPaths = ['/chat', '/clock-in', '/maintenance', '/workers', '/admin', '/billing', '/store'];
   const isRestrictedPath = restrictedPaths.includes(location.pathname);
 
   return (
@@ -59,7 +59,7 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
       <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
       <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
       <CookieConsent />
-      <SupportChat />
+      {location.pathname === '/' && <SupportChat />}
     </div>
   );
 }

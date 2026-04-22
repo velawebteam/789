@@ -7,11 +7,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { ALLOWED_EMAILS, ADMIN_EMAILS } from '../constants/auth';
 
 export default function Billing() {
-  const { user, login, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading, isAuthorized } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-
-  const isAuthorized = user && (ALLOWED_EMAILS.includes(user.email || '') || ADMIN_EMAILS.includes(user.email || ''));
 
   useEffect(() => {
     if (!authLoading && (!user || !isAuthorized)) {

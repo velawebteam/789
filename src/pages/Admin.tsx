@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, getDocs, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, getDocs, doc, getDoc, deleteDoc, updateDoc, setDoc, where } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { 
   MessageSquare, Send, User, Search, ChevronRight, Loader2, ArrowLeft,
-  Plus, Camera, X
+  Plus, Camera, X, ShieldCheck, Mail, UserPlus, Trash2, Edit2
 } from 'lucide-react';
 
 import { ADMIN_EMAILS } from '../constants/auth';
@@ -30,12 +30,20 @@ interface ChatSession {
   user_email?: string;
 }
 
+interface AccessRule {
+  email: string;
+  role: 'admin' | 'worker' | 'user';
+}
+
 export default function Admin() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, isAdmin: isAuthAdmin } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
-  const [chats, setChats] = useState<ChatSession[]>([]);
   
+  const [activeTab, setActiveTab] = useState<'support' | 'access'>('support');
+  
+  // Support State
+  const [chats, setChats] = useState<ChatSession[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [reply, setReply] = useState('');
@@ -47,23 +55,29 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Access Management State
+  const [accessRules, setAccessRules] = useState<AccessRule[]>([]);
+  const [newEmail, setNewEmail] = useState('');
+  const [newRole, setNewRole] = useState<'admin' | 'worker' | 'user'>('worker');
+  const [isSavingAccess, setIsSavingAccess] = useState(false);
+
   useEffect(() => {
     if (!authLoading) {
-      if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
+      if (!user || !isAuthAdmin) {
         navigate('/');
       }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, isAuthAdmin]);
 
   useEffect(() => {
-    if (!user || !ADMIN_EMAILS.includes(user.email || '')) return;
+    if (!user || !isAuthAdmin || activeTab !== 'support') return;
 
     setLoading(true);
     setChats([]);
     setSelectedUserId(null);
 
     const collectionName = 'support_chats';
-    const q = query(collection(db, collectionName), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, collectionName));
     
     const unsubscribe = onSnapshot(q, async (snapshot) => {
       const messagesData = snapshot.docs.map(doc => ({
@@ -71,10 +85,17 @@ export default function Admin() {
         ...doc.data()
       })) as ChatMessage[];
 
+      // Sort by timestamp desc to get latest for grouping
+      const sortedMessages = [...messagesData].sort((a, b) => {
+        const timeA = a.timestamp?.seconds || 0;
+        const timeB = b.timestamp?.seconds || 0;
+        return timeB - timeA;
+      });
+
       // Group by user_id
       const sessionsMap = new Map<string, ChatSession>();
       
-      for (const msg of messagesData) {
+      for (const msg of sortedMessages) {
         if (!sessionsMap.has(msg.user_id)) {
           sessionsMap.set(msg.user_id, {
             user_id: msg.user_id,
@@ -109,7 +130,61 @@ export default function Admin() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, isAuthAdmin, activeTab]);
+
+  useEffect(() => {
+    if (!user || !isAuthAdmin || activeTab !== 'access') return;
+
+    const q = query(collection(db, 'access_rules'), orderBy('email', 'asc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const rules = snapshot.docs.map(doc => doc.data() as AccessRule);
+      setAccessRules(rules);
+    });
+
+    return () => unsubscribe();
+  }, [user, isAuthAdmin, activeTab]);
+
+  const handleAddAccessRule = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newEmail.trim() || isSavingAccess) return;
+
+    setIsSavingAccess(true);
+    try {
+      const email = newEmail.trim().toLowerCase();
+      const ruleRef = doc(db, 'access_rules', email);
+      await setDoc(ruleRef, {
+        email,
+        role: newRole,
+        updatedAt: serverTimestamp()
+      });
+      setNewEmail('');
+    } catch (error) {
+      console.error("Error saving access rule:", error);
+      alert("Error saving access rule");
+    } finally {
+      setIsSavingAccess(false);
+    }
+  };
+
+  const handleDeleteAccessRule = async (email: string) => {
+    if (!window.confirm(t('admin.deleteConfirm', { type: t('admin.user') }))) return;
+    try {
+      await deleteDoc(doc(db, 'access_rules', email));
+    } catch (error) {
+      console.error("Error deleting access rule:", error);
+    }
+  };
+
+  const handleUpdateRole = async (email: string, role: 'admin' | 'worker' | 'user') => {
+    try {
+      await updateDoc(doc(db, 'access_rules', email), {
+        role,
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Error updating role:", error);
+    }
+  };
 
   useEffect(() => {
     if (!selectedUserId) {
@@ -120,7 +195,7 @@ export default function Admin() {
     const collectionName = 'support_chats';
     const q = query(
       collection(db, collectionName),
-      orderBy('timestamp', 'asc')
+      where('user_id', '==', selectedUserId)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -129,9 +204,14 @@ export default function Admin() {
         ...doc.data()
       })) as ChatMessage[];
       
-      // Filter for the selected user
-      const filtered = allMsgs.filter(m => m.user_id === selectedUserId);
-      setMessages(filtered);
+      // Sort by timestamp in frontend to avoid index requirement
+      const sorted = [...allMsgs].sort((a, b) => {
+        const timeA = a.timestamp?.seconds || 0;
+        const timeB = b.timestamp?.seconds || 0;
+        return timeA - timeB;
+      });
+      
+      setMessages(sorted);
     });
 
     return () => unsubscribe();
@@ -212,7 +292,7 @@ export default function Admin() {
     chat.user_id.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (authLoading || (!user || !ADMIN_EMAILS.includes(user.email || ''))) {
+  if (authLoading || (!user || !isAuthAdmin)) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <Loader2 className="animate-spin text-[#FFB800]" size={48} />
@@ -224,10 +304,31 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen pt-20 md:pt-24 pb-4 md:pb-8 bg-[#0a0a0a]">
-      <div className="max-w-[1400px] mx-auto px-0 md:px-6 h-[calc(100svh-100px)] md:h-[calc(100vh-140px)]">
-        <div className="bg-[#111315] border-y md:border border-white/10 md:rounded-3xl h-full flex overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1400px] mx-auto px-0 md:px-6 h-[calc(100svh-100px)] md:h-[calc(100vh-140px)] flex flex-col gap-4">
+        
+        {/* Tab Switcher */}
+        <div className="flex bg-[#111315] p-1 rounded-2xl border border-white/10 w-fit self-center">
+          <button
+            onClick={() => setActiveTab('support')}
+            className={`px-6 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'support' ? 'bg-[#FFB800] text-black' : 'text-gray-400 hover:text-white'}`}
+          >
+            <MessageSquare size={16} />
+            <span>{t('admin.support')}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('access')}
+            className={`px-6 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'access' ? 'bg-[#FFB800] text-black' : 'text-gray-400 hover:text-white'}`}
+          >
+            <ShieldCheck size={16} />
+            <span>{t('admin.manageUsers')}</span>
+          </button>
+        </div>
+
+        <div className="bg-[#111315] border-y md:border border-white/10 md:rounded-3xl flex-1 flex overflow-hidden shadow-2xl relative">
           
-          {/* Sidebar: Chat List */}
+          {activeTab === 'support' ? (
+            <>
+              {/* Sidebar: Chat List */}
           <div className={`w-full md:w-80 lg:w-96 border-r border-white/10 flex flex-col ${selectedUserId ? 'hidden md:flex' : 'flex'}`}>
             <div className="p-6 border-b border-white/10 bg-white/[0.02]">
               <h2 className="text-xl font-black text-white uppercase italic tracking-tighter mb-4">{t('admin.title')}</h2>
@@ -405,7 +506,103 @@ export default function Admin() {
               </>
             )}
           </div>
+          </>
+        ) : (
+          <div className="flex-1 flex flex-col p-6 overflow-y-auto">
+            <div className="max-w-4xl mx-auto w-full space-y-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter">{t('admin.userPermissions')}</h3>
+                  <p className="text-gray-500 text-sm mt-1">Manage who can access the workers and admin panels.</p>
+                </div>
+                
+                <form onSubmit={handleAddAccessRule} className="flex gap-2">
+                  <div className="relative group">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#FFB800] transition-colors" size={16} />
+                    <input 
+                      type="email"
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
+                      placeholder={t('admin.permissionEmailPlaceholder')}
+                      required
+                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-[#FFB800] transition-colors min-w-[240px]"
+                    />
+                  </div>
+                  <select
+                    value={newRole}
+                    onChange={(e) => setNewRole(e.target.value as any)}
+                    className="bg-white/5 border border-white/10 rounded-xl py-2 px-4 text-sm focus:outline-none focus:border-[#FFB800] transition-colors text-white"
+                  >
+                    <option value="worker" className="bg-[#111315]">{t('admin.worker')}</option>
+                    <option value="admin" className="bg-[#111315]">{t('admin.admin')}</option>
+                  </select>
+                  <button
+                    type="submit"
+                    disabled={isSavingAccess}
+                    className="bg-[#FFB800] text-black p-2 rounded-xl hover:bg-white transition-colors disabled:opacity-50"
+                  >
+                    {isSavingAccess ? <Loader2 size={20} className="animate-spin" /> : <UserPlus size={20} />}
+                  </button>
+                </form>
+              </div>
 
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/10 bg-white/[0.03]">
+                      <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('admin.email')}</th>
+                      <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('admin.role')}</th>
+                      <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">{t('admin.actions')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {accessRules.map((rule) => (
+                      <tr key={rule.email} className="border-b border-white/5 hover:bg-white/[0.01] transition-colors">
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-xs font-bold text-gray-400">
+                              {rule.email.charAt(0).toUpperCase()}
+                            </div>
+                            <span className="text-sm text-white font-medium">{rule.email}</span>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <select
+                            value={rule.role}
+                            onChange={(e) => handleUpdateRole(rule.email, e.target.value as any)}
+                            className={`text-xs font-bold px-3 py-1 rounded-full border transition-colors bg-transparent ${
+                              rule.role === 'admin' 
+                                ? 'border-[#FFB800]/50 text-[#FFB800] bg-[#FFB800]/5' 
+                                : 'border-blue-500/50 text-blue-400 bg-blue-400/5'
+                            }`}
+                          >
+                            <option value="worker" className="bg-[#111315]">{t('admin.worker')}</option>
+                            <option value="admin" className="bg-[#111315]">{t('admin.admin')}</option>
+                          </select>
+                        </td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => handleDeleteAccessRule(rule.email)}
+                            className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                    {accessRules.length === 0 && (
+                      <tr>
+                        <td colSpan={3} className="p-8 text-center text-gray-500 italic text-sm">
+                          No access rules defined yet.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </div>

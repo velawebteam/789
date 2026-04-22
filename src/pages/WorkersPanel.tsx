@@ -157,7 +157,7 @@ function ProjectItem({ project, client, onToggleStatus, onDelete, onAddWorker, o
 }
 
 export default function WorkersPanel() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, isAdmin, isAuthorized } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState<'clients' | 'hours'>('clients');
@@ -177,8 +177,6 @@ export default function WorkersPanel() {
   const [filterStartDate, setFilterStartDate] = useState<string>('');
   const [filterEndDate, setFilterEndDate] = useState<string>('');
 
-  const isAuthorized = user && (ALLOWED_EMAILS.includes(user.email || '') || ADMIN_EMAILS.includes(user.email || ''));
-
   useEffect(() => {
     if (!authLoading) {
       if (!user || !isAuthorized) {
@@ -190,11 +188,9 @@ export default function WorkersPanel() {
   useEffect(() => {
     if (!user || !isAuthorized) return;
 
-    const isAdminUser = user && ADMIN_EMAILS.includes(user.email || '');
-
     // Clients Query
     const clientsBaseQuery = collection(db, 'clients');
-    const clientsQuery = isAdminUser 
+    const clientsQuery = isAdmin 
       ? query(clientsBaseQuery)
       : query(clientsBaseQuery, where('ownerEmail', '==', user.email));
     
@@ -207,7 +203,7 @@ export default function WorkersPanel() {
         return dateB - dateA;
       });
 
-      if (isAdminUser) {
+      if (isAdmin) {
         setClients(sortedClients);
       } else {
         setClients(prev => {
@@ -220,7 +216,7 @@ export default function WorkersPanel() {
 
     // Projects: Visible if owner OR collaborator (or ALL if admin)
     const projectsBaseQuery = collection(db, 'projects');
-    const projectsQuery = isAdminUser
+    const projectsQuery = isAdmin
       ? query(projectsBaseQuery)
       : query(
           projectsBaseQuery,
@@ -240,7 +236,7 @@ export default function WorkersPanel() {
       });
       setProjects(sortedProjects);
 
-      if (!isAdminUser) {
+      if (!isAdmin) {
         // Fetch clients of shared projects that aren't already in the list
         const colleagueClientIds = projectsData
           .filter(p => !p.ownerEmail || p.ownerEmail !== user.email)
@@ -259,7 +255,7 @@ export default function WorkersPanel() {
     });
 
     const baseLogsQuery = collection(db, 'time_logs');
-    const logsQuery = isAdminUser 
+    const logsQuery = isAdmin 
       ? query(baseLogsQuery, orderBy('startTime', 'desc'))
       : query(baseLogsQuery, where('userId', '==', user.uid), orderBy('startTime', 'desc'));
 
@@ -394,13 +390,14 @@ export default function WorkersPanel() {
     const matchStart = !filterStartDate || log.date >= filterStartDate;
     const matchEnd = !filterEndDate || log.date <= filterEndDate;
     // Workers only see their own logs, admins see all
-    const isAdminUser = user && ADMIN_EMAILS.includes(user.email || '');
-    const matchUser = isAdminUser || log.userEmail === user?.email;
+    const matchUser = isAdmin || log.userEmail === user?.email;
     return matchProject && matchStart && matchEnd && matchUser;
   });
 
   const totalMinutes = filteredLogs.reduce((acc, log) => acc + (log.durationMinutes || 0), 0);
-  const totalHours = (totalMinutes / 60).toFixed(1);
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  const totalHoursDisplay = `${h}h ${m}m`;
 
   if (authLoading || loading) {
     return (
@@ -411,25 +408,25 @@ export default function WorkersPanel() {
   }
 
   return (
-    <div className="min-h-screen pt-24 md:pt-32 pb-12 bg-[#0a0a0a]">
-       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div className="min-h-screen pt-20 md:pt-24 lg:pt-32 pb-12 bg-[#0a0a0a]">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 md:mb-8">
           <div>
             <h1 className="text-3xl font-black italic uppercase tracking-tighter text-white">
               {t('workers.title')}
             </h1>
           </div>
 
-          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
+          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 w-fit self-center">
             <button
               onClick={() => setSelectedTab('clients')}
-              className={`px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${selectedTab === 'clients' ? 'bg-[#FFB800] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 md:px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${selectedTab === 'clients' ? 'bg-[#FFB800] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
             >
               {t('workers.clients')}
             </button>
             <button
               onClick={() => setSelectedTab('hours')}
-              className={`px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${selectedTab === 'hours' ? 'bg-[#FFB800] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 md:px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${selectedTab === 'hours' ? 'bg-[#FFB800] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
             >
               {t('workers.hours')}
             </button>
@@ -616,7 +613,7 @@ export default function WorkersPanel() {
 
                 <div className="bg-[#FFB800]/10 border border-[#FFB800]/20 rounded-xl p-3 text-center">
                    <p className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1">{t('workers.totalHoursCalculation')}</p>
-                   <p className="text-lg font-black text-[#FFB800] italic tracking-tighter">{totalHours}h</p>
+                   <p className="text-lg font-black text-[#FFB800] italic tracking-tighter">{totalHoursDisplay}</p>
                 </div>
               </div>
             </div>

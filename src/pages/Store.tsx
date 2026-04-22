@@ -39,15 +39,11 @@ const products = [
 
 export default function Store() {
   const { t } = useLanguage();
-  const { user, login, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading, isAuthorized } = useAuth();
   const navigate = useNavigate();
-  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
 
   useEffect(() => {
-    if (!authLoading && !isAuthorized && user) {
-      // If user is logged in but not authorized, we still show the restricted view if we want, 
-      // but the user said "same restrictions", which in Maintenance/Clock-In means showing an unauthorized message.
-    }
+    // If not authorized and user is logged in, you can add logic here if needed
   }, [user, authLoading, isAuthorized]);
 
   const handleRedirect = (url: string) => {
@@ -64,7 +60,7 @@ export default function Store() {
 
   if (!isAuthorized) {
     return (
-      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
+      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6 text-white selection:bg-[#FFB800] selection:text-black">
         <div className="max-w-md w-full text-center">
           <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
             <Lock className="text-red-500" size={40} />
@@ -85,7 +81,7 @@ export default function Store() {
             )}
             <button 
               onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs"
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs lg:flex hidden items-center justify-center"
             >
               {t('common.backToHome')}
             </button>
@@ -96,7 +92,7 @@ export default function Store() {
   }
 
   return (
-    <div className="pt-24 pb-20 min-h-screen bg-[#0a0a0a]">
+    <div className="pt-24 pb-20 min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[#FFB800]/5 blur-[120px] -z-10 animate-pulse" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-white/5 blur-[120px] -z-10" />
@@ -179,12 +175,12 @@ export default function Store() {
           ))}
         </div>
 
-        {/* Footer Banner */}
+        {/* Footer Banner - Hide on mobile/tablet */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-24 p-12 rounded-[3rem] bg-gradient-to-br from-[#111315] to-[#0a0a0a] border border-[#FFB800]/20 text-center relative overflow-hidden group"
+          className="mt-24 p-12 rounded-[3rem] bg-gradient-to-br from-[#111315] to-[#0a0a0a] border border-[#FFB800]/20 text-center relative overflow-hidden group hidden lg:block"
         >
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none" />
           <div className="relative z-10">

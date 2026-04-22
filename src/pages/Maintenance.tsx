@@ -31,8 +31,6 @@ import {
   LogIn
 } from 'lucide-react';
 
-import { ALLOWED_EMAILS } from '../constants/auth';
-
 interface MaintenanceTask {
   id: string;
   label: string;
@@ -53,10 +51,9 @@ const WEEKLY_TASKS: MaintenanceTask[] = [
 ];
 
 export default function Maintenance() {
-  const { user, login, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading, isAuthorized } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
 
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly'>('daily');
 

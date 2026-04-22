@@ -84,11 +84,9 @@ interface WeeklyStatus {
 }
 
 export default function TimeTracker() {
-  const { user, login, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading, isAdmin, isAuthorized } = useAuth();
   const { language, t } = useLanguage();
   const navigate = useNavigate();
-  const isAuthorized = user && (ALLOWED_EMAILS.includes(user.email || '') || ADMIN_EMAILS.includes(user.email || ''));
-  const isAdmin = user && ADMIN_EMAILS.includes(user.email || '');
 
   if (authLoading) {
     return (
@@ -237,7 +235,7 @@ export default function TimeTracker() {
       unsubscribe();
       unsubscribeProjects();
     };
-  }, [user, authLoading]);
+  }, [user, authLoading, isAdmin]);
 
   // Remove the old projects fetch effect that was tied to selectedClient
   // as we now pre-fetch projects to determine the client list.

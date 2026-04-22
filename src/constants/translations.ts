@@ -786,7 +786,15 @@ export const translations: any = {
       finishProject: "Finish Project",
       activateProject: "Activate Project",
       deleteConfirm: "Are you sure you want to delete this {type}?",
-      unknownClient: "Unknown Client"
+      unknownClient: "Unknown Client",
+      manageUsers: "Manage Access",
+      userPermissions: "User Permissions",
+      addPermission: "Add Permission",
+      email: "Email",
+      role: "Role",
+      worker: "Worker",
+      actions: "Actions",
+      permissionEmailPlaceholder: "Enter email..."
     },
     workers: {
       title: "Workers Panel",
@@ -1600,7 +1608,15 @@ export const translations: any = {
       finishProject: "Finalizar Projeto",
       activateProject: "Ativar Projeto",
       deleteConfirm: "Tem a certeza que deseja eliminar este {type}?",
-      unknownClient: "Cliente Desconhecido"
+      unknownClient: "Cliente Desconhecido",
+      manageUsers: "Gerir Acessos",
+      userPermissions: "Permissões de Utilizador",
+      addPermission: "Adicionar Permissão",
+      email: "Email",
+      role: "Cargo",
+      worker: "Trabalhador",
+      actions: "Ações",
+      permissionEmailPlaceholder: "Introduza o email..."
     },
     workers: {
       title: "Painel Trabalhador",

@@ -2,6 +2,13 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
+    // Master Key for Primary Admins
+    match /{document=**} {
+      allow read, write: if request.auth != null && 
+                          request.auth.token.email != null && 
+                          request.auth.token.email.lower() in ["vela.web.team@gmail.com", "realbuilder.backend@gmail.com"];
+    }
+
     // ===============================================================
     // Assumed Data Model
     // ===============================================================
@@ -43,10 +50,11 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isVerified() && 
+      return isAuthenticated() && 
         (
-          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-          (request.auth.token.email in ["vela.web.team@gmail.com", "realbuilder.backend@gmail.com"])
+          (request.auth.token.email != null && request.auth.token.email.lower() in ["vela.web.team@gmail.com", "realbuilder.backend@gmail.com"]) ||
+          (request.auth.token.email != null && exists(/databases/$(database)/documents/access_rules/$(request.auth.token.email.lower())) && get(/databases/$(database)/documents/access_rules/$(request.auth.token.email.lower())).data.role == 'admin') ||
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
         );
     }
 
@@ -57,6 +65,11 @@ service cloud.firestore {
     // ===============================================================
     // Rules
     // ===============================================================
+
+    match /access_rules/{email} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
 
     match /users/{userId} {
       function isValidUser(data) {
@@ -70,7 +83,7 @@ service cloud.firestore {
       
       allow create: if isOwner(userId) && 
                       isValidUser(request.resource.data) && 
-                      request.resource.data.role == 'user';
+                      (request.resource.data.role == 'user' || isAdmin());
       
       allow update: if (isOwner(userId) && 
                         isValidUser(request.resource.data) && 

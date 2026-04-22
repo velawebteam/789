@@ -5,7 +5,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { ALLOWED_EMAILS } from '../constants/auth';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   MessageSquare, 
@@ -30,10 +29,9 @@ interface Message {
 }
 
 export default function Chat() {
-  const { user, login, loading: authLoading } = useAuth();
+  const { user, login, loading: authLoading, isAuthorized } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
 
   const [message, setMessage] = useState('');
 

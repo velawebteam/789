@@ -6,6 +6,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAdmin: boolean;
+  isAuthorized: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -16,32 +17,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Check if user exists in Firestore, if not create
+        // Check access_rules first (by email)
+        const email = firebaseUser.email;
+        let role = 'user';
+        
+        if (email) {
+          const ruleRef = doc(db, 'access_rules', email);
+          const ruleSnap = await getDoc(ruleRef);
+          if (ruleSnap.exists()) {
+            role = ruleSnap.data().role;
+          } else {
+            // Fallback to constants for initial setup
+            const { ADMIN_EMAILS, ALLOWED_EMAILS } = await import('../constants/auth');
+            if (ADMIN_EMAILS.includes(email)) role = 'admin';
+            else if (ALLOWED_EMAILS.includes(email)) role = 'worker';
+          }
+        }
+
+        // Check/Update user document
         const userRef = doc(db, 'users', firebaseUser.uid);
         const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-          const newUser = {
+        if (!userSnap.exists() || userSnap.data().role !== role) {
+          const userData = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
             displayName: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
-            role: 'user',
-            createdAt: serverTimestamp(),
+            role: role,
+            updatedAt: serverTimestamp(),
+            ...(userSnap.exists() ? {} : { createdAt: serverTimestamp() })
           };
-          await setDoc(userRef, newUser);
-          setIsAdmin(false);
-        } else {
-          setIsAdmin(userSnap.data().role === 'admin');
+          await setDoc(userRef, userData, { merge: true });
         }
+        
+        setIsAdmin(role === 'admin');
+        setIsAuthorized(role === 'admin' || role === 'worker');
         setUser(firebaseUser);
       } else {
         setUser(null);
         setIsAdmin(false);
+        setIsAuthorized(false);
       }
       setLoading(false);
     });
@@ -59,17 +80,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error: any) {
       // Handle specific Firebase Auth errors gracefully
       if (error.code === 'auth/popup-closed-by-user') {
-        // User closed the popup, no need to log as error
         console.log("Login cancelled by user (popup closed).");
       } else if (error.code === 'auth/cancelled-popup-request') {
-        // Another popup was opened, ignore this one
         console.log("Login request cancelled (multiple popups).");
       } else if (error.code === 'auth/unauthorized-domain') {
         alert("Erro de Autenticação: Este domínio não está autorizado no Firebase Console. Por favor, adicione o domínio atual à lista de 'Domínios Autorizados' nas definições de Autenticação do seu projeto Firebase.");
-        console.error("Unauthorized domain:", window.location.hostname);
       } else {
         alert(`Ocorreu um erro ao tentar fazer login: ${error.message}`);
-        console.error("Login failed:", error);
       }
     } finally {
       setIsLoggingIn(false);
@@ -85,7 +102,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, isAuthorized, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

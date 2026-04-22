@@ -5,16 +5,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { ALLOWED_EMAILS, ADMIN_EMAILS } from '../constants/auth';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
-  const { user, login, logout, loading } = useAuth();
-  const isAuthorized = user && ALLOWED_EMAILS.includes(user.email || '');
-  const isAdmin = user && ADMIN_EMAILS.includes(user.email || '');
+  const { user, login, logout, loading, isAdmin, isAuthorized } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -161,6 +158,17 @@ export default function Navbar() {
 
                       {(isAdmin || isAuthorized) && (
                         <Link
+                          to="/store"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-[#FFB800] transition-colors hover:bg-white/5 border-b border-white/5 bg-[#FFB800]/5"
+                        >
+                          <ShoppingBag size={14} />
+                          <span>{t('navbar.store')}</span>
+                        </Link>
+                      )}
+
+                      {(isAdmin || isAuthorized) && (
+                        <Link
                           to="/billing"
                           onClick={() => setIsUserMenuOpen(false)}
                           className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5"
@@ -193,14 +201,6 @@ export default function Navbar() {
                       >
                         <MessageSquare size={14} className="text-[#FFB800]" />
                         <span>{t('navbar.chat')}</span>
-                      </Link>
-                      <Link
-                        to="/store"
-                        onClick={() => setIsUserMenuOpen(false)}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-gray-400 transition-colors hover:bg-white/5 border-t border-white/5"
-                      >
-                        <ShoppingBag size={14} className="text-[#FFB800]" />
-                        <span>{t('navbar.store')}</span>
                       </Link>
                       
                       <button 
@@ -274,18 +274,6 @@ export default function Navbar() {
               <button onClick={() => { scrollTo('partners'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.partners')}</button>
               <button onClick={() => { scrollTo('contact-form'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.register')}</button>
               
-              {user && (
-                <>
-                  <div className="h-px bg-white/10 my-2"></div>
-                  {(isAdmin || isAuthorized) && (
-                    <Link to="/workers" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-[#FFB800] py-2 uppercase font-black">{t('navbar.workersPanel')}</Link>
-                  )}
-                  {isAdmin && (
-                    <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-[#FFB800] py-2 uppercase font-black">{t('navbar.adminPanel')}</Link>
-                  )}
-                </>
-              )}
-              
               <div className="h-px bg-white/10 my-2"></div>
               
               {/* Mobile Language Switcher & Notify Me */}
@@ -355,6 +343,16 @@ export default function Navbar() {
                       >
                         <HardHat size={18} />
                         <span>{t('navbar.workersPanel')}</span>
+                      </Link>
+                    )}
+                    {(isAdmin || isAuthorized) && (
+                      <Link 
+                        to="/store"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2 text-[#FFB800] font-bold"
+                      >
+                        <ShoppingBag size={18} />
+                        <span>{t('navbar.store')}</span>
                       </Link>
                     )}
                     {(isAdmin || isAuthorized) && (
