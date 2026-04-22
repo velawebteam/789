@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -32,7 +32,12 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
   { isEnrollmentOpen: boolean, setIsEnrollmentOpen: (o: boolean) => void, isNotifyMeOpen: boolean, setIsNotifyMeOpen: (o: boolean) => void }) {
   const location = useLocation();
   const restrictedPaths = ['/chat', '/clock-in', '/maintenance', '/workers', '/admin', '/billing', '/store'];
-  const isRestrictedPath = restrictedPaths.includes(location.pathname);
+  
+  // Normalize path for check: remove trailing slash, convert to lowercase, and remove query params
+  const currentPath = location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+  const isRestrictedPath = restrictedPaths.some(path => 
+    currentPath === path.toLowerCase() || currentPath.startsWith(path.toLowerCase() + '/')
+  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
@@ -52,6 +57,8 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
         <Route path="/clock-in" element={<TimeTracker />} />
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/billing" element={<Billing />} />
+        {/* Catch-all redirect to home for unmatched routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
         <Footer />

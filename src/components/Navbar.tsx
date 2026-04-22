@@ -125,10 +125,10 @@ export default function Navbar() {
                 <AnimatePresence>
                   {isUserMenuOpen && (
                     <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[160px] z-50"
+                      initial={{ opacity: 0, y: 10, x: '-50%' }}
+                      animate={{ opacity: 1, y: 0, x: '-50%' }}
+                      exit={{ opacity: 0, y: 10, x: '-50%' }}
+                      className="absolute left-1/2 mt-4 bg-[#111315] border border-white/10 rounded-lg overflow-hidden shadow-2xl min-w-[200px] z-50"
                     >
                       <div className="px-4 py-3 border-b border-white/5">
                         <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{t('navbar.loggedInAs')}</p>
