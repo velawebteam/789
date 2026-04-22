@@ -294,39 +294,6 @@ export default function Maintenance() {
     );
   }
 
-  if (!isAuthorized) {
-    return (
-      <div className="min-h-screen pt-32 pb-20 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-            <Lock className="text-red-500" size={40} />
-          </div>
-          <h2 className="text-2xl font-black mb-4 uppercase tracking-tighter">{t('common.unauthorized')}</h2>
-          <p className="text-gray-400 mb-8 font-medium leading-relaxed">
-            {t('common.unauthorizedDesc')}
-          </p>
-          <div className="flex flex-col gap-3">
-            {!user && (
-              <button 
-                onClick={login}
-                className="w-full bg-[#FFB800] text-black font-bold py-4 rounded-xl border border-[#FFB800] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
-              >
-                <LogIn size={16} />
-                <span>{t('navbar.login')}</span>
-              </button>
-            )}
-            <Link 
-              to="/"
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs text-center"
-            >
-              {t('common.backToHome')}
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (activeTab === 'daily' && !isClockedIn && !completedToday.daily) {
     return (
       <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">

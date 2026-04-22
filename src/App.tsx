@@ -33,7 +33,6 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
   const location = useLocation();
   const restrictedPaths = ['/chat', '/clock-in', '/maintenance', '/workers', '/admin', '/billing', '/store'];
   
-  // Normalize path for check: remove trailing slash, convert to lowercase, and remove query params
   const currentPath = location.pathname.toLowerCase().replace(/\/$/, '') || '/';
   const isRestrictedPath = restrictedPaths.some(path => 
     currentPath === path.toLowerCase() || currentPath.startsWith(path.toLowerCase() + '/')
@@ -44,6 +43,7 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
       <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
         <Navbar />
       </div>
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/store" element={<Store />} />
@@ -57,16 +57,19 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
         <Route path="/clock-in" element={<TimeTracker />} />
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/billing" element={<Billing />} />
-        {/* Catch-all redirect to home for unmatched routes */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
       <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
         <Footer />
       </div>
+
       <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
       <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
       <CookieConsent />
-      {location.pathname === '/' && <SupportChat />}
+      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
+        <SupportChat />
+      </div>
     </div>
   );
 }

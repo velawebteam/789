@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db, googleProvider, onAuthStateChanged, signInWithPopup, signOut, User } from '../lib/firebase';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { ADMIN_EMAILS, ALLOWED_EMAILS } from '../constants/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -33,7 +34,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             role = ruleSnap.data().role;
           } else {
             // Fallback to constants for initial setup
-            const { ADMIN_EMAILS, ALLOWED_EMAILS } = await import('../constants/auth');
             if (ADMIN_EMAILS.includes(email)) role = 'admin';
             else if (ALLOWED_EMAILS.includes(email)) role = 'worker';
           }

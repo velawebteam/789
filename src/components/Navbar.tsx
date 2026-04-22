@@ -263,9 +263,9 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#0a0a0a] border-b border-white/10 overflow-y-auto max-h-[calc(100vh-6rem)]"
+            className="lg:hidden bg-[#0a0a0a] border-b border-white/10 overflow-y-auto max-h-[calc(100svh-6rem)] overscroll-contain"
           >
-            <div className="flex flex-col px-6 py-4 gap-4 text-sm font-semibold tracking-wider text-gray-300 uppercase">
+            <div className="flex flex-col px-6 pt-4 pb-32 gap-4 text-sm font-semibold tracking-wider text-gray-300 uppercase">
               <button onClick={() => { scrollTo('about'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.about')}</button>
               <button onClick={() => { scrollTo('how-it-works'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.howItWorks')}</button>
               <button onClick={() => { scrollTo('pricing'); setIsMobileMenuOpen(false); }} className="text-left hover:text-white py-2">{t('navbar.pricing')}</button>
