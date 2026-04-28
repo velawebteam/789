@@ -249,7 +249,7 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "Construction Carpentry",
+        name: "Carpenter",
         mastery: [
           "Precision timber cutting & jointing",
           "Wall & roof framing structures",
@@ -1088,7 +1088,7 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "Carpintaria de Construção",
+        name: "Carpinteiro",
         mastery: [
           "Corte e junção de madeira de precisão",
           "Estruturas de suporte de paredes e telhados",
@@ -1923,7 +1923,7 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "निर्माण बढ़ईगीरी (Construction Carpentry)",
+        name: "बढ़ई (Carpenter)",
         mastery: [
           "परिशुद्धता लकड़ी काटने और जोड़ना",
           "दीवार और छत की फ्रेमिंग संरचनाएं",

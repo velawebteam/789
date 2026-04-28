@@ -111,7 +111,7 @@ export const COURSES_LIST = [
   },
   {
     id: 'carpentry',
-    name: "Construction Carpentry",
+    name: "Carpenter",
     mastery: [
       "Precision timber cutting & jointing",
       "Wall & roof framing structures",
