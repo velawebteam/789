@@ -9,10 +9,11 @@ import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function Contact() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { consent, acceptCookies } = useCookieConsent();
   const { user, login, loading } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [fileName, setFileName] = useState('');
   const [hasExperience, setHasExperience] = useState('');
@@ -87,6 +88,9 @@ export default function Contact() {
         phone: formData.get('phone'),
         plan: selectedPlan,
         vehicle: selectedVehicle,
+        course: selectedCourse,
+        topic: formData.get('topic'),
+        message: formData.get('message'),
         hasExperience: hasExperience,
         hasMindset: hasMindset,
         needsAssistance: needsAssistance,
@@ -213,7 +217,8 @@ export default function Contact() {
                       <div className="relative">
                         <select 
                           required
-                          defaultValue=""
+                          value={selectedCourse}
+                          onChange={(e) => setSelectedCourse(e.target.value)}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors appearance-none text-xs sm:text-sm"
                         >
                           <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectCourse')}</option>
@@ -227,6 +232,7 @@ export default function Contact() {
                           <option value="steel" className="bg-[#111315] text-white">{t('courses_list.steel.name')}</option>
                           <option value="logistics" className="bg-[#111315] text-white">{t('courses_list.logistics.name')}</option>
                           <option value="servant" className="bg-[#111315] text-white">{t('courses_list.servant.name')}</option>
+                          <option value="carpentry" className="bg-[#111315] text-white">{t('courses_list.carpentry.name')}</option>
                           <option value="multiple" className="bg-[#111315] text-white">{t('courses_list.multiple')}</option>
                         </select>
                         <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -397,20 +403,34 @@ export default function Contact() {
                 )}
 
                 {selectedPlan === 'doubts' && (
-                  <div>
-                    <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.about')}</label>
-                    <div className="relative">
-                      <select 
-                        required
-                        defaultValue=""
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors appearance-none"
-                      >
-                        <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectTopic')}</option>
-                        <option value="general" className="bg-[#111315] text-white">{t('contact.topicGeneral')}</option>
-                        <option value="courses" className="bg-[#111315] text-white">{t('contact.topicCourses')}</option>
-                        <option value="vehicles" className="bg-[#111315] text-white">{t('contact.topicVehicles')}</option>
-                      </select>
-                      <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  <div className="col-span-2 space-y-6">
+                    <div>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.about')}</label>
+                      <div className="relative">
+                        <select 
+                          required
+                          name="topic"
+                          defaultValue=""
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors appearance-none text-sm"
+                        >
+                          <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectTopic')}</option>
+                          <option value="general" className="bg-[#111315] text-white">{t('contact.topicGeneral')}</option>
+                          <option value="courses" className="bg-[#111315] text-white">{t('contact.topicCourses')}</option>
+                          <option value="vehicles" className="bg-[#111315] text-white">{t('contact.topicVehicles')}</option>
+                        </select>
+                        <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.message')}</label>
+                      <textarea 
+                        name="message"
+                        required={selectedPlan === 'doubts'}
+                        rows={4}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm resize-none"
+                        placeholder={t('contact.message')}
+                      ></textarea>
                     </div>
                   </div>
                 )}
@@ -419,27 +439,100 @@ export default function Contact() {
 
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <button 
-                  type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
-                  disabled={!isRegistrationOpen || consent !== 'accepted' || isSubmitting}
-                  className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
-                    isRegistrationOpen && consent === 'accepted'
-                      ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
-                      : "bg-white/10 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  {isRegistrationOpen ? (
-                    <>
-                      <Send size={18} />
-                      {isSubmitting ? "SENDING..." : t('contact.sendMessage')}
-                    </>
-                  ) : (
-                    <>
-                      <Lock size={14} className="sm:w-[18px] sm:h-[18px] flex-shrink-0" />
-                      {t('contact.registrationOpens')}
-                    </>
-                  )}
-                </button>
+                {(() => {
+                  const activeCourses = ['drywall', 'servant'];
+                  const upcomingCourses: Record<string, { date: string }> = {};
+                  
+                  const isCourseSelected = selectedPlan === 'course_only' || selectedPlan === 'course_vehicle';
+                  const isUpcoming = isCourseSelected && selectedCourse in upcomingCourses;
+                  const isInactive = isCourseSelected && selectedCourse && !activeCourses.includes(selectedCourse) && !isUpcoming;
+                  
+                  if (isUpcoming) {
+                    return (
+                      <div className="space-y-4">
+                        {t('notify.nonBindingOffer') && (
+                          <div className="flex justify-center">
+                            <span className="bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black py-1 px-3 rounded-full uppercase tracking-widest animate-pulse">
+                              {t('notify.nonBindingOffer')}
+                            </span>
+                          </div>
+                        )}
+                        <button 
+                          type="button"
+                          disabled
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-white/10 text-gray-500 cursor-not-allowed text-[10px] sm:text-sm tracking-widest"
+                        >
+                          <Lock size={14} />
+                          {t('nextCourses.registrationOpensOn', { date: upcomingCourses[selectedCourse as keyof typeof upcomingCourses].date })}
+                        </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-white text-black hover:bg-[#FFB800]"
+                        >
+                          <Send size={18} />
+                          {t('contact.notifyMe')}
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  if (isInactive) {
+                    return (
+                      <div className="space-y-4">
+                        {t('notify.nonBindingOffer') && (
+                          <div className="flex justify-center">
+                            <span className="bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black py-1 px-3 rounded-full uppercase tracking-widest animate-pulse">
+                              {t('notify.nonBindingOffer')}
+                            </span>
+                          </div>
+                        )}
+                        <button 
+                          type="button"
+                          disabled
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed opacity-50"
+                        >
+                          <Lock size={14} />
+                          {t('nextCourses.toBeDefined')}
+                        </button>
+
+                        <button 
+                          type="button"
+                          onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-white text-black hover:bg-[#FFB800]"
+                        >
+                          <Send size={18} />
+                          {t('contact.notifyMe')}
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <button 
+                      type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
+                      disabled={!isRegistrationOpen || consent !== 'accepted' || isSubmitting}
+                      className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
+                        isRegistrationOpen && consent === 'accepted'
+                          ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
+                          : "bg-white/10 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      {isRegistrationOpen ? (
+                        <>
+                          <Send size={18} />
+                          {isSubmitting ? "SENDING..." : t('contact.sendMessage')}
+                        </>
+                      ) : (
+                        <>
+                          <Lock size={14} className="sm:w-[18px] sm:h-[18px] flex-shrink-0" />
+                          {t('contact.registrationOpens')}
+                        </>
+                      )}
+                    </button>
+                  );
+                })()}
                 {isRegistrationOpen && consent !== 'accepted' && (
                   <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-wider">
                     {t('cookies.consentRequired')}{' '}

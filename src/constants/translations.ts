@@ -40,7 +40,7 @@ export const translations: any = {
       mins: "MINS",
       secs: "SECS",
       exploreCourses: "Get Free Course",
-      howItWorks: "How It Works"
+      nextCourses: "Next Courses"
     },
     brand: {
       academy: " Academy"
@@ -140,8 +140,8 @@ export const translations: any = {
         get: "Get",
         off100: "100% OFF",
         desc: "Get a 100% discount on any course of your interest.",
-        counter: "20 get 30% off - 2 get 100% off",
-        ends: "non-binding offer ends on April 22",
+        counter: "2 get 100% OFF",
+        ends: "",
         claim: "CLAIM YOUR OFFER",
         actionRequired: "Action Required",
         claim100: "Claim 100% Off"
@@ -239,13 +239,23 @@ export const translations: any = {
         ]
       },
       servant: {
-        name: "Servant",
+        name: "Servant Pro",
         mastery: [
           "Professional hospitality standards",
           "Advanced service protocols",
           "Personal assistance & organization",
           "Etiquette & communication excellence",
           "Discreet & efficient task management"
+        ]
+      },
+      carpentry: {
+        name: "Construction Carpentry",
+        mastery: [
+          "Precision timber cutting & jointing",
+          "Wall & roof framing structures",
+          "Door & window frame installation",
+          "Interior trim & finishing work",
+          "Wood preservation & treatment"
         ]
       },
       multiple: "Multiple Courses"
@@ -283,13 +293,17 @@ export const translations: any = {
     },
     nextCourses: {
       title: "NEXT COURSES",
-      registrationsOpen: "Registrations Are Open",
-      registrationOpensIn: "Registration Opens In",
+      registrationsOpen: "Next Course",
+      registrationOpensIn: "Next Course",
       importantStart: "IMPORTANT START",
       registrationStart: "Registration Start",
       date: "Date",
       time: "Time",
       location: "Location",
+      spotsAvailable: "Spots available",
+      firstInfos: "First Infos",
+      enrolmentStart: "Enrolment Start",
+      registrationOpensOn: "Registration opens on {date}",
       lisbonTime: "18:00 (Lisbon Time)",
       tektonicaLocation: "Feira Tektónica - Parque Das Nações - Lisbon",
       days: "DAYS",
@@ -301,10 +315,13 @@ export const translations: any = {
       expand: "EXPAND",
       tektonicaOpening: "Opening of the \"Feira Tektónica\"",
       lisbonLocation: "Parque Das Nações - Lisbon",
-      firstCourses: "First 2 Courses",
+      firstCourses: "Drywall Course",
       toBeDefined: "To be defined",
-      nextCourses: "Next 2 Courses",
-      viewAllDates: "VIEW ALL DATES",
+      slots: "10 spots available",
+      firstInfo: "First info: {date}",
+      enrollmentOpen: "Enrollment opens: {date}",
+      nextCourses: "Servant Pro Course",
+      viewAllDates: "VIEW MORE DETAILS",
       fullCalendar: "Full Course Calendar",
       upcomingDates: "Upcoming dates for all",
       certifications: "certifications",
@@ -315,8 +332,8 @@ export const translations: any = {
       start: "Start",
       newSeason: "New Season",
       nextPhase: "Next Phase",
-      firstCoursesStart: "First 2 Courses Start",
-      nextCoursesStart: "Next 2 Courses Start"
+      firstCoursesStart: "Drywall Course Start",
+      nextCoursesStart: "Servant Pro Course Start"
     },
     mobility: {
       title: "Choose Your",
@@ -396,8 +413,8 @@ export const translations: any = {
     },
     notify: {
       title: "Get Notified",
-      subtitle: "and apply to get 30% off or free membership",
-      nonBindingOffer: "non-binding offer ends on April 22",
+      subtitle: "",
+      nonBindingOffer: "Non Binding Offer",
       desc: "Leave your details below and we'll notify you as soon as new courses open.",
       firstName: "First Name",
       lastName: "Last Name",
@@ -407,7 +424,7 @@ export const translations: any = {
       experience: "Years of Experience",
       selectExperience: "Select your experience",
       expLess1: "Less than 1 year",
-      exp1to2: "1-2 years",
+      exp1to2: "1-3 years",
       exp3to5: "3-5 years",
       exp5plus: "5+ years",
       coursesInterest: "Courses of Interest (Max 2)",
@@ -536,6 +553,7 @@ export const translations: any = {
       topicGeneral: "General",
       topicCourses: "Courses",
       topicVehicles: "Vehicles",
+      message: "Message",
       sendMessage: "SEND MESSAGE",
       registrationOpens: "REGISTRATION OPENS APRIL 24",
       notifyMe: "NOTIFY ME",
@@ -861,7 +879,7 @@ export const translations: any = {
       mins: "MINS",
       secs: "SEGS",
       exploreCourses: "Obter Curso Grátis",
-      howItWorks: "Como Funciona"
+      nextCourses: "Próximos Cursos"
     },
     brand: {
       academy: " Academia"
@@ -961,8 +979,8 @@ export const translations: any = {
         get: "Obtenha",
         off100: "100% DESCONTO",
         desc: "Obtenha 100% de desconto em qualquer curso do seu interesse.",
-        counter: "20 recebem 30% de desconto - 2 recebem 100% de desconto",
-        ends: "oferta não vinculativa termina a 22 de abril",
+        counter: "2 recebem 100% de desconto",
+        ends: "",
         claim: "RECLAMAR OFERTA",
         actionRequired: "Ação Necessária",
         claim100: "Reclamar 100% de Desconto"
@@ -1020,7 +1038,7 @@ export const translations: any = {
         ]
       },
       drywall: {
-        name: "Pladur (Gesso Cartonado)",
+        name: "Pladur",
         mastery: [
           "Instalação profissional de divisórias",
           "Técnicas de sistemas de teto",
@@ -1060,13 +1078,23 @@ export const translations: any = {
         ]
       },
       servant: {
-        name: "Assistente de Serviço (Servant)",
+        name: "Servente Pro",
         mastery: [
           "Padrões de hospitalidade profissional",
           "Protocolos de serviço avançados",
           "Assistência pessoal e organização",
           "Excelência em etiqueta e comunicação",
           "Gestão de tarefas discreta e eficiente"
+        ]
+      },
+      carpentry: {
+        name: "Carpintaria de Construção",
+        mastery: [
+          "Corte e junção de madeira de precisão",
+          "Estruturas de suporte de paredes e telhados",
+          "Instalação de caixilharias de portas e janelas",
+          "Trabalhos de guarnição e acabamento interior",
+          "Preservação e tratamento de madeira"
         ]
       },
       multiple: "Vários Cursos"
@@ -1104,13 +1132,17 @@ export const translations: any = {
     },
     nextCourses: {
       title: "PRÓXIMOS CURSOS",
-      registrationsOpen: "As Inscrições Estão Abertas",
+      registrationsOpen: "Próximo Curso",
       registrationOpensIn: "As Inscrições Abrem Em",
       importantStart: "INÍCIO IMPORTANTE",
       registrationStart: "Início das Inscrições",
       date: "Data",
       time: "Hora",
       location: "Localização",
+      spotsAvailable: "Vagas disponíveis",
+      firstInfos: "Primeiras Informações",
+      enrolmentStart: "Início das Inscrições",
+      registrationOpensOn: "Inscrições abrem a {date}",
       lisbonTime: "18:00 (Hora de Lisboa)",
       tektonicaLocation: "Feira Tektónica - Parque Das Nações - Lisboa",
       days: "DIAS",
@@ -1122,10 +1154,13 @@ export const translations: any = {
       expand: "EXPANDIR",
       tektonicaOpening: "Abertura da \"Feira Tektónica\"",
       lisbonLocation: "Parque Das Nações - Lisboa",
-      firstCourses: "Primeiros 2 Cursos",
+      firstCourses: "Curso de Pladur",
       toBeDefined: "A definir",
-      nextCourses: "Próximos 2 Cursos",
-      viewAllDates: "VER TODAS AS DATAS",
+      slots: "10 vagas disponíveis",
+      firstInfo: "Primeiras informações: {date}",
+      enrollmentOpen: "Inscrições abrem: {date}",
+      nextCourses: "Curso Servente Pro",
+      viewAllDates: "VER MAIS DETALHES",
       fullCalendar: "Calendário Completo de Cursos",
       upcomingDates: "Próximas datas para todas as",
       certifications: "certificações",
@@ -1136,8 +1171,8 @@ export const translations: any = {
       start: "Início",
       newSeason: "Nova Temporada",
       nextPhase: "Próxima Fase",
-      firstCoursesStart: "Início dos Primeiros 2 Cursos",
-      nextCoursesStart: "Início dos Próximos 2 Cursos"
+      firstCoursesStart: "Início do Curso de Pladur",
+      nextCoursesStart: "Início do Curso Servente Pro"
     },
     mobility: {
       title: "Escolha a sua",
@@ -1217,8 +1252,8 @@ export const translations: any = {
     },
     notify: {
       title: "Seja Notificado",
-      subtitle: "e candidate-se para obter 30% de desconto ou adesão gratuita",
-      nonBindingOffer: "oferta não vinculativa termina a 22 de abril",
+      subtitle: "",
+      nonBindingOffer: "Oferta não vinculativa",
       desc: "Deixe os seus dados abaixo e iremos notificá-lo assim que novos cursos abrirem.",
       firstName: "Primeiro Nome",
       lastName: "Apelido",
@@ -1228,7 +1263,7 @@ export const translations: any = {
       experience: "Anos de Experiência",
       selectExperience: "Selecione a sua experiência",
       expLess1: "Menos de 1 ano",
-      exp1to2: "1-2 anos",
+      exp1to2: "1-3 anos",
       exp3to5: "3-5 anos",
       exp5plus: "5+ anos",
       coursesInterest: "Cursos de Interesse (Máx 2)",
@@ -1357,6 +1392,7 @@ export const translations: any = {
       topicGeneral: "Geral",
       topicCourses: "Cursos",
       topicVehicles: "Veículos",
+      message: "Mensagem",
       sendMessage: "ENVIAR MENSAGEM",
       registrationOpens: "INSCRIÇÕES ABREM A 24 DE ABRIL",
       notifyMe: "NOTIFICAR-ME",
@@ -1370,7 +1406,7 @@ export const translations: any = {
       intro1: "Bem-vindo à {brand}. Estes Termos e Condições regem o acesso e utilização do nosso website e os serviços prestados pela {brand}, com sede na Avenida Mateus Teixeira Azevedo 55, Tavira, Portugal.",
       intro2: "Ao aceder e utilizar este website, o utilizador concorda em cumprir e vincular-se a estes Termos e Condições. Se não concordar com qualquer parte destes termos, não deve utilizar o nosso website.",
       servicesTitle: "2. Serviços",
-      services1: "A {brand} oferece cursos de formação profissional na indústria da construção, incluindo, mas não se limitando a, instalação de gesso cartonado, ladrilhagem e instalação de aquecimento radiante.",
+      services1: "A {brand} oferece cursos de formação profissional na indústria da construção, incluindo, mas não se limitando a, instalação de pladur (gesso cartonado), ladrilhagem e instalação de aquecimento radiante.",
       services2: "A inscrição nos cursos está sujeita a disponibilidade, cumprimento dos requisitos de admissão e pagamento das respetivas propinas, quando aplicável.",
       enrollmentsTitle: "3. Inscrições e Pagamentos",
       enrollments1: "Ao submeter um formulário de inscrição, o utilizador garante que todas as informações fornecidas são verdadeiras, precisas e completas.",
@@ -1778,8 +1814,8 @@ export const translations: any = {
         get: "प्राप्त करें",
         off100: "100% छूट",
         desc: "अपनी रुचि के किसी भी कोर्स पर 100% छूट प्राप्त करें।",
-        counter: "20 को 30% की छूट - 2 को 100% की छूट",
-        ends: "गैर-बाध्यकारी ऑफर 22 अप्रैल को समाप्त हो रहा है",
+        counter: "2 को 100% की छूट",
+        ends: "",
         claim: "अपना ऑफर प्राप्त करें",
         actionRequired: "कार्रवाई आवश्यक",
         claim100: "100% छूट का दावा करें"
@@ -1877,13 +1913,23 @@ export const translations: any = {
         ]
       },
       servant: {
-        name: "सेवक",
+        name: "सेवक प्रो (Servant Pro)",
         mastery: [
           "पेशेवर आतिथ्य मानक",
           "उन्नत सेवा प्रोटोकॉल",
           "व्यक्तिगत सहायता और संगठन",
           "शिष्टाचार और संचार उत्कृष्टता",
           "विवेकपूर्ण और कुशल कार्य प्रबंधन"
+        ]
+      },
+      carpentry: {
+        name: "निर्माण बढ़ईगीरी (Construction Carpentry)",
+        mastery: [
+          "परिशुद्धता लकड़ी काटने और जोड़ना",
+          "दीवार और छत की फ्रेमिंग संरचनाएं",
+          "दरवाजे और खिड़की के फ्रेम की स्थापना",
+          "आंतरिक ट्रिम और फिनिशिंग कार्य",
+          "लकड़ी संरक्षण और उपचार"
         ]
       },
       multiple: "एकाधिक पाठ्यक्रम"
@@ -1928,6 +1974,9 @@ export const translations: any = {
       date: "तारीख",
       time: "समय",
       location: "स्थान",
+      spotsAvailable: "उपलब्ध स्थान",
+      firstInfos: "पहली जानकारी",
+      enrolmentStart: "पंजीकरण शुरू",
       lisbonTime: "18:00 (लिस्बन समय)",
       tektonicaLocation: "फेरा टेक्टोनिका - पार्क दास नाकोस - लिस्बन",
       days: "दिन",
@@ -1939,9 +1988,12 @@ export const translations: any = {
       expand: "विस्तार करें",
       tektonicaOpening: "\"फेरा टेक्टोनिका\" का उद्घाटन",
       lisbonLocation: "पार्क दास नाकोस - लिस्बन",
-      firstCourses: "पहले 2 कोर्स",
+      firstCourses: "प्लादुर कोर्स (Pladur)",
       toBeDefined: "परिभाषित किया जाना है",
-      nextCourses: "अगले 2 कोर्स",
+      slots: "10 स्थान उपलब्ध",
+      firstInfo: "पहली जानकारी: {date}",
+      enrollmentOpen: "पंजीकरण शुरू: {date}",
+      nextCourses: "सर्वेंट प्रो कोर्स (Servent Pro)",
       viewAllDates: "सभी तारीखें देखें",
       fullCalendar: "पूर्ण कोर्स कैलेंडर",
       upcomingDates: "सभी के लिए आगामी तारीखें",
@@ -1953,8 +2005,8 @@ export const translations: any = {
       start: "शुरू",
       newSeason: "नया सीजन",
       nextPhase: "अगला चरण",
-      firstCoursesStart: "पहले 2 कोर्स शुरू",
-      nextCoursesStart: "अगले 2 कोर्स शुरू"
+      firstCoursesStart: "ड्रायवॉल कोर्स शुरू",
+      nextCoursesStart: "सर्वेंट प्रो कोर्स शुरू"
     },
     mobility: {
       title: "अपना चुनें",
@@ -2033,7 +2085,8 @@ export const translations: any = {
     },
     notify: {
       title: "सूचित हों",
-      subtitle: "और 30% छूट या मुफ्त सदस्यता पाने के लिए आवेदन करें",
+      subtitle: "",
+      nonBindingOffer: "गैर बाधिकारी प्रस्ताव",
       desc: "नीचे अपना विवरण छोड़ें और जैसे ही नए कोर्स खुलेंगे हम आपको सूचित करेंगे।",
       firstName: "पहला नाम",
       lastName: "अंतिम नाम",
@@ -2043,7 +2096,7 @@ export const translations: any = {
       experience: "अनुभव के वर्ष",
       selectExperience: "अपना अनुभव चुनें",
       expLess1: "1 वर्ष से कम",
-      exp1to2: "1-2 वर्ष",
+      exp1to2: "1-3 वर्ष",
       exp3to5: "3-5 वर्ष",
       exp5plus: "5+ वर्ष",
       coursesInterest: "रुचि के कोर्स (अधिकतम 2)",
@@ -2170,6 +2223,7 @@ export const translations: any = {
       topicGeneral: "सामान्य",
       topicCourses: "पाठ्यक्रम",
       topicVehicles: "वाहन",
+      message: "सन्देश",
       sendMessage: "संदेश भेजें",
       registrationOpens: "पंजीकरण 24 अप्रैल को खुलेगा",
       notifyMe: "मुझे सूचित करें",

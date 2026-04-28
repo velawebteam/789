@@ -218,14 +218,14 @@ export default function Hero() {
               </div>
             </motion.button>
 
-            <motion.a 
-              href="#how-it-works"
+            <motion.button 
+              onClick={() => scrollTo('next-courses')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="relative group overflow-hidden border border-white/20 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-colors hover:border-[#FFB800]/50 w-full sm:w-auto text-center flex items-center justify-center uppercase"
             >
-              <span className="relative z-10 whitespace-nowrap">{t('hero.howItWorks')}</span>
-            </motion.a>
+              <span className="relative z-10 whitespace-nowrap">{t('hero.nextCourses')}</span>
+            </motion.button>
           </div>
         </motion.div>
       </div>

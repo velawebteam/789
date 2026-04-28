@@ -89,12 +89,16 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   <h3 className="text-2xl font-black text-white mb-2 tracking-tight uppercase notranslate" translate="no">
                     {t('notify.title')}
                   </h3>
-                  <p className="text-[#FFB800] text-sm font-bold mb-2 uppercase tracking-wider">
-                    {t('notify.subtitle')}
-                  </p>
-                  <p className="bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black py-1 px-3 rounded-full inline-block mb-3 uppercase tracking-widest animate-pulse">
-                    {t('notify.nonBindingOffer')}
-                  </p>
+                  {t('notify.subtitle') && (
+                    <p className="text-[#FFB800] text-sm font-bold mb-2 uppercase tracking-wider">
+                      {t('notify.subtitle')}
+                    </p>
+                  )}
+                  {t('notify.nonBindingOffer') && (
+                    <p className="bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black py-1 px-3 rounded-full inline-block mb-3 uppercase tracking-widest animate-pulse">
+                      {t('notify.nonBindingOffer')}
+                    </p>
+                  )}
                   <p className="text-gray-400 text-sm">
                     {t('notify.desc')}
                   </p>
@@ -170,7 +174,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                       >
                         <option value="" disabled>{t('notify.selectExperience')}</option>
                         <option value="less_than_1">{t('notify.expLess1')}</option>
-                        <option value="1_to_2">{t('notify.exp1to2')}</option>
+                        <option value="1_to_3">{t('notify.exp1to2')}</option>
                         <option value="3_to_5">{t('notify.exp3to5')}</option>
                         <option value="5_plus">{t('notify.exp5plus')}</option>
                       </select>

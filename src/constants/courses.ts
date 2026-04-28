@@ -100,13 +100,24 @@ export const COURSES_LIST = [
   },
   { 
     id: 'servant',
-    name: "Servant",
+    name: "Servant Pro",
     mastery: [
       "Professional hospitality standards",
       "Advanced service protocols",
       "Personal assistance & organization",
       "Etiquette & communication excellence",
       "Discreet & efficient task management"
+    ]
+  },
+  {
+    id: 'carpentry',
+    name: "Construction Carpentry",
+    mastery: [
+      "Precision timber cutting & jointing",
+      "Wall & roof framing structures",
+      "Door & window frame installation",
+      "Interior trim & finishing work",
+      "Wood preservation & treatment"
     ]
   }
 ];

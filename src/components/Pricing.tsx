@@ -256,16 +256,20 @@ export default function Pricing() {
                   {t('pricing.promo.desc')}
                 </p>
 
-                <div className="bg-red-500/10 border border-red-500/20 rounded-lg py-3 px-4 mb-4">
-                  <span className="text-red-500 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 notranslate" translate="no">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    {t('pricing.promo.counter')}
-                  </span>
-                </div>
+                {t('pricing.promo.counter') && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg py-3 px-4 mb-4">
+                    <span className="text-red-500 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 notranslate" translate="no">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                      {t('pricing.promo.counter')}
+                    </span>
+                  </div>
+                )}
 
-                <p className="text-gray-400 text-xs uppercase tracking-[0.2em] font-bold mb-8">
-                  {t('pricing.promo.ends')}
-                </p>
+                {t('pricing.promo.ends') && (
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] font-bold mb-8">
+                    {t('pricing.promo.ends')}
+                  </p>
+                )}
                 
                 <button 
                   onClick={() => {
@@ -321,9 +325,11 @@ export default function Pricing() {
                 <span className="text-sm font-black tracking-widest uppercase text-[#FFB800]">
                   {t('pricing.promo.claim100')}
                 </span>
-                <span className="text-[8px] font-medium text-gray-400 uppercase tracking-wider mt-0.5">
-                  {t('pricing.promo.ends')}
-                </span>
+                {t('pricing.promo.ends') && (
+                  <span className="text-[8px] font-medium text-gray-400 uppercase tracking-wider mt-0.5">
+                    {t('pricing.promo.ends')}
+                  </span>
+                )}
               </div>
             </motion.button>
           </motion.div>
