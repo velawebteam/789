@@ -466,7 +466,7 @@ export default function Contact() {
                         <button 
                           type="button"
                           disabled
-                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed opacity-50"
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed opacity-50 whitespace-pre-line"
                         >
                           <Lock size={14} />
                           {t('nextCourses.toBeDefined')}

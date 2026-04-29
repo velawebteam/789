@@ -176,33 +176,6 @@ export default function HowItWorks() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-16 md:mt-24 flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
           >
-            <motion.button 
-              onClick={() => {
-                const element = document.getElementById('pilot-program');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              animate={{ 
-                scale: [1, 1.05, 1],
-                boxShadow: [
-                  "0 0 0px rgba(255,184,0,0)",
-                  "0 0 20px rgba(255,184,0,0.4)",
-                  "0 0 0px rgba(255,184,0,0)"
-                ]
-              }}
-              transition={{ 
-                duration: 0.8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative group overflow-hidden bg-[#FFB800] text-black px-8 py-4 rounded-lg text-sm font-black tracking-widest transition-colors hover:bg-white w-full sm:w-auto text-center uppercase"
-            >
-              <span className="relative z-10">{t('howItWorks.getFreeCourse')}</span>
-            </motion.button>
-
             <motion.a 
               href="#courses"
               whileHover={{ scale: 1.05 }}

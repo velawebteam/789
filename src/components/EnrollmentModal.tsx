@@ -157,26 +157,34 @@ export default function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProp
                 <h3 className="text-[#FFB800] text-xs font-bold tracking-widest uppercase mb-2">{t('enrollment.selectCourse')}</h3>
                 <p className="text-gray-400 text-xs mb-4">{t('enrollment.selectCourseDesc')}</p>
                 
-                <div className="space-y-3">
-                  {COURSES_LIST.map((course) => (
-                    <div 
-                      key={course.id}
-                      onClick={() => setSelectedCourse(course.id)} 
-                      className={`bg-[#111315] border ${selectedCourse === course.id ? 'border-[#FFB800]' : 'border-white/10'} rounded-xl p-4 flex gap-4 cursor-pointer hover:border-[#FFB800]/50 transition-colors group`}
-                    >
-                      <div className="w-10 h-10 rounded-lg bg-[#1a1d21] border border-white/5 flex items-center justify-center flex-shrink-0 group-hover:border-[#FFB800]/30">
-                        <GraduationCap size={20} className="text-[#FFB800]" />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-bold text-sm">{t(`courses_list.${course.id}.name`)}</h4>
-                        <p className="text-gray-400 text-xs mb-2">{t('enrollment.certification')}</p>
-                        <div className="flex items-center gap-2 text-xs">
-                          <span className="text-[#FFB800] font-bold">{t('enrollment.spotsLeft')}</span>
-                          <span className="text-gray-500">• PT/EN</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex flex-wrap gap-2">
+                  {COURSES_LIST.map((course) => {
+                    const isHighlighted = course.id === 'concrete' || course.id === 'carpentry';
+                    const isSelected = selectedCourse === course.id;
+                    
+                    return (
+                      <motion.button 
+                        key={course.id}
+                        type="button"
+                        onClick={() => setSelectedCourse(course.id)} 
+                        animate={isHighlighted && !isSelected ? {
+                          boxShadow: ["0 0 10px rgba(255,184,0,0.2)", "0 0 30px rgba(255,184,0,0.6)", "0 0 10px rgba(255,184,0,0.2)"],
+                          scale: [1, 1.03, 1],
+                          borderColor: ["rgba(255,184,0,0.3)", "rgba(255,184,0,1)", "rgba(255,184,0,0.3)"]
+                        } : {}}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider border-2 transition-all duration-300 ${
+                          isSelected 
+                            ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_20px_rgba(255,184,0,0.4)]' 
+                            : isHighlighted 
+                              ? 'bg-[#1a1d21] text-white'
+                              : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
+                        }`}
+                      >
+                        {t(`courses_list.${course.id}.name`)}
+                      </motion.button>
+                    );
+                  })}
                 </div>
               </section>
 

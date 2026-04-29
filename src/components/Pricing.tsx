@@ -1,4 +1,4 @@
-import { Check, X, Globe, X as CloseIcon, CheckCircle2 } from 'lucide-react';
+import { Check, X, Globe, X as CloseIcon, CheckCircle2, Construction, BookOpen, ArrowRight, Bell } from 'lucide-react';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
@@ -8,16 +8,9 @@ export default function Pricing() {
   const [showPromo, setShowPromo] = useState(false);
   const [hasDismissedPromo, setHasDismissedPromo] = useState(false);
   const [hasPromoAppeared, setHasPromoAppeared] = useState(false);
-  const [hasAccessedForm, setHasAccessedForm] = useState(false);
   
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-
-  useEffect(() => {
-    const handleFormAccess = () => setHasAccessedForm(true);
-    window.addEventListener('openNotifyMe', handleFormAccess);
-    return () => window.removeEventListener('openNotifyMe', handleFormAccess);
-  }, []);
 
   useEffect(() => {
     if (isInView && !hasDismissedPromo) {
@@ -243,44 +236,54 @@ export default function Pricing() {
                 <CloseIcon size={20} />
               </button>
               
-              <div className="relative z-10">
-                <div className="inline-block bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-black tracking-widest uppercase px-3 py-1 rounded-full mb-6">
-                  {t('pricing.promo.specialOffer')}
+              <div className="relative z-10 flex flex-col gap-12 py-4">
+                {/* Section 1: Courses under Consideration */}
+                <div className="relative group/section text-center">
+                  <span className="block text-2xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-4">
+                    {t('pricing.promo.underConsideration').includes(':') 
+                      ? t('pricing.promo.underConsideration').split(':')[0]
+                      : "In Study"}
+                  </span>
+                  
+                  <h4 className="text-white text-lg md:text-xl font-black mb-10 leading-tight uppercase tracking-tight">
+                    {t('pricing.promo.underConsideration').includes(':') 
+                      ? t('pricing.promo.underConsideration').split(':').slice(1).join(':').trim()
+                      : t('pricing.promo.underConsideration')}
+                  </h4>
+                  
+                  <button 
+                    onClick={() => {
+                      setShowPromo(false);
+                      setHasDismissedPromo(true);
+                      window.dispatchEvent(new CustomEvent('openNotifyMe'));
+                    }}
+                    className="w-full bg-[#FFB800] text-black font-black py-6 rounded-xl text-base tracking-[0.2em] uppercase hover:bg-white transition-all shadow-[0_10px_20px_rgba(255,184,0,0.15)] hover:shadow-[0_15px_30px_rgba(255,184,0,0.25)] hover:scale-[1.02] active:scale-95"
+                  >
+                    {t('pricing.promo.notifyMe')}
+                  </button>
                 </div>
-                
-                <h4 className="text-white font-black text-3xl md:text-4xl mb-4 tracking-tight uppercase">
-                  {t('pricing.promo.get')} <span className="text-[#FFB800]">{t('pricing.promo.off100')}</span>
-                </h4>
-                
-                <p className="text-gray-300 text-base mb-6 leading-relaxed">
-                  {t('pricing.promo.desc')}
-                </p>
 
-                {t('pricing.promo.counter') && (
-                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg py-3 px-4 mb-4">
-                    <span className="text-red-500 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 notranslate" translate="no">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                      {t('pricing.promo.counter')}
-                    </span>
-                  </div>
-                )}
-
-                {t('pricing.promo.ends') && (
-                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] font-bold mb-8">
-                    {t('pricing.promo.ends')}
+                {/* Section 2: Open Courses */}
+                <div className="relative group/section text-center pt-8 border-t border-white/5">
+                  <span className="block text-2xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-4">
+                    {t('pricing.promo.openCourses')}
+                  </span>
+                  
+                  <p className="text-white text-lg md:text-xl font-black mb-10 leading-tight uppercase tracking-tight">
+                    {t('pricing.promo.exploreNextCourses')}
                   </p>
-                )}
-                
-                <button 
-                  onClick={() => {
-                    setShowPromo(false);
-                    setHasDismissedPromo(true);
-                    window.dispatchEvent(new CustomEvent('openNotifyMe'));
-                  }}
-                  className="w-full bg-[#FFB800] text-black font-black py-4 rounded-xl text-lg tracking-widest hover:bg-white transition-colors shadow-[0_0_20px_rgba(255,184,0,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
-                >
-                  {t('pricing.promo.claim')}
-                </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setShowPromo(false);
+                      setHasDismissedPromo(true);
+                      scrollTo('next-courses');
+                    }}
+                    className="w-full bg-white/5 border border-white/20 text-white font-black py-6 rounded-xl text-base tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all hover:scale-[1.02] active:scale-95"
+                  >
+                    {t('pricing.promo.explore')}
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -297,11 +300,7 @@ export default function Pricing() {
           >
             <motion.button
               onClick={() => {
-                if (hasAccessedForm) {
-                  window.dispatchEvent(new CustomEvent('openNotifyMe'));
-                } else {
-                  setShowPromo(true);
-                }
+                setShowPromo(true);
               }}
               animate={{ 
                 scale: [1, 1.05, 1],

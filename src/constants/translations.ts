@@ -136,15 +136,14 @@ export const translations: any = {
         jobPlacement: "Work in the World\n\nInternal\nNational\nInternational"
       },
       promo: {
-        specialOffer: "Updates",
-        get: "Notify Me When",
-        off100: "New Courses Open",
-        desc: "Be the first to know when we open new sessions and specialized certifications.",
-        counter: "",
-        ends: "",
-        claim: "NOTIFY ME",
+        underConsideration: "Courses under Consideration: Real Carpenter & Manos do Betão. Let us know if you're interested!",
+        openCourses: "Open Courses",
+        exploreNextCourses: "Explore our next courses",
+        notifyMe: "NOTIFY ME",
+        explore: "EXPLORE",
         actionRequired: "Get Notified",
-        claim100: "New Courses"
+        claim100: "New Courses",
+        ends: ""
       }
     },
     courses_list: {
@@ -259,7 +258,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "Concrete",
+        name: "Manos do Betão",
         mastery: [
           "Concrete mixing & pouring",
           "Formwork construction & removal",
@@ -325,12 +324,12 @@ export const translations: any = {
       expand: "EXPAND",
       tektonicaOpening: "Opening of the \"Feira Tektónica\"",
       lisbonLocation: "Parque Das Nações - Lisbon",
-      firstCourses: "Drywall Course (RB1)",
-      toBeDefined: "To be defined (Release on may 9)",
+      firstCourses: "Drywall (RB1)",
+      toBeDefined: "To be defined\n(Release on may 9)",
       slots: "10 spots available",
       firstInfo: "First info: {date}",
       enrollmentOpen: "Enrollment opens: {date}",
-      nextCourses: "Servant Pro Course (RB1)",
+      nextCourses: "Servant Pro (RB1)",
       viewAllDates: "VIEW MORE DETAILS",
       fullCalendar: "Full Course Calendar",
       upcomingDates: "Upcoming dates for all",
@@ -342,8 +341,8 @@ export const translations: any = {
       start: "Start",
       newSeason: "New Season",
       nextPhase: "Next Phase",
-      firstCoursesStart: "Drywall Course (RB1)",
-      nextCoursesStart: "Servant Pro Course (RB1)"
+      firstCoursesStart: "Drywall (RB1)",
+      nextCoursesStart: "Servant Pro (RB1)"
     },
     mobility: {
       title: "Choose Your",
@@ -979,15 +978,14 @@ export const translations: any = {
         jobPlacement: "Trabalhar no Mundo\n\nInterno\nNacional\nInternacional"
       },
       promo: {
-        specialOffer: "Atualizações",
-        get: "Notificar-me Quando",
-        off100: "Novos Cursos Abrirem",
-        desc: "Seja o primeiro a saber quando abrirmos novas turmas e certificações especializadas.",
-        counter: "",
-        ends: "",
-        claim: "NOTIFICAR-ME",
+        underConsideration: "Cursos em Estudo: Real Carpinteiro & Manos do Betão. Diga-nos se está interessado!",
+        openCourses: "Cursos Abertos",
+        exploreNextCourses: "Explore os nossos próximos cursos",
+        notifyMe: "NOTIFICAR-ME",
+        explore: "EXPLORAR",
         actionRequired: "Ser Notificado",
-        claim100: "Novos Cursos"
+        claim100: "Novos Cursos",
+        ends: ""
       }
     },
     courses_list: {
@@ -1102,7 +1100,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "Betão",
+        name: "Manos do Betão",
         mastery: [
           "Mistura e betonagem",
           "Construção e remoção de cofragens",
@@ -1168,12 +1166,12 @@ export const translations: any = {
       expand: "EXPANDIR",
       tektonicaOpening: "Abertura da \"Feira Tektónica\"",
       lisbonLocation: "Parque Das Nações - Lisboa",
-      firstCourses: "Curso de Pladur (RB1)",
-      toBeDefined: "A definir (Lançamento a 9 de maio)",
+      firstCourses: "Pladur (RB1)",
+      toBeDefined: "A definir\n(Lançamento a 9 de maio)",
       slots: "10 vagas disponíveis",
       firstInfo: "Primeiras informações: {date}",
       enrollmentOpen: "Inscrições abrem: {date}",
-      nextCourses: "Curso Servente Pro (RB1)",
+      nextCourses: "Servente Pro (RB1)",
       viewAllDates: "VER MAIS DETALHES",
       fullCalendar: "Calendário Completo de Cursos",
       upcomingDates: "Próximas datas para todas as",
@@ -1185,8 +1183,8 @@ export const translations: any = {
       start: "Início",
       newSeason: "Nova Temporada",
       nextPhase: "Próxima Fase",
-      firstCoursesStart: "Curso de Pladur (RB1)",
-      nextCoursesStart: "Curso Servente Pro (RB1)"
+      firstCoursesStart: "Pladur (RB1)",
+      nextCoursesStart: "Servente Pro (RB1)"
     },
     mobility: {
       title: "Escolha a sua",
@@ -1819,15 +1817,14 @@ export const translations: any = {
         jobPlacement: "दुनिया में काम करें\n\nआंतरिक\nराष्ट्रीय\nअंतर्राष्ट्रीय"
       },
       promo: {
-        specialOffer: "अपडेट",
-        get: "जब नए कोर्स खुलें",
-        off100: "तो मुझे सूचित करें",
-        desc: "जब हम नए सत्र और विशेष प्रमाणपत्र खोलते हैं तो सबसे पहले जानें।",
-        counter: "",
-        ends: "",
-        claim: "मुझे सूचित करें",
+        underConsideration: "विचाराधीन पाठ्यक्रम: बढ़ई (Real Carpenter) और Manos do Betão। यदि आपकी रुचि है तो हमें बताएं!",
+        openCourses: "खुले पाठ्यक्रम",
+        exploreNextCourses: "हमारे अगले पाठ्यक्रमों का अन्वेषण करें",
+        notifyMe: "मुझे सूचित करें",
+        explore: "अन्वेषण करें",
         actionRequired: "सूचित करें",
-        claim100: "नए कोर्स"
+        claim100: "नए कोर्स",
+        ends: ""
       }
     },
     courses_list: {
@@ -1942,7 +1939,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "कंक्रीट (Concrete)",
+        name: "Manos do Betão",
         mastery: [
           "कंक्रीट मिश्रण और डालना",
           "फॉर्मवर्क निर्माण और हटाना",
@@ -2007,12 +2004,12 @@ export const translations: any = {
       expand: "विस्तार करें",
       tektonicaOpening: "\"फेरा टेक्टोनिका\" का उद्घाटन",
       lisbonLocation: "पार्क दास नाकोस - लिस्बन",
-      firstCourses: "प्लादुर कोर्स (Pladur) (RB1)",
-      toBeDefined: "9 मई को रिलीज (परिभाषित किया जाना है)",
+      firstCourses: "प्लादुर (Pladur) (RB1)",
+      toBeDefined: "9 मई को रिलीज\n(परिभाषित किया जाना है)",
       slots: "10 स्थान उपलब्ध",
       firstInfo: "पहली जानकारी: {date}",
       enrollmentOpen: "पंजीकरण शुरू: {date}",
-      nextCourses: "सर्वेंट प्रो कोर्स (Servent Pro) (RB1)",
+      nextCourses: "सर्वेंट प्रो (Servent Pro) (RB1)",
       viewAllDates: "सभी तारीखें देखें",
       fullCalendar: "पूर्ण कोर्स कैलेंडर",
       upcomingDates: "सभी के लिए आगामी तारीखें",
@@ -2024,8 +2021,8 @@ export const translations: any = {
       start: "शुरू",
       newSeason: "नया सीजन",
       nextPhase: "अगला चरण",
-      firstCoursesStart: "ड्रायवॉल कोर्स (RB1)",
-      nextCoursesStart: "सर्वेंट प्रो कोर्स (RB1)"
+      firstCoursesStart: "ड्रायवॉल (RB1)",
+      nextCoursesStart: "सर्वेंट प्रो (RB1)"
     },
     mobility: {
       title: "अपना चुनें",

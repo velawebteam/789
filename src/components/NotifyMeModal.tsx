@@ -1,4 +1,4 @@
-import { X, Bell } from 'lucide-react';
+import { X, Bell, GraduationCap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import React, { useState } from 'react';
 import { COURSES_LIST } from '../constants/courses';
@@ -185,38 +185,37 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
                       {t('notify.coursesInterest')}
                     </label>
-                    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {coursesList.map(course => {
                         const isSelected = selectedCourses.includes(course.id);
                         const isDisabled = !isSelected && selectedCourses.length >= 2;
-                        const isNew = course.id === 'concrete' || course.id === 'carpentry';
-                        
-                          return (
-                            <motion.button
-                              key={course.id}
-                              type="button"
-                              onClick={() => handleCourseToggle(course.id)}
-                              disabled={isDisabled}
-                              animate={isNew ? {
-                                boxShadow: isSelected 
-                                  ? ["0 0 20px rgba(255, 184, 0, 0.5)", "0 0 40px rgba(255, 184, 0, 0.9)", "0 0 20px rgba(255, 184, 0, 0.5)"]
-                                  : ["0 0 0px rgba(255, 184, 0, 0)", "0 0 30px rgba(255, 184, 0, 0.7)", "0 0 0px rgba(255, 184, 0, 0)"],
-                                scale: isSelected ? 1.02 : [1, 1.05, 1]
-                              } : {}}
-                              transition={isNew ? { duration: 2, repeat: Infinity, ease: "easeInOut" } : {}}
-                              className={`text-[9px] xs:text-[10px] font-bold uppercase tracking-wider px-2 py-2.5 rounded-xl border transition-all text-center flex items-center justify-center min-h-[44px] ${
-                                isSelected 
-                                  ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
-                                  : isDisabled
-                                    ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
-                                    : isNew 
-                                      ? 'bg-white/5 border-[#FFB800]/30 text-gray-300 hover:border-[#FFB800]/60'
-                                      : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
-                              }`}
-                            >
-                              <span className="leading-tight">{t(`courses_list.${course.id}.name`)}</span>
-                            </motion.button>
-                          );
+                        const isHighlighted = course.id === 'concrete' || course.id === 'carpentry';
+    
+                        return (
+                          <motion.button 
+                            key={course.id}
+                            type="button"
+                            disabled={isDisabled}
+                            onClick={() => handleCourseToggle(course.id)} 
+                            animate={isHighlighted && !isSelected ? {
+                              boxShadow: ["0 0 10px rgba(255,184,0,0.2)", "0 0 30px rgba(255,184,0,0.6)", "0 0 10px rgba(255,184,0,0.2)"],
+                              scale: [1, 1.03, 1],
+                              borderColor: ["rgba(255,184,0,0.3)", "rgba(255,184,0,1)", "rgba(255,184,0,0.3)"]
+                            } : {}}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider border-2 transition-all duration-300 ${
+                              isSelected 
+                                ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_20px_rgba(255,184,0,0.4)]' 
+                                : isDisabled
+                                  ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
+                                  : isHighlighted 
+                                    ? 'bg-[#1a1d21] text-white'
+                                    : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
+                            }`}
+                          >
+                            {t(`courses_list.${course.id}.name`)}
+                          </motion.button>
+                        );
                       })}
                     </div>
                   </div>
