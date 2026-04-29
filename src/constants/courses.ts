@@ -122,7 +122,7 @@ export const COURSES_LIST = [
   },
   {
     id: 'concrete',
-    name: "Concrete",
+    name: "Beton (Manos do Beton)",
     mastery: [
       "Concrete mixing & pouring",
       "Formwork construction & removal",

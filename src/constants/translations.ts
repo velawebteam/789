@@ -136,7 +136,7 @@ export const translations: any = {
         jobPlacement: "Work in the World\n\nInternal\nNational\nInternational"
       },
       promo: {
-        underConsideration: "Courses under Consideration: Real Carpenter & Manos do Betão. Let us know if you're interested!",
+        underConsideration: "Courses under Consideration: Real Carpenter & Beton (Manos do Beton). Let us know if you're interested!",
         openCourses: "Open Courses",
         exploreNextCourses: "Explore our next courses",
         notifyMe: "NOTIFY ME",
@@ -258,7 +258,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "Manos do Betão",
+        name: "Beton (Manos do Beton)",
         mastery: [
           "Concrete mixing & pouring",
           "Formwork construction & removal",
@@ -979,7 +979,7 @@ export const translations: any = {
         jobPlacement: "Trabalhar no Mundo\n\nInterno\nNacional\nInternacional"
       },
       promo: {
-        underConsideration: "Cursos em Estudo: Real Carpinteiro & Manos do Betão. Diga-nos se está interessado!",
+        underConsideration: "Cursos em Estudo: Real Carpinteiro & Beton (Manos do Beton). Diga-nos se está interessado!",
         openCourses: "Cursos Abertos",
         exploreNextCourses: "Explore os nossos próximos cursos",
         notifyMe: "NOTIFICAR-ME",
@@ -1101,7 +1101,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "Manos do Betão",
+        name: "Beton (Manos do Beton)",
         mastery: [
           "Mistura e betonagem",
           "Construção e remoção de cofragens",
@@ -1819,7 +1819,7 @@ export const translations: any = {
         jobPlacement: "दुनिया में काम करें\n\nआंतरिक\nराष्ट्रीय\nअंतर्राष्ट्रीय"
       },
       promo: {
-        underConsideration: "विचाराधीन पाठ्यक्रम: बढ़ई (Real Carpenter) और Manos do Betão। यदि आपकी रुचि है तो हमें बताएं!",
+        underConsideration: "विचाराधीन पाठ्यक्रम: बढ़ई (Real Carpenter) & Beton (Manos do Beton). यदि आपकी रुचि है तो हमें बताएं!",
         openCourses: "खुले पाठ्यक्रम",
         exploreNextCourses: "हमारे अगले पाठ्यक्रमों का अन्वेषण करें",
         notifyMe: "मुझे सूचित करें",
@@ -1941,7 +1941,7 @@ export const translations: any = {
         ]
       },
       concrete: {
-        name: "Manos do Betão",
+        name: "Beton (Manos do Beton)",
         mastery: [
           "कंक्रीट मिश्रण और डालना",
           "फॉर्मवर्क निर्माण और हटाना",
