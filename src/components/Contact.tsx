@@ -233,6 +233,7 @@ export default function Contact() {
                           <option value="logistics" className="bg-[#111315] text-white">{t('courses_list.logistics.name')}</option>
                           <option value="servant" className="bg-[#111315] text-white">{t('courses_list.servant.name')}</option>
                           <option value="carpentry" className="bg-[#111315] text-white">{t('courses_list.carpentry.name')}</option>
+                          <option value="concrete" className="bg-[#111315] text-white">{t('courses_list.concrete.name')}</option>
                           <option value="multiple" className="bg-[#111315] text-white">{t('courses_list.multiple')}</option>
                         </select>
                         <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />

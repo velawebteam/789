@@ -186,7 +186,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full">
             <motion.button 
-              onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+              onClick={() => scrollTo('pilot-program')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               animate={{ 

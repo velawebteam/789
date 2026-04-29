@@ -181,23 +181,33 @@ export default function PilotProgram() {
                       {areasOfInterest.map(area => {
                         const isSelected = selectedAreas.includes(area.id);
                         const isDisabled = !isSelected && selectedAreas.length >= 2;
+                        const isNew = area.id === 'concrete' || area.id === 'carpentry';
                         
                         return (
-                          <button
+                          <motion.button
                             key={area.id}
                             type="button"
                             onClick={() => handleAreaToggle(area.id)}
                             disabled={isDisabled}
+                            animate={isNew ? {
+                              boxShadow: isSelected 
+                                ? ["0 0 20px rgba(255, 184, 0, 0.5)", "0 0 40px rgba(255, 184, 0, 0.9)", "0 0 20px rgba(255, 184, 0, 0.5)"]
+                                : ["0 0 0px rgba(255, 184, 0, 0)", "0 0 30px rgba(255, 184, 0, 0.7)", "0 0 0px rgba(255, 184, 0, 0)"],
+                              scale: isSelected ? 1.02 : [1, 1.05, 1]
+                            } : {}}
+                            transition={isNew ? { duration: 2, repeat: Infinity, ease: "easeInOut" } : {}}
                             className={`text-[9px] xs:text-[10px] font-bold uppercase tracking-wider px-2 py-2.5 rounded-xl border transition-all text-center flex items-center justify-center min-h-[44px] ${
                               isSelected 
                                 ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
                                 : isDisabled
                                   ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
-                                  : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
+                                  : isNew 
+                                    ? 'bg-white/5 border-[#FFB800]/30 text-gray-300 hover:border-[#FFB800]/60'
+                                    : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
                             }`}
                           >
                             <span className="leading-tight">{t(`courses_list.${area.id}.name` as any)}</span>
-                          </button>
+                          </motion.button>
                         );
                       })}
                     </div>

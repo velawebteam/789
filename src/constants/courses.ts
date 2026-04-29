@@ -111,13 +111,24 @@ export const COURSES_LIST = [
   },
   {
     id: 'carpentry',
-    name: "Carpenter",
+    name: "Real Carpenter",
     mastery: [
       "Precision timber cutting & jointing",
       "Wall & roof framing structures",
       "Door & window frame installation",
       "Interior trim & finishing work",
       "Wood preservation & treatment"
+    ]
+  },
+  {
+    id: 'concrete',
+    name: "Concrete",
+    mastery: [
+      "Concrete mixing & pouring",
+      "Formwork construction & removal",
+      "Reinforcement & rebar placement",
+      "Surface finishing & curing",
+      "Foundations & slab preparation"
     ]
   }
 ];

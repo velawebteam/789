@@ -136,15 +136,15 @@ export const translations: any = {
         jobPlacement: "Work in the World\n\nInternal\nNational\nInternational"
       },
       promo: {
-        specialOffer: "Special Offer",
-        get: "Get",
-        off100: "100% OFF",
-        desc: "Get a 100% discount on any course of your interest.",
-        counter: "2 get 100% OFF",
+        specialOffer: "Updates",
+        get: "Notify Me When",
+        off100: "New Courses Open",
+        desc: "Be the first to know when we open new sessions and specialized certifications.",
+        counter: "",
         ends: "",
-        claim: "CLAIM YOUR OFFER",
-        actionRequired: "Action Required",
-        claim100: "Claim 100% Off"
+        claim: "NOTIFY ME",
+        actionRequired: "Get Notified",
+        claim100: "New Courses"
       }
     },
     courses_list: {
@@ -249,13 +249,23 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "Carpenter",
+        name: "Real Carpenter",
         mastery: [
           "Precision timber cutting & jointing",
           "Wall & roof framing structures",
           "Door & window frame installation",
           "Interior trim & finishing work",
           "Wood preservation & treatment"
+        ]
+      },
+      concrete: {
+        name: "Concrete",
+        mastery: [
+          "Concrete mixing & pouring",
+          "Formwork construction & removal",
+          "Reinforcement & rebar placement",
+          "Surface finishing & curing",
+          "Foundations & slab preparation"
         ]
       },
       multiple: "Multiple Courses"
@@ -268,7 +278,7 @@ export const translations: any = {
       allProfessions: "All Professions",
       electrician: "Electrician",
       plumber: "Plumber",
-      carpenter: "Carpenter",
+      carpenter: "Real Carpenter",
       mason: "Mason",
       painter: "Painter",
       roofer: "Roofer",
@@ -415,7 +425,7 @@ export const translations: any = {
       title: "Get Notified",
       subtitle: "",
       nonBindingOffer: "Non Binding Offer",
-      desc: "Leave your details below and we'll notify you as soon as new courses open.",
+      desc: "Leave your details below and we'll notify you as soon as the first course information comes out!",
       firstName: "First Name",
       lastName: "Last Name",
       phone: "Phone Number",
@@ -470,6 +480,7 @@ export const translations: any = {
       who3: "You want to work in Portugal or abroad",
       who4: "You are willing to learn and evolve",
       who5: "You are hard-working",
+      who6: "You want to earn more",
       accessTitle: "BY APPLYING, YOU WILL GET ACCESS TO:",
       access1: "Practical training in construction",
       access2: "Mentoring by experienced professionals",
@@ -515,7 +526,7 @@ export const translations: any = {
       subtitle: "Master the skills that build the world",
       certification: "Certification",
       masteryTitle: "What you'll master:",
-      notifyMe: "Notify me with discount"
+      notifyMe: "NOTIFY ME"
     },
     contact: {
       title: "Ready to start your",
@@ -975,15 +986,15 @@ export const translations: any = {
         jobPlacement: "Trabalhar no Mundo\n\nInterno\nNacional\nInternacional"
       },
       promo: {
-        specialOffer: "Oferta Especial",
-        get: "Obtenha",
-        off100: "100% DESCONTO",
-        desc: "Obtenha 100% de desconto em qualquer curso do seu interesse.",
-        counter: "2 recebem 100% de desconto",
+        specialOffer: "Atualizações",
+        get: "Notificar-me Quando",
+        off100: "Novos Cursos Abrirem",
+        desc: "Seja o primeiro a saber quando abrirmos novas turmas e certificações especializadas.",
+        counter: "",
         ends: "",
-        claim: "RECLAMAR OFERTA",
-        actionRequired: "Ação Necessária",
-        claim100: "Reclamar 100% de Desconto"
+        claim: "NOTIFICAR-ME",
+        actionRequired: "Ser Notificado",
+        claim100: "Novos Cursos"
       }
     },
     courses_list: {
@@ -1088,13 +1099,23 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "Carpinteiro",
+        name: "Real Carpinteiro",
         mastery: [
           "Corte e junção de madeira de precisão",
           "Estruturas de suporte de paredes e telhados",
           "Instalação de caixilharias de portas e janelas",
           "Trabalhos de guarnição e acabamento interior",
           "Preservação e tratamento de madeira"
+        ]
+      },
+      concrete: {
+        name: "Betão",
+        mastery: [
+          "Mistura e betonagem",
+          "Construção e remoção de cofragens",
+          "Colocação de armaduras e varão de aço",
+          "Acabamento de superfícies e cura",
+          "Preparação de fundações e lajes"
         ]
       },
       multiple: "Vários Cursos"
@@ -1107,7 +1128,7 @@ export const translations: any = {
       allProfessions: "Todas as Profissões",
       electrician: "Eletricista",
       plumber: "Canalizador",
-      carpenter: "Carpinteiro",
+      carpenter: "Real Carpinteiro",
       mason: "Pedreiro",
       painter: "Pintor",
       roofer: "Telhador",
@@ -1254,7 +1275,7 @@ export const translations: any = {
       title: "Seja Notificado",
       subtitle: "",
       nonBindingOffer: "Oferta não vinculativa",
-      desc: "Deixe os seus dados abaixo e iremos notificá-lo assim que novos cursos abrirem.",
+      desc: "Deixe os seus dados abaixo e iremos notificá-lo assim que saírem as informações do primeiro curso!",
       firstName: "Primeiro Nome",
       lastName: "Apelido",
       phone: "Número de Telefone",
@@ -1309,6 +1330,7 @@ export const translations: any = {
       who3: "Queres trabalhar em Portugal ou no estrangeiro",
       who4: "Estás disposto a aprender e evoluir",
       who5: "És trabalhador",
+      who6: "Queres ganhar mais",
       accessTitle: "AO CANDIDATARES-TE, VAIS TER ACESSO A:",
       access1: "Formação prática na área da construção",
       access2: "Acompanhamento por profissionais experientes",
@@ -1354,7 +1376,7 @@ export const translations: any = {
       subtitle: "Domine as competências que constroem o mundo",
       certification: "Certificação",
       masteryTitle: "O que irá dominar:",
-      notifyMe: "Notificar-me com desconto"
+      notifyMe: "NOTIFICAR-ME"
     },
     contact: {
       title: "Pronto para começar a sua",
@@ -1810,15 +1832,15 @@ export const translations: any = {
         jobPlacement: "दुनिया में काम करें\n\nआंतरिक\nराष्ट्रीय\nअंतर्राष्ट्रीय"
       },
       promo: {
-        specialOffer: "विशेष ऑफर",
-        get: "प्राप्त करें",
-        off100: "100% छूट",
-        desc: "अपनी रुचि के किसी भी कोर्स पर 100% छूट प्राप्त करें।",
-        counter: "2 को 100% की छूट",
+        specialOffer: "अपडेट",
+        get: "जब नए कोर्स खुलें",
+        off100: "तो मुझे सूचित करें",
+        desc: "जब हम नए सत्र और विशेष प्रमाणपत्र खोलते हैं तो सबसे पहले जानें।",
+        counter: "",
         ends: "",
-        claim: "अपना ऑफर प्राप्त करें",
-        actionRequired: "कार्रवाई आवश्यक",
-        claim100: "100% छूट का दावा करें"
+        claim: "मुझे सूचित करें",
+        actionRequired: "सूचित करें",
+        claim100: "नए कोर्स"
       }
     },
     courses_list: {
@@ -1923,13 +1945,23 @@ export const translations: any = {
         ]
       },
       carpentry: {
-        name: "बढ़ई (Carpenter)",
+        name: "बढ़ई (Real Carpenter)",
         mastery: [
           "परिशुद्धता लकड़ी काटने और जोड़ना",
           "दीवार और छत की फ्रेमिंग संरचनाएं",
           "दरवाजे और खिड़की के फ्रेम की स्थापना",
           "आंतरिक ट्रिम और फिनिशिंग कार्य",
           "लकड़ी संरक्षण और उपचार"
+        ]
+      },
+      concrete: {
+        name: "कंक्रीट (Concrete)",
+        mastery: [
+          "कंक्रीट मिश्रण और डालना",
+          "फॉर्मवर्क निर्माण और हटाना",
+          "सुदृढ़ीकरण और रीबार प्लेसमेंट",
+          "सतह फिनishिंग और क्योरिंग",
+          "नींव और स्लैब की तैयारी"
         ]
       },
       multiple: "एकाधिक पाठ्यक्रम"
@@ -1942,7 +1974,7 @@ export const translations: any = {
       allProfessions: "सभी पेशे",
       electrician: "इलेक्ट्रीशियन",
       plumber: "प्लंबर",
-      carpenter: "बढ़ई",
+      carpenter: "बढ़ई (Real Carpenter)",
       mason: "राजमिस्त्री",
       painter: "पेंटर",
       roofer: "रूफर",
@@ -2087,7 +2119,7 @@ export const translations: any = {
       title: "सूचित हों",
       subtitle: "",
       nonBindingOffer: "गैर बाधिकारी प्रस्ताव",
-      desc: "नीचे अपना विवरण छोड़ें और जैसे ही नए कोर्स खुलेंगे हम आपको सूचित करेंगे।",
+      desc: "नीचे अपना विवरण छोड़ें और जैसे ही पहले कोर्स की जानकारी आएगी हम आपको सूचित करेंगे!",
       firstName: "पहला नाम",
       lastName: "अंतिम नाम",
       phone: "फ़ोन नंबर",
@@ -2141,6 +2173,7 @@ export const translations: any = {
       who3: "आप पुर्तगाल या विदेश में काम करना चाहते हैं",
       who4: "आप सीखने और विकसित होने के लिए तैयार हैं",
       who5: "आप मेहनती हैं",
+      who6: "आप अधिक कमाना चाहते हैं",
       accessTitle: "आवेदन करने पर, आपको मिलेगा:",
       access1: "निर्माण में व्यावहारिक प्रशिक्षण",
       access2: "अनुभवी पेशेवरों द्वारा मार्गदर्शन",
@@ -2185,7 +2218,7 @@ export const translations: any = {
       subtitle: "उन कौशलों में महारत हासिल करें जो दुनिया का निर्माण करते हैं",
       certification: "प्रमाणन",
       masteryTitle: "आप किसमें महारत हासिल करेंगे:",
-      notifyMe: "छूट के साथ मुझे सूचित करें"
+      notifyMe: "मुझे सूचित करें"
     },
     contact: {
       title: "अपनी यात्रा शुरू करने के लिए",

@@ -12,6 +12,7 @@ export default function WhyJoin() {
     t('whyJoin.who2'),
     t('whyJoin.who3'),
     t('whyJoin.who4'),
+    t('whyJoin.who6'),
   ];
 
   const accessPoints = [

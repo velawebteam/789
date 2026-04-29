@@ -177,7 +177,12 @@ export default function HowItWorks() {
             className="mt-16 md:mt-24 flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
           >
             <motion.button 
-              onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+              onClick={() => {
+                const element = document.getElementById('pilot-program');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               animate={{ 
                 scale: [1, 1.05, 1],
                 boxShadow: [

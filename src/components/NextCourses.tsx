@@ -188,7 +188,7 @@ export default function NextCourses() {
                 </div>
                 <div className="w-px h-10 bg-white/10"></div>
                 <div>
-                  <div className="text-white font-bold text-sm">{t('nextCourses.nextCourses')} (A)</div>
+                  <div className="text-white font-bold text-sm">{t('nextCourses.nextCourses')}</div>
                   <div className="text-gray-400 text-[10px] mt-0.5">{t('nextCourses.slots')}</div>
                 </div>
               </div>
@@ -200,7 +200,7 @@ export default function NextCourses() {
                 </div>
                 <div className="w-px h-10 bg-white/10"></div>
                 <div>
-                  <div className="text-white font-bold text-sm">{t('nextCourses.nextCourses')} (B)</div>
+                  <div className="text-white font-bold text-sm">{t('nextCourses.toBeDefined')}</div>
                   <div className="text-gray-400 text-[10px] mt-0.5">{t('nextCourses.slots')}</div>
                 </div>
               </div>
@@ -320,7 +320,7 @@ export default function NextCourses() {
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-gray-500 font-bold tracking-widest uppercase mb-2">{t('nextCourses.nextPhase')}</div>
-                        <div className="text-white font-semibold mb-2">{t('nextCourses.nextCoursesStart')} (A)</div>
+                        <div className="text-white font-semibold mb-2">{t('nextCourses.nextCoursesStart')}</div>
                         <div className="space-y-1 mt-3">
                           <div className="text-[#FFB800] text-[10px] font-bold uppercase tracking-wider">{t('nextCourses.slots')}</div>
                           <div className="text-gray-400 text-[11px]">{t('nextCourses.firstInfo', { date: language === 'pt' ? '16 de maio' : language === 'hi' ? '16 मई' : 'May 16' })}</div>
@@ -336,7 +336,7 @@ export default function NextCourses() {
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-gray-500 font-bold tracking-widest uppercase mb-2">{t('nextCourses.nextPhase')}</div>
-                        <div className="text-white font-semibold mb-2">{t('nextCourses.nextCoursesStart')} (B)</div>
+                        <div className="text-white font-semibold mb-2">{t('nextCourses.toBeDefined')}</div>
                         <div className="space-y-1 mt-3">
                           <div className="text-[#FFB800] text-[10px] font-bold uppercase tracking-wider">{t('nextCourses.slots')}</div>
                           <div className="text-gray-400 text-[11px]">{t('nextCourses.firstInfo', { date: language === 'pt' ? '16 de maio' : language === 'hi' ? '16 मई' : 'May 16' })}</div>

@@ -161,31 +161,31 @@ export default function NextCoursesNotifyModal({ isOpen, onClose }: NextCoursesN
 
                       <div>
                         <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{t('notify.coursesInterest')}</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setSelectedCourse('drywall')}
-                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-3 rounded-xl border transition-all text-center ${
-                              selectedCourse === 'drywall' 
-                                ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
-                                : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
-                            }`}
-                          >
-                            {t('courses_list.drywall.name')}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setSelectedCourse('servant')}
-                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-3 rounded-xl border transition-all text-center ${
-                              selectedCourse === 'servant' 
-                                ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
-                                : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
-                            }`}
-                          >
-                            {t('courses_list.servant.name')}
-                          </button>
-                          <input type="hidden" name="course" value={selectedCourse} />
-                        </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCourse('drywall')}
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2 py-3 rounded-xl border transition-all text-center ${
+                      selectedCourse === 'drywall' 
+                        ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
+                        : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
+                    }`}
+                  >
+                    {t('courses_list.drywall.name')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCourse('servant')}
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2 py-3 rounded-xl border transition-all text-center ${
+                      selectedCourse === 'servant' 
+                        ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_15px_rgba(255,184,0,0.3)]' 
+                        : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30'
+                    }`}
+                  >
+                    {t('courses_list.servant.name')}
+                  </button>
+                  <input type="hidden" name="course" value={selectedCourse} />
+                </div>
                       </div>
 
                       <div className="flex flex-col gap-2 mt-6">
