@@ -48,7 +48,7 @@ export default function Billing() {
             )}
             <button 
               onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs"
             >
               {t('common.backToHome')}
             </button>
@@ -63,7 +63,7 @@ export default function Billing() {
       <div className="max-w-7xl mx-auto px-6">
         <button 
           onClick={() => navigate(-1)}
-          className="items-center gap-2 text-gray-500 hover:text-white transition-colors mb-8 group hidden lg:flex"
+          className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-8 group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           <span className="text-[10px] font-black uppercase tracking-widest">{t('common.backToHome')}</span>

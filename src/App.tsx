@@ -40,7 +40,7 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
-      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
+      <div>
         <Navbar />
       </div>
       
@@ -60,14 +60,14 @@ function AppContent({ isEnrollmentOpen, setIsEnrollmentOpen, isNotifyMeOpen, set
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
+      <div>
         <Footer />
       </div>
 
       <EnrollmentModal isOpen={isEnrollmentOpen} onClose={() => setIsEnrollmentOpen(false)} />
       <NotifyMeModal isOpen={isNotifyMeOpen} onClose={() => setIsNotifyMeOpen(false)} />
       <CookieConsent />
-      <div className={isRestrictedPath ? 'hidden lg:block' : ''}>
+      <div>
         <SupportChat />
       </div>
     </div>

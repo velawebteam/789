@@ -59,7 +59,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4 md:gap-6 ml-auto z-10">
           {/* Language Switcher */}
-          <div className="relative">
+          <div className="relative hidden lg:block">
             <button 
               onClick={() => setIsLangOpen(!isLangOpen)}
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase"
@@ -96,13 +96,13 @@ export default function Navbar() {
 
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
-            className="hidden md:block text-white px-2 py-2 rounded-md text-xs font-bold tracking-wider hover:text-[#FFB800] transition-colors uppercase"
+            className="hidden lg:block text-white px-2 py-2 rounded-md text-xs font-bold tracking-wider hover:text-[#FFB800] transition-colors uppercase"
           >
             {t('navbar.notifyMe')}
           </button>
 
           {/* User Auth */}
-          <div className="relative hidden md:block">
+          <div className="relative hidden lg:block">
             {loading ? (
               <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center animate-pulse">
                 <div className="w-4 h-4 rounded-full bg-white/10" />
@@ -229,7 +229,7 @@ export default function Navbar() {
             onClick={() => scrollTo('contact-form')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="hidden md:block relative group overflow-hidden bg-[#FFB800] text-black px-4 md:px-6 py-2 rounded-md text-xs font-bold tracking-wider transition-all hover:bg-[#FFB800]/90"
+            className="relative group overflow-hidden bg-[#FFB800] text-black px-4 md:px-6 py-2 rounded-md text-xs font-bold tracking-wider transition-all hover:bg-[#FFB800]/90 hidden lg:block"
           >
             {/* Animated lighting effect */}
             <motion.div 

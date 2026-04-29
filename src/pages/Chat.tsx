@@ -164,7 +164,7 @@ export default function Chat() {
             )}
             <button 
               onClick={() => navigate('/')}
-              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs hidden lg:block"
+              className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-4 rounded-xl border border-white/10 transition-all uppercase tracking-widest text-xs"
             >
               {t('common.backToHome')}
             </button>
@@ -190,7 +190,7 @@ export default function Chat() {
               <div className="flex items-center gap-4">
                 <button 
                   onClick={() => navigate('/')}
-                  className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white hidden lg:block"
+                  className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
                 >
                   <ArrowLeft size={20} />
                 </button>
