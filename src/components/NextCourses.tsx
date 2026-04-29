@@ -10,9 +10,8 @@ export default function NextCourses() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
 
-  const calculateTimeLeft = () => {
-    // Target date: May 29, 2026, 18:00:00 Lisbon Time (UTC+1)
-    const targetDate = new Date('2026-05-29T18:00:00+01:00');
+  const calculateTimeLeft = (target: string) => {
+    const targetDate = new Date(target);
     const now = new Date().getTime();
     const difference = targetDate.getTime() - now;
 
@@ -27,11 +26,16 @@ export default function NextCourses() {
     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const timer1Date = '2026-05-29T18:00:00+01:00';
+  const timer2Date = '2026-06-26T18:00:00+01:00';
+
+  const [timeLeft1, setTimeLeft1] = useState(calculateTimeLeft(timer1Date));
+  const [timeLeft2, setTimeLeft2] = useState(calculateTimeLeft(timer2Date));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      setTimeLeft1(calculateTimeLeft(timer1Date));
+      setTimeLeft2(calculateTimeLeft(timer2Date));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -56,14 +60,14 @@ export default function NextCourses() {
 
   return (
     <section id="next-courses" className="pt-8 pb-20 bg-[#15181b] relative text-left">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-2xl font-bold text-gray-400 uppercase tracking-widest">
             {t('nextCourses.title')}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {/* Course Card 1 */}
           <div className="p-8 relative flex flex-col h-full bg-[#1a1d21] rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/20 text-[#FFB800] text-xs font-medium mb-6 w-fit">
@@ -84,7 +88,7 @@ export default function NextCourses() {
               </div>
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <span className="text-gray-500 text-sm">{t('nextCourses.firstInfos')}</span>
-                <span className="text-white text-sm font-medium">{language === 'pt' ? '23 de abril' : 'April 23'}</span>
+                <span className="text-white text-sm font-medium">{language === 'pt' ? '1 de maio' : 'May 1'}</span>
               </div>
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <span className="text-gray-500 text-sm">{t('nextCourses.enrolmentStart')}</span>
@@ -93,22 +97,89 @@ export default function NextCourses() {
               <div className="flex justify-between items-center pt-2">
                 <div className="flex items-center gap-2 md:gap-3 w-full justify-between">
                   <div className="flex flex-col items-center">
-                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft.days)}</span>
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft1.days)}</span>
                     <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.days')}</span>
                   </div>
                   <span className="text-white/20 text-xl font-light pb-2">:</span>
                   <div className="flex flex-col items-center">
-                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft.hours)}</span>
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft1.hours)}</span>
                     <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.hours')}</span>
                   </div>
                   <span className="text-white/20 text-xl font-light pb-2">:</span>
                   <div className="flex flex-col items-center">
-                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft.minutes)}</span>
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft1.minutes)}</span>
                     <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.mins')}</span>
                   </div>
                   <span className="text-white/20 text-xl font-light pb-2">:</span>
                   <div className="flex flex-col items-center">
-                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft.seconds)}</span>
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft1.seconds)}</span>
+                    <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.secs')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <motion.button 
+              onClick={openNotifyMe}
+              animate={{ 
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 0.8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="w-full bg-white text-black hover:bg-[#FFB800] py-3.5 rounded-xl font-bold text-sm tracking-wide transition-colors mt-auto"
+            >
+              {t('nextCourses.notifyMe')}
+            </motion.button>
+          </div>
+
+          {/* Course Card 2 - Servant Pro */}
+          <div className="p-8 relative flex flex-col h-full bg-[#1a1d21] rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/20 text-[#FFB800] text-xs font-medium mb-6 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FFB800] animate-pulse"></span>
+              <span>{t('nextCourses.registrationsOpen')}</span> 
+            </div>
+            <div className="text-[#FFB800] text-xs font-bold tracking-widest uppercase mb-2">{t('nextCourses.importantStart')}</div>
+            <h3 className="text-2xl font-bold text-white mb-8 leading-tight">{t('nextCourses.nextCoursesStart')}</h3>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                <span className="text-gray-500 text-sm">{t('nextCourses.date')}</span>
+                <span className="text-white text-sm font-medium">{language === 'pt' ? '26 de junho, 2026' : 'June 26, 2026'}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                <span className="text-gray-500 text-sm">{t('nextCourses.spotsAvailable')}</span>
+                <span className="text-white text-sm font-medium">{t('nextCourses.slots')}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                <span className="text-gray-500 text-sm">{t('nextCourses.firstInfos')}</span>
+                <span className="text-white text-sm font-medium">{language === 'pt' ? '16 de maio' : 'May 16'}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                <span className="text-gray-500 text-sm">{t('nextCourses.enrolmentStart')}</span>
+                <span className="text-white text-sm font-medium">{language === 'pt' ? '23 de maio' : 'May 23'}</span>
+              </div>
+              <div className="flex justify-between items-center pt-2">
+                <div className="flex items-center gap-2 md:gap-3 w-full justify-between">
+                  <div className="flex flex-col items-center">
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft2.days)}</span>
+                    <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.days')}</span>
+                  </div>
+                  <span className="text-white/20 text-xl font-light pb-2">:</span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft2.hours)}</span>
+                    <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.hours')}</span>
+                  </div>
+                  <span className="text-white/20 text-xl font-light pb-2">:</span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft2.minutes)}</span>
+                    <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.mins')}</span>
+                  </div>
+                  <span className="text-white/20 text-xl font-light pb-2">:</span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[#FFB800] text-xl font-black" translate="no">{pad(timeLeft2.seconds)}</span>
                     <span className="text-gray-400 text-[8px] tracking-widest">{t('nextCourses.secs')}</span>
                   </div>
                 </div>
@@ -145,30 +216,6 @@ export default function NextCourses() {
 
             {/* Compact Upcoming Dates List */}
             <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-center min-w-[48px]">
-                  <div className="text-[#FFB800] text-[10px] font-bold uppercase">Apr</div>
-                  <div className="text-white text-xl font-black">23</div>
-                </div>
-                <div className="w-px h-10 bg-white/10"></div>
-                <div>
-                  <div className="text-white font-bold text-sm">{t('nextCourses.tektonicaOpening')}</div>
-                  <div className="text-gray-400 text-xs mt-0.5">{t('nextCourses.lisbonLocation')}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-center min-w-[48px]">
-                  <div className="text-[#FFB800] text-[10px] font-bold uppercase">Apr</div>
-                  <div className="text-white text-xl font-black">24</div>
-                </div>
-                <div className="w-px h-10 bg-white/10"></div>
-                <div>
-                  <div className="text-white font-bold text-sm">{t('nextCourses.registrationStart')}</div>
-                  <div className="text-gray-400 text-xs mt-0.5">{t('nextCourses.lisbonTime')}</div>
-                </div>
-              </div>
-              
               <div className="flex items-center gap-4 p-4 rounded-xl bg-[#FFB800]/5 border border-[#FFB800]/10">
                 <div className="text-center min-w-[48px]">
                   <div className="text-[#FFB800] text-[10px] font-bold uppercase">May</div>
@@ -248,39 +295,6 @@ export default function NextCourses() {
             {/* Modal Body - Scrollable */}
             <div className="p-4 md:p-8 overflow-y-auto flex-1">
               <div className="space-y-12">
-                {/* April */}
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-400 tracking-widest uppercase mb-6 flex items-center gap-4">
-                    {t('nextCourses.april2026')}
-                    <span className="h-[1px] flex-1 bg-white/10"></span>
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="border border-white/10 p-6 flex gap-6 hover:border-white/30 transition-colors">
-                      <div className="text-center min-w-[60px] flex flex-col justify-center border-r border-white/10 pr-6">
-                        <div className="text-xs font-bold text-gray-500 uppercase">APR</div>
-                        <div className="text-2xl font-black text-white leading-none mt-2">23</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 font-bold tracking-widest uppercase mb-2">{t('nextCourses.event')}</div>
-                        <div className="text-white font-semibold mb-2">{t('nextCourses.tektonicaOpening')}</div>
-                        <div className="text-gray-400 text-xs">{t('nextCourses.lisbonLocation')}</div>
-                      </div>
-                    </div>
-
-                    <div className="border border-white/10 p-6 flex gap-6 hover:border-white/30 transition-colors">
-                      <div className="text-center min-w-[60px] flex flex-col justify-center border-r border-white/10 pr-6">
-                        <div className="text-xs font-bold text-gray-500 uppercase">APR</div>
-                        <div className="text-2xl font-black text-white leading-none mt-2">24</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 font-bold tracking-widest uppercase mb-2">{t('nextCourses.start')}</div>
-                        <div className="text-white font-semibold mb-2">{t('nextCourses.registrationStart')}</div>
-                        <div className="text-gray-400 text-xs">{t('nextCourses.lisbonTime')}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* May */}
                 <div>
                   <h4 className="text-sm font-semibold text-gray-400 tracking-widest uppercase mb-6 flex items-center gap-4">
@@ -298,7 +312,7 @@ export default function NextCourses() {
                         <div className="text-white font-semibold mb-2">{t('nextCourses.firstCoursesStart')}</div>
                         <div className="space-y-1 mt-3">
                           <div className="text-[#FFB800] text-[10px] font-bold uppercase tracking-wider">{t('nextCourses.slots')}</div>
-                          <div className="text-gray-400 text-[11px]">{t('nextCourses.firstInfo', { date: language === 'pt' ? '23 de abril' : language === 'hi' ? '23 अप्रैल' : 'April 23' })}</div>
+                          <div className="text-gray-400 text-[11px]">{t('nextCourses.firstInfo', { date: language === 'pt' ? '1 de maio' : language === 'hi' ? '1 मई' : 'May 1' })}</div>
                           <div className="text-gray-400 text-[11px] font-medium">{t('nextCourses.enrollmentOpen', { date: language === 'pt' ? '4 de maio' : language === 'hi' ? '4 मई' : 'May 4' })}</div>
                         </div>
                       </div>

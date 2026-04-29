@@ -201,7 +201,6 @@ export default function Contact() {
                     <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.chooseInterest')}</option>
                     <option value="course_vehicle" className="bg-[#111315] text-white">{t('contact.interest1')}</option>
                     <option value="course_only" className="bg-[#111315] text-white">{t('contact.interest2')}</option>
-                    <option value="doubts" className="bg-[#111315] text-white">{t('contact.interest3')}</option>
                   </select>
                   <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                 </div>
@@ -367,6 +366,14 @@ export default function Contact() {
                       </div>
                     </div>
 
+                    <div className="col-span-2 pt-4 text-center border-t border-white/5 mt-6">
+                      <p className="text-gray-400 text-[10px] md:text-xs font-medium leading-relaxed italic pt-4">
+                        "{t('contact.quote')}"
+                        <br />
+                        {t('contact.quoteSub')}
+                      </p>
+                    </div>
+
                     <div className="col-span-2 space-y-4 mt-6 pt-6 border-t border-white/5">
                       <button
                         type="button"
@@ -401,39 +408,6 @@ export default function Contact() {
                       )}
                     </div>
                   </>
-                )}
-
-                {selectedPlan === 'doubts' && (
-                  <div className="col-span-2 space-y-6">
-                    <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.about')}</label>
-                      <div className="relative">
-                        <select 
-                          required
-                          name="topic"
-                          defaultValue=""
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors appearance-none text-sm"
-                        >
-                          <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectTopic')}</option>
-                          <option value="general" className="bg-[#111315] text-white">{t('contact.topicGeneral')}</option>
-                          <option value="courses" className="bg-[#111315] text-white">{t('contact.topicCourses')}</option>
-                          <option value="vehicles" className="bg-[#111315] text-white">{t('contact.topicVehicles')}</option>
-                        </select>
-                        <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.message')}</label>
-                      <textarea 
-                        name="message"
-                        required={selectedPlan === 'doubts'}
-                        rows={4}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors text-sm resize-none"
-                        placeholder={t('contact.message')}
-                      ></textarea>
-                    </div>
-                  </div>
                 )}
               </div>
             )}
@@ -590,13 +564,6 @@ export default function Contact() {
               )}
             </div>
 
-            <div className="mt-8 pt-8 border-t border-white/5 text-center">
-              <p className="text-gray-400 text-xs md:text-sm font-medium leading-relaxed italic">
-                "{t('contact.quote')}"
-                <br />
-                {t('contact.quoteSub')}
-              </p>
-            </div>
           </form>
         )}
       </div>

@@ -14,8 +14,8 @@ declare global {
 export default function Hero() {
   const { t } = useLanguage();
   const calculateTimeLeft = () => {
-    // Target date: April 24, 2026, 18:00:00 Lisbon Time (UTC+1)
-    const targetDate = new Date('2026-04-24T18:00:00+01:00');
+    // Target date: May 29, 2026, 18:00:00 Lisbon Time (UTC+1)
+    const targetDate = new Date('2026-05-29T18:00:00+01:00');
     const now = new Date().getTime();
     const difference = targetDate.getTime() - now;
 
@@ -152,12 +152,9 @@ export default function Hero() {
               <div className="w-1.5 h-1.5 rounded-full bg-[#FFB800] animate-pulse mt-1 md:mt-1.5 flex-shrink-0" />
               <span className="text-white font-medium tracking-wide text-[10px] sm:text-sm uppercase leading-tight">
                 {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0 
-                  ? <span>{t('hero.registrationsOpen')}</span> 
-                  : (
-                    <span>
-                      {t('hero.registrationsOpenAt')} <a href="https://tektonica.fil.pt/" target="_blank" rel="noopener noreferrer" className="text-[#FFB800] hover:underline">Feira Tektónica</a> {t('hero.in')}
-                    </span>
-                  )}
+                  ? t('hero.registrationsOpen') 
+                  : t('hero.registrationsOpenAt')
+                }
               </span>
             </div>
             
@@ -186,7 +183,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full">
             <motion.button 
-              onClick={() => scrollTo('pilot-program')}
+              onClick={() => scrollTo('next-courses')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               animate={{ 
@@ -219,7 +216,7 @@ export default function Hero() {
             </motion.button>
 
             <motion.button 
-              onClick={() => scrollTo('next-courses')}
+              onClick={() => scrollTo('how-it-works')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="relative group overflow-hidden border border-white/20 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-sm font-bold tracking-wider transition-colors hover:border-[#FFB800]/50 w-full sm:w-auto text-center flex items-center justify-center uppercase"

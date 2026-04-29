@@ -21,10 +21,22 @@ export const useLanguage = () => {
 import { translations } from '../constants/translations';
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>('en');
+  const [language, setLanguageState] = useState<Language>(() => {
+    // Check localStorage first
+    const savedLang = localStorage.getItem('language') as Language;
+    if (savedLang && ['en', 'pt', 'hi'].includes(savedLang)) return savedLang;
+
+    // Check browser language
+    const browserLang = navigator.language.split('-')[0];
+    if (browserLang === 'pt') return 'pt';
+    if (browserLang === 'hi') return 'hi';
+    
+    return 'en';
+  });
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
+    localStorage.setItem('language', lang);
     document.documentElement.lang = lang;
   };
 
