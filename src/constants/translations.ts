@@ -421,6 +421,7 @@ export const translations: any = {
       close: "CLOSE"
     },
     notify: {
+      newCourses: "New Courses!",
       title: "Get Notified",
       subtitle: "",
       nonBindingOffer: "Non Binding Offer",
@@ -1263,6 +1264,7 @@ export const translations: any = {
       close: "FECHAR"
     },
     notify: {
+      newCourses: "Novos Cursos!",
       title: "Seja Notificado",
       subtitle: "",
       nonBindingOffer: "Oferta não vinculativa",
@@ -2100,6 +2102,7 @@ export const translations: any = {
       cancel: "रद्द करें"
     },
     notify: {
+      newCourses: "नए कोर्स!",
       title: "सूचित हों",
       subtitle: "",
       nonBindingOffer: "गैर बाधिकारी प्रस्ताव",

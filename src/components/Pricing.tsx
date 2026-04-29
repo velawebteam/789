@@ -221,7 +221,7 @@ export default function Pricing() {
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              className="relative w-full max-w-md bg-gradient-to-b from-[#1a1d21] to-[#111315] border-2 border-[#FFB800] rounded-2xl shadow-[0_0_50px_rgba(255,184,0,0.15)] p-8 text-center overflow-hidden"
+              className="relative w-full max-w-md bg-gradient-to-b from-[#1a1d21] to-[#111315] border-2 border-[#FFB800] rounded-2xl shadow-[0_0_50px_rgba(255,184,0,0.15)] p-6 sm:p-8 text-center overflow-hidden"
             >
               {/* Background glow effect */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-[#FFB800]/10 blur-3xl rounded-full pointer-events-none"></div>
@@ -236,19 +236,47 @@ export default function Pricing() {
                 <CloseIcon size={20} />
               </button>
               
-              <div className="relative z-10 flex flex-col gap-12 py-4">
+              <div className="relative z-10 flex flex-col gap-8 sm:gap-12 py-2 sm:py-4">
                 {/* Section 1: Courses under Consideration */}
                 <div className="relative group/section text-center">
-                  <span className="block text-2xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-4">
+                  <span className="block text-xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-3 md:mb-4">
                     {t('pricing.promo.underConsideration').includes(':') 
                       ? t('pricing.promo.underConsideration').split(':')[0]
                       : "In Study"}
                   </span>
                   
-                  <h4 className="text-white text-lg md:text-xl font-black mb-10 leading-tight uppercase tracking-tight">
-                    {t('pricing.promo.underConsideration').includes(':') 
-                      ? t('pricing.promo.underConsideration').split(':').slice(1).join(':').trim()
-                      : t('pricing.promo.underConsideration')}
+                  <h4 className="text-white text-base md:text-xl font-black mb-6 md:mb-10 leading-tight uppercase tracking-tight">
+                    {(() => {
+                      const text = t('pricing.promo.underConsideration').includes(':') 
+                        ? t('pricing.promo.underConsideration').split(':').slice(1).join(':').trim()
+                        : t('pricing.promo.underConsideration');
+                      
+                      // Pattern matching to split into requested lines
+                      const ampersandSplit = text.split('&');
+                      if (ampersandSplit.length >= 2) {
+                        const course1 = ampersandSplit[0].trim();
+                        const restOfText = ampersandSplit.slice(1).join('&').trim();
+                        
+                        const dotSplit = restOfText.split('.');
+                        if (dotSplit.length >= 1) {
+                          const course2 = dotSplit[0].trim();
+                          const actionText = dotSplit.slice(1).join('.').trim();
+                          
+                          return (
+                            <div className="flex flex-col items-center gap-0.5 sm:gap-2">
+                              <span>{course1}</span>
+                              <span className="text-[#FFB800] text-xl md:text-3xl my-0.5 sm:my-1">&</span>
+                              <span className="whitespace-nowrap">{course2}.</span>
+                              <span className="mt-2 md:mt-4 text-[9px] md:text-xs font-bold text-gray-400 normal-case tracking-widest block opacity-80 italic">
+                                {actionText}
+                              </span>
+                            </div>
+                          );
+                        }
+                      }
+                      
+                      return text;
+                    })()}
                   </h4>
                   
                   <button 
@@ -257,19 +285,19 @@ export default function Pricing() {
                       setHasDismissedPromo(true);
                       window.dispatchEvent(new CustomEvent('openNotifyMe'));
                     }}
-                    className="w-full bg-[#FFB800] text-black font-black py-6 rounded-xl text-base tracking-[0.2em] uppercase hover:bg-white transition-all shadow-[0_10px_20px_rgba(255,184,0,0.15)] hover:shadow-[0_15px_30px_rgba(255,184,0,0.25)] hover:scale-[1.02] active:scale-95"
+                    className="w-full bg-[#FFB800] text-black font-black py-4 md:py-6 rounded-xl text-sm md:text-base tracking-[0.2em] uppercase hover:bg-white transition-all shadow-[0_10px_20px_rgba(255,184,0,0.15)] hover:shadow-[0_15px_30px_rgba(255,184,0,0.25)] hover:scale-[1.02] active:scale-95"
                   >
                     {t('pricing.promo.notifyMe')}
                   </button>
                 </div>
 
                 {/* Section 2: Open Courses */}
-                <div className="relative group/section text-center pt-8 border-t border-white/5">
-                  <span className="block text-2xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-4">
+                <div className="relative group/section text-center pt-6 sm:pt-8 border-t border-white/5">
+                  <span className="block text-xl md:text-3xl font-black text-[#FFB800] uppercase tracking-tight mb-3 md:mb-4">
                     {t('pricing.promo.openCourses')}
                   </span>
                   
-                  <p className="text-white text-lg md:text-xl font-black mb-10 leading-tight uppercase tracking-tight">
+                  <p className="text-white text-base md:text-xl font-black mb-6 md:mb-10 leading-tight uppercase tracking-tight">
                     {t('pricing.promo.exploreNextCourses')}
                   </p>
                   
@@ -279,7 +307,7 @@ export default function Pricing() {
                       setHasDismissedPromo(true);
                       scrollTo('next-courses');
                     }}
-                    className="w-full bg-white/5 border border-white/20 text-white font-black py-6 rounded-xl text-base tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all hover:scale-[1.02] active:scale-95"
+                    className="w-full bg-white/5 border border-white/20 text-white font-black py-4 md:py-6 rounded-xl text-sm md:text-base tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all hover:scale-[1.02] active:scale-95"
                   >
                     {t('pricing.promo.explore')}
                   </button>

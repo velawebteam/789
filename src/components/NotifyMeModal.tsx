@@ -86,6 +86,9 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                   >
                     <Bell className="text-[#FFB800]" size={32} />
                   </motion.div>
+                  <span className="inline-block text-[#FFB800] text-[10px] font-black uppercase tracking-widest animate-pulse drop-shadow-[0_0_8px_rgba(255,184,0,0.5)] mb-2">
+                    {t('notify.newCourses')}
+                  </span>
                   <h3 className="text-2xl font-black text-white mb-2 tracking-tight uppercase notranslate" translate="no">
                     {t('notify.title')}
                   </h3>
@@ -185,7 +188,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                     <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">
                       {t('notify.coursesInterest')}
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {coursesList.map(course => {
                         const isSelected = selectedCourses.includes(course.id);
                         const isDisabled = !isSelected && selectedCourses.length >= 2;
@@ -203,7 +206,7 @@ export default function NotifyMeModal({ isOpen, onClose }: NotifyMeModalProps) {
                               borderColor: ["rgba(255,184,0,0.3)", "rgba(255,184,0,1)", "rgba(255,184,0,0.3)"]
                             } : {}}
                             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider border-2 transition-all duration-300 ${
+                            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border-2 transition-all duration-300 ${
                               isSelected 
                                 ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_20px_rgba(255,184,0,0.4)]' 
                                 : isDisabled
