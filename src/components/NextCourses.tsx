@@ -88,7 +88,54 @@ export default function NextCourses() {
               </div>
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <span className="text-gray-500 text-sm">{t('nextCourses.firstInfos')}</span>
-                <span className="text-white text-sm font-medium">{language === 'pt' ? '1 de maio' : 'May 1'}</span>
+                <span className="text-white text-sm font-medium">
+                  {language === 'pt' ? (
+                    <motion.span
+                      animate={{ 
+                        opacity: [1, 0.8, 1],
+                        textShadow: [
+                          "0 0 0px rgba(255,184,0,0)",
+                          "0 0 12px rgba(255,184,0,0.6)",
+                          "0 0 0px rgba(255,184,0,0)"
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      className="inline-block text-[#FFB800]"
+                    >
+                      2 de maio 15:00
+                    </motion.span>
+                  ) : language === 'hi' ? (
+                    <motion.span
+                      animate={{ 
+                        opacity: [1, 0.8, 1],
+                        textShadow: [
+                          "0 0 0px rgba(255,184,0,0)",
+                          "0 0 12px rgba(255,184,0,0.6)",
+                          "0 0 0px rgba(255,184,0,0)"
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      className="inline-block text-[#FFB800]"
+                    >
+                      2 मई 15:00
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      animate={{ 
+                        opacity: [1, 0.8, 1],
+                        textShadow: [
+                          "0 0 0px rgba(255,184,0,0)",
+                          "0 0 12px rgba(255,184,0,0.6)",
+                          "0 0 0px rgba(255,184,0,0)"
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      className="inline-block text-[#FFB800]"
+                    >
+                      May 2, 15:00
+                    </motion.span>
+                  )}
+                </span>
               </div>
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <span className="text-gray-500 text-sm">{t('nextCourses.enrolmentStart')}</span>
@@ -312,7 +359,55 @@ export default function NextCourses() {
                         <div className="text-white font-semibold mb-2">{t('nextCourses.firstCoursesStart')}</div>
                         <div className="space-y-1 mt-3">
                           <div className="text-[#FFB800] text-[10px] font-bold uppercase tracking-wider">{t('nextCourses.slots')}</div>
-                          <div className="text-gray-400 text-[11px]">{t('nextCourses.firstInfo', { date: language === 'pt' ? '1 de maio' : language === 'hi' ? '1 मई' : 'May 1' })}</div>
+                          <div className="text-gray-400 text-[11px]">
+                            {t('nextCourses.firstInfo', { date: '' })}
+                            {language === 'pt' ? (
+                              <motion.span
+                                animate={{ 
+                                  opacity: [1, 0.8, 1],
+                                  textShadow: [
+                                    "0 0 0px rgba(255,184,0,0)",
+                                    "0 0 12px rgba(255,184,0,0.6)",
+                                    "0 0 0px rgba(255,184,0,0)"
+                                  ]
+                                }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                className="inline-block ml-1 text-[#FFB800]"
+                              >
+                                2 de maio 15:00
+                              </motion.span>
+                            ) : language === 'hi' ? (
+                              <motion.span
+                                animate={{ 
+                                  opacity: [1, 0.8, 1],
+                                  textShadow: [
+                                    "0 0 0px rgba(255,184,0,0)",
+                                    "0 0 12px rgba(255,184,0,0.6)",
+                                    "0 0 0px rgba(255,184,0,0)"
+                                  ]
+                                }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                className="inline-block ml-1 text-[#FFB800]"
+                              >
+                                2 मई 15:00
+                              </motion.span>
+                            ) : (
+                              <motion.span
+                                animate={{ 
+                                  opacity: [1, 0.8, 1],
+                                  textShadow: [
+                                    "0 0 0px rgba(255,184,0,0)",
+                                    "0 0 12px rgba(255,184,0,0.6)",
+                                    "0 0 0px rgba(255,184,0,0)"
+                                  ]
+                                }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                className="inline-block ml-1 text-[#FFB800]"
+                              >
+                                May 2, 15:00
+                              </motion.span>
+                            )}
+                          </div>
                           <div className="text-gray-400 text-[11px] font-medium">{t('nextCourses.enrollmentOpen', { date: language === 'pt' ? '4 de maio' : language === 'hi' ? '4 मई' : 'May 4' })}</div>
                         </div>
                       </div>
