@@ -408,7 +408,7 @@ export default function WorkersPanel() {
   }
 
   return (
-    <div className="min-h-screen pt-20 md:pt-24 lg:pt-32 pb-12 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 md:pt-24 lg:pt-32 pb-12 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 md:mb-8">
           <div>

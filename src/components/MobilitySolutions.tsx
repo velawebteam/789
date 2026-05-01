@@ -1,5 +1,6 @@
 import { Key, Zap, Car, Truck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 export default function MobilitySolutions() {
   const { t } = useLanguage();
@@ -18,18 +19,19 @@ export default function MobilitySolutions() {
   };
 
   return (
-    <section id="mobility" className="pt-8 md:pt-0 pb-24 bg-[#111315] relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative pb-8 md:pb-16 px-8 md:px-16 border-b border-x border-white/5">
-          {/* Corner Accents */}
-          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#FFB800]"></div>
-          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#FFB800]"></div>
+    <section id="mobility" className="lg:pt-0 pt-0 pb-24 bg-[#111315] relative lg:border-none border-t border-white/5">
+      <MobileCollapsible title={`${t('mobility.title')} ${t('mobility.subtitle')}`}>
+        <div className="max-w-7xl mx-auto px-6 py-8 lg:py-0">
+          <div className="relative pb-8 md:pb-16 px-8 md:px-16 lg:border-b lg:border-x border-white/5">
+            {/* Corner Accents */}
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#FFB800] hidden lg:block"></div>
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#FFB800] hidden lg:block"></div>
 
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-              {t('mobility.title')} <span className="text-[#FFB800]">{t('mobility.subtitle')}</span>
-            </h2>
-          </div>
+            <div className="text-center mb-16 hidden lg:block">
+              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                {t('mobility.title')} <span className="text-[#FFB800]">{t('mobility.subtitle')}</span>
+              </h2>
+            </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Mobile Toolbox */}
@@ -157,6 +159,7 @@ export default function MobilitySolutions() {
           </div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }

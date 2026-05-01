@@ -175,7 +175,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="min-h-screen md:pt-24 pt-8 pb-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 md:pt-24 pb-8 bg-[#0a0a0a]">
       <SEO 
         title={`${t('chat.support')} | Real Builder Academy`}
         description="Canal de suporte direto e seguro para membros do Real Builder."

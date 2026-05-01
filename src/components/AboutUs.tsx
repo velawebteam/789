@@ -3,6 +3,7 @@ import { motion, useInView } from 'motion/react';
 import BrandName from './BrandName';
 import CertifiedBadge from './CertifiedBadge';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 const Counter = ({ from, to, duration = 2, suffix = '' }: { from: number, to: number, duration?: number, suffix?: string }) => {
   const [count, setCount] = useState(from);
@@ -39,22 +40,23 @@ const Counter = ({ from, to, duration = 2, suffix = '' }: { from: number, to: nu
 export default function AboutUs() {
   const { t } = useLanguage();
   return (
-    <section id="about" className="py-32 bg-[#0a0a0a] relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-gray-400 text-base leading-relaxed space-y-4"
-          >
-            <h2 className="text-2xl font-black text-white tracking-tight uppercase mb-6">
-              {t('about.title')} <BrandName />
-            </h2>
-            <p className="text-white font-bold">
-              {t('about.p1')} <BrandName /> {t('about.p1_suffix')}
-            </p>
+    <section id="about" className="lg:py-32 py-0 bg-[#0a0a0a] relative border-t border-white/5 lg:border-none">
+      <MobileCollapsible title={`${t('about.title')} REAL BUILDER`}>
+        <div className="max-w-7xl mx-auto px-6 py-8 lg:py-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-gray-400 text-base leading-relaxed space-y-4"
+            >
+              <h2 className="hidden lg:block text-2xl font-black text-white tracking-tight uppercase mb-6">
+                {t('about.title')} <BrandName />
+              </h2>
+              <p className="text-white font-bold">
+                {t('about.p1')} <BrandName /> {t('about.p1_suffix')}
+              </p>
             <p className="text-[#FFB800] italic font-semibold">
               {t('about.mindset')}
             </p>
@@ -155,6 +157,7 @@ export default function AboutUs() {
           </motion.div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }

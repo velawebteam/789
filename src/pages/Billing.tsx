@@ -59,7 +59,7 @@ export default function Billing() {
   }
 
   return (
-    <div className="min-h-screen pt-24 md:pt-32 pb-12 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-28 md:pt-32 pb-12 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-6">
         <button 
           onClick={() => navigate(-1)}

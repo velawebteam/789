@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   }, []);
 
   return (
-    <div className="pt-24 pb-16 min-h-screen">
+    <div className="pt-32 pb-16 min-h-screen">
       <SEO 
         title={`${t('privacy.title')} | Real Builder Construction Academy`}
         description="Privacy policy and data protection information for Real Builder Construction Academy."

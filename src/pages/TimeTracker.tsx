@@ -447,7 +447,7 @@ export default function TimeTracker() {
   }
 
   return (
-    <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] text-white">
+    <div className="min-h-screen md:pt-40 pt-32 pb-12 bg-[#0a0a0a] text-white">
       <SEO 
         title={`${t('timeTracker.title')} | Real Builder Academy`}
         description="Sistema de registo de horas e gestão de presenças em obra."

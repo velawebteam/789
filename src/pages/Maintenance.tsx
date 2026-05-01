@@ -296,7 +296,7 @@ export default function Maintenance() {
 
   if (activeTab === 'daily' && !isClockedIn && !completedToday.daily) {
     return (
-      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
+      <div className="min-h-screen md:pt-40 pt-28 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] md:p-10 p-6 text-center shadow-2xl">
           <div className="w-20 h-20 bg-[#FFB800]/10 rounded-full flex items-center justify-center mx-auto mb-8">
             <Clock className="text-[#FFB800]" size={40} />
@@ -318,7 +318,7 @@ export default function Maintenance() {
 
   if (activeTab === 'weekly' && !isWeekOpen && !completedToday.weekly) {
     return (
-      <div className="min-h-screen md:pt-40 pt-10 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
+      <div className="min-h-screen md:pt-40 pt-28 pb-12 bg-[#0a0a0a] flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-[#111315] border border-white/10 rounded-[2.5rem] md:p-10 p-6 text-center shadow-2xl">
           <div className="w-20 h-20 bg-[#FFB800]/10 rounded-full flex items-center justify-center mx-auto mb-8">
             <Calendar className="text-[#FFB800]" size={40} />
@@ -346,7 +346,7 @@ export default function Maintenance() {
   const isTabCompleted = activeTab === 'daily' ? completedToday.daily : completedToday.weekly;
 
   return (
-    <div className="min-h-screen md:pt-40 pt-10 pb-20 bg-[#0a0a0a] text-white">
+    <div className="min-h-screen md:pt-40 pt-28 pb-20 bg-[#0a0a0a] text-white">
       <SEO 
         title={`${t('maintenance.title')} | Real Builder Academy`}
         description="Registo de manutenção diária e semanal da frota e ferramentas."

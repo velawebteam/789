@@ -93,7 +93,7 @@ export default function Store() {
   }
 
   return (
-    <div className="pt-24 pb-20 min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
+    <div className="pt-28 pb-20 min-h-screen bg-[#0a0a0a] text-white selection:bg-[#FFB800] selection:text-black">
       <SEO 
         title={`${t('store.title')} | Real Builder Academy`}
         description={t('store.subtitle')}

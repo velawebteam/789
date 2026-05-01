@@ -1,7 +1,8 @@
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { COURSES_LIST } from '../constants/courses';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 export default function Courses() {
   const { t } = useLanguage();
@@ -74,16 +75,17 @@ export default function Courses() {
   };
 
   return (
-    <section id="courses" className="pt-16 md:pt-32 pb-8 bg-[#15181b] relative border-t border-white/5 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 relative">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight uppercase">
-            {t('courses.title')}
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            {t('courses.subtitle')}
-          </p>
-        </div>
+    <section id="courses" className="lg:pt-32 pt-0 pb-8 bg-[#15181b] relative border-t border-white/5 overflow-hidden lg:border-none">
+      <MobileCollapsible title={t('courses.title')}>
+        <div className="max-w-6xl mx-auto px-6 relative py-8 lg:py-0">
+          <div className="text-center mb-16 hidden lg:block">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight uppercase">
+              {t('courses.title')}
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              {t('courses.subtitle')}
+            </p>
+          </div>
 
         <div className="relative">
           {/* Navigation Buttons */}
@@ -144,6 +146,7 @@ export default function Courses() {
           </div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Map from './Map';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 export default function Professionals() {
   const { t } = useLanguage();
@@ -35,16 +36,17 @@ export default function Professionals() {
   }, []);
 
   return (
-    <section id="professionals" className="py-16 md:py-32 bg-[#111315] relative border-t border-white/5">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            {t('professionals.title')} <span className="text-[#FFB800]">{t('professionals.nearYou')}</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            {t('professionals.browse')} <BrandName withAcademy /> {t('professionals.across')}
-          </p>
-        </div>
+    <section id="professionals" className="lg:py-32 py-0 bg-[#111315] relative border-t border-white/5 lg:border-none">
+      <MobileCollapsible title={`${t('professionals.title')} ${t('professionals.nearYou')}`}>
+        <div className="max-w-6xl mx-auto px-6 py-8 lg:py-0">
+          <div className="text-center mb-12 hidden lg:block">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+              {t('professionals.title')} <span className="text-[#FFB800]">{t('professionals.nearYou')}</span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              {t('professionals.browse')} <BrandName withAcademy /> {t('professionals.across')}
+            </p>
+          </div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {professions.map((prof) => (
@@ -296,6 +298,7 @@ export default function Professionals() {
           </div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }

@@ -304,7 +304,7 @@ export default function Admin() {
   const selectedChat = chats.find(c => c.user_id === selectedUserId);
 
   return (
-    <div className="min-h-screen pt-20 md:pt-24 pb-4 md:pb-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 md:pt-24 pb-4 md:pb-8 bg-[#0a0a0a]">
       <SEO 
         title={`${t('admin.title')} | Real Builder Academy`}
         description="Portal de administração para gestão de suporte e acessos."

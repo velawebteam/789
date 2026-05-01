@@ -1,20 +1,22 @@
 import { Building2, Wrench, HardHat, Truck, ShieldCheck, Zap } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 export default function Partners() {
   const { t } = useLanguage();
 
   return (
-    <section id="partners" className="py-16 md:py-32 bg-[#15181b] relative border-t border-white/5">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            {t('partners.title')} <span className="text-[#FFB800]">{t('partners.partners')}</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            {t('partners.subtitle')}
-          </p>
-        </div>
+    <section id="partners" className="lg:py-32 py-0 bg-[#15181b] relative border-t border-white/5 lg:border-none">
+      <MobileCollapsible title={`${t('partners.title')} ${t('partners.partners')}`}>
+        <div className="max-w-6xl mx-auto px-6 py-8 lg:py-0">
+          <div className="text-center mb-16 hidden lg:block">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+              {t('partners.title')} <span className="text-[#FFB800]">{t('partners.partners')}</span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              {t('partners.subtitle')}
+            </p>
+          </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {/* Partner 1 */}
@@ -66,6 +68,7 @@ export default function Partners() {
           </div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }

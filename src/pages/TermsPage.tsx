@@ -11,7 +11,7 @@ export default function TermsPage() {
   }, []);
 
   return (
-    <div className="pt-24 pb-16 min-h-screen">
+    <div className="pt-32 pb-16 min-h-screen">
       <SEO 
         title={`${t('terms.title')} | Real Builder Construction Academy`}
         description="Terms and conditions for using the services of Real Builder Construction Academy."

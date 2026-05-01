@@ -11,7 +11,7 @@ export default function CookiePolicyPage() {
   }, []);
 
   return (
-    <div className="pt-24 pb-16 min-h-screen">
+    <div className="pt-32 pb-16 min-h-screen">
       <SEO 
         title={`${t('cookiePolicy.title')} | Real Builder Construction Academy`}
         description="Cookie policy and usage information for Real Builder Construction Academy."

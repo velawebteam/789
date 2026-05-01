@@ -2,6 +2,7 @@ import { UserPlus, BookOpen, Hammer, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import CertifiedBadge from './CertifiedBadge';
 import { useLanguage } from '../context/LanguageContext';
+import MobileCollapsible from './MobileCollapsible';
 
 export default function HowItWorks() {
   const { t } = useLanguage();
@@ -21,22 +22,23 @@ export default function HowItWorks() {
   };
 
   return (
-    <section id="how-it-works" className="py-16 md:py-32 bg-[#15181b] relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-24"
-        >
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            {t('howItWorks.title1')} <span className="text-[#FFB800]">{t('howItWorks.title2')}</span>
-          </h2>
-          <p className="text-gray-400 text-lg">
-            {t('howItWorks.subtitle')}
-          </p>
-        </motion.div>
+    <section id="how-it-works" className="lg:py-32 py-0 bg-[#15181b] relative border-t border-white/5 lg:border-none">
+      <MobileCollapsible title={`${t('howItWorks.title1')} ${t('howItWorks.title2')}`}>
+        <div className="max-w-7xl mx-auto px-6 py-8 lg:py-0">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-24 hidden lg:block"
+          >
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+              {t('howItWorks.title1')} <span className="text-[#FFB800]">{t('howItWorks.title2')}</span>
+            </h2>
+            <p className="text-gray-400 text-lg">
+              {t('howItWorks.subtitle')}
+            </p>
+          </motion.div>
 
         <div className="relative">
           {/* Timeline Line */}
@@ -187,6 +189,7 @@ export default function HowItWorks() {
           </motion.div>
         </div>
       </div>
+      </MobileCollapsible>
     </section>
   );
 }
