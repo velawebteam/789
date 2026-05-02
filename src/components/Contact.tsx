@@ -74,6 +74,38 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const getVehicles = () => {
+    const isPladur = selectedCourse === 'drywall';
+    return [
+      {
+        id: 'mobile_toolbox',
+        name: t('mobility.toolbox.name'),
+        price: isPladur ? '250€' : '249€',
+        image: 'https://lh3.googleusercontent.com/d/1n1hlKM4AOQ9g73HteeUgPm0a6KE-W1X7'
+      },
+      {
+        id: 'electric_3_wheeler',
+        name: t('mobility.wheeler.name'),
+        price: isPladur ? '380€' : '389€',
+        image: 'https://lh3.googleusercontent.com/d/1xVu-eCm-bBAUQMkCPX77Hk40JcpMqs9N'
+      },
+      {
+        id: 'tool_buggy',
+        name: t('mobility.buggy.name'),
+        price: isPladur ? '470€' : '489€',
+        image: 'https://lh3.googleusercontent.com/d/1-rzX3X8Lf-3bFpC1auxN_RREX_4ldFwa'
+      },
+      {
+        id: 'tool_van',
+        name: t('mobility.van.name'),
+        price: isPladur ? '600€' : '589€',
+        image: 'https://lh3.googleusercontent.com/d/1iefT26tARQu5H7tEhmmHCtvf8b8RAlsN'
+      }
+    ];
+  };
+
+  const vehicles = getVehicles();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -208,10 +240,10 @@ export default function Contact() {
             </div>
 
             {selectedPlan && (
-              <div className={`grid grid-cols-2 gap-6`}>
+              <div className="space-y-6">
                 {(selectedPlan === 'course_vehicle' || selectedPlan === 'course_only') && (
-                  <>
-                    <div className={selectedPlan === 'course_only' ? 'col-span-2' : ''}>
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
                       <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.courseInterest')}</label>
                       <div className="relative">
                         <select 
@@ -239,28 +271,49 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {selectedPlan === 'course_vehicle' && (
-                      <div>
+                    {selectedPlan === 'course_vehicle' && selectedCourse && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-4"
+                      >
                         <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.vehicleInterest')}</label>
-                        <div className="relative">
-                          <select 
-                            required
-                            value={selectedVehicle}
-                            onChange={(e) => setSelectedVehicle(e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFB800] transition-colors appearance-none text-xs sm:text-sm"
-                          >
-                            <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectVehicle')}</option>
-                            <option value="mobile_toolbox" className="bg-[#111315] text-white">{t('mobility.toolbox.name')}</option>
-                            <option value="electric_3_wheeler" className="bg-[#111315] text-white">{t('mobility.wheeler.name')}</option>
-                            <option value="tool_buggy" className="bg-[#111315] text-white">{t('mobility.buggy.name')}</option>
-                            <option value="tool_van" className="bg-[#111315] text-white">{t('mobility.van.name')}</option>
-                          </select>
-                          <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                          {vehicles.map((v) => (
+                            <button
+                              key={v.id}
+                              type="button"
+                              onClick={() => setSelectedVehicle(v.id)}
+                              className={`group relative flex flex-col items-center p-2 rounded-xl border-2 transition-all duration-300 ${
+                                selectedVehicle === v.id 
+                                  ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_20px_rgba(255,184,0,0.3)]' 
+                                  : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
+                              }`}
+                            >
+                              <div className="w-full aspect-video bg-black/40 rounded-lg overflow-hidden mb-2">
+                                <img 
+                                  src={v.image} 
+                                  alt={v.name} 
+                                  className={`w-full h-full object-cover transition-transform duration-500 ${selectedVehicle === v.id ? 'scale-110' : 'group-hover:scale-110'}`}
+                                  referrerPolicy="no-referrer"
+                                />
+                              </div>
+                              <div className="text-center">
+                                <div className="text-[9px] font-black uppercase tracking-tight leading-tight mb-1">{v.name}</div>
+                                <div className={`text-[9px] font-bold ${selectedVehicle === v.id ? 'text-black/60' : 'text-[#FFB800]'}`}>{v.price}</div>
+                              </div>
+                            </button>
+                          ))}
                         </div>
-                      </div>
+                        <input type="hidden" name="vehicle" value={selectedVehicle} required />
+                      </motion.div>
                     )}
+                  </div>
+                )}
 
-                    <div className="col-span-2 grid grid-cols-2 gap-6 mt-4 pt-6 border-t border-white/5">
+                {(selectedPlan === 'course_vehicle' || selectedPlan === 'course_only') && (
+                  <>
+                    <div className="grid grid-cols-2 gap-6 mt-4 pt-6 border-t border-white/5">
                       <div>
                         <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.readingSkills')}</label>
                         <div className="relative">

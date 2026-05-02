@@ -88,9 +88,9 @@ export default function Pricing() {
               
               <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2">
                 <span className="text-gray-400 text-xs sm:text-sm">{t('pricing.from')}</span>
-                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">€249</span>
+                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">249€</span>
                 <span className="text-gray-400">-</span>
-                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">€589</span>
+                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">689€</span>
                 <span className="text-gray-400 text-xs sm:text-sm">/ {t('pricing.month')}</span>
               </div>
               <p className="text-gray-500 text-xs mb-8">{t('pricing.priceDepends')}</p>
@@ -169,7 +169,7 @@ export default function Pricing() {
               <h4 className="text-xl font-bold text-white mb-6">{t('pricing.plan2Title')}</h4>
               
               <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2">
-                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">€899</span>
+                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">899€</span>
                 <span className="text-gray-400 text-xs sm:text-sm">{t('pricing.oneTime')}</span>
               </div>
               <p className="text-gray-400 text-xs mb-8">{t('pricing.plan2Desc')}</p>

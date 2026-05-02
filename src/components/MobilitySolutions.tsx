@@ -58,7 +58,7 @@ export default function MobilitySolutions() {
                   {t('mobility.toolbox.desc')}
                 </div>
                 <div className="mt-auto flex items-baseline gap-1">
-                  <span className="text-[#FFB800] text-3xl font-bold">€249</span>
+                  <span className="text-[#FFB800] text-3xl font-bold">249€</span>
                   <span className="text-gray-500 text-xs">{t('mobility.month')}</span>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function MobilitySolutions() {
                   {t('mobility.wheeler.desc')}
                 </div>
                 <div className="mt-auto flex items-baseline gap-1">
-                  <span className="text-[#FFB800] text-3xl font-bold">€389</span>
+                  <span className="text-[#FFB800] text-3xl font-bold">389€</span>
                   <span className="text-gray-500 text-xs">{t('mobility.month')}</span>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function MobilitySolutions() {
                   {t('mobility.buggy.desc')}
                 </div>
                 <div className="mt-auto flex items-baseline gap-1">
-                  <span className="text-[#FFB800] text-3xl font-bold">€489</span>
+                  <span className="text-[#FFB800] text-3xl font-bold">489€</span>
                   <span className="text-gray-500 text-xs">{t('mobility.month')}</span>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function MobilitySolutions() {
                   {t('mobility.van.desc')}
                 </div>
                 <div className="mt-auto flex items-baseline gap-1">
-                  <span className="text-[#FFB800] text-3xl font-bold">€589</span>
+                  <span className="text-[#FFB800] text-3xl font-bold">589€</span>
                   <span className="text-gray-500 text-xs">{t('mobility.month')}</span>
                 </div>
               </div>

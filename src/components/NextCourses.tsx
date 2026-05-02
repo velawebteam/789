@@ -4,11 +4,13 @@ import { motion } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 import NextCoursesNotifyModal from './NextCoursesNotifyModal';
+import ImageModal from './ImageModal';
 
 export default function NextCourses() {
   const { t, language } = useLanguage();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const calculateTimeLeft = (target: string) => {
     const targetDate = new Date(target);
@@ -56,6 +58,21 @@ export default function NextCourses() {
 
   const openNotifyMe = () => {
     setIsNotifyModalOpen(true);
+  };
+
+  const courseImages = [
+    { src: "https://drive.google.com/thumbnail?id=1gG3lAZPRBMk0I_2RzcDnH8xODWFl2Rhy&sz=w2000", alt: "Pladur (RB1) Dossier" },
+    { src: "https://drive.google.com/thumbnail?id=1GzJamMRDXS75wdnRmofb28Q7FU-5zWi5&sz=w2000", alt: "RB Dossier Part 2" },
+    { src: "https://drive.google.com/thumbnail?id=1YJUQdFmVRfXmfa8G78TXv2J2Y9Ln4FUG&sz=w2000", alt: "RB Dossier Part 3" },
+    { src: "https://drive.google.com/thumbnail?id=1R4-vqt7SZhV9mS83GkqE-f39IaWrg7HD&sz=w2000", alt: "RB Dossier Part 4" },
+    { src: "https://drive.google.com/thumbnail?id=13PS9DaSRgwrME2S0x5PttEJKiesygC9a&sz=w2000", alt: "RB Dossier Part 5" }
+  ];
+
+  const [initialImageIndex, setInitialImageIndex] = useState(0);
+
+  const openImageModal = (index: number) => {
+    setInitialImageIndex(index);
+    setIsImageModalOpen(true);
   };
 
   return (
@@ -139,7 +156,7 @@ export default function NextCourses() {
               </div>
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <span className="text-gray-500 text-sm">{t('nextCourses.enrolmentStart')}</span>
-                <span className="text-white text-sm font-medium">{language === 'pt' ? '4 de maio' : 'May 4'}</span>
+                <span className="text-white text-sm font-medium">{language === 'pt' ? '5 de maio 20:00' : 'May 5, 20:00'}</span>
               </div>
               <div className="flex justify-between items-center pt-2">
                 <div className="flex items-center gap-2 md:gap-3 w-full justify-between">
@@ -166,20 +183,30 @@ export default function NextCourses() {
               </div>
             </div>
 
-            <motion.button 
-              onClick={openNotifyMe}
-              animate={{ 
-                scale: [1, 1.05, 1],
-              }}
-              transition={{
-                duration: 0.8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-full bg-white text-black hover:bg-[#FFB800] py-3.5 rounded-xl font-bold text-sm tracking-wide transition-colors mt-auto"
-            >
-              {t('nextCourses.notifyMe')}
-            </motion.button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-auto">
+              <motion.button 
+                onClick={() => openImageModal(0)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1 border border-white/20 text-white hover:bg-white/5 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-colors"
+              >
+                {t('nextCourses.learnMore')}
+              </motion.button>
+              <motion.button 
+                onClick={openNotifyMe}
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="flex-1 bg-white text-black hover:bg-[#FFB800] py-3.5 rounded-xl font-bold text-sm tracking-wide transition-colors"
+              >
+                {t('nextCourses.notifyMe')}
+              </motion.button>
+            </div>
           </div>
 
           {/* Course Card 2 - Servant Pro */}
@@ -319,6 +346,13 @@ export default function NextCourses() {
         onClose={() => setIsNotifyModalOpen(false)} 
       />
 
+      <ImageModal 
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        images={courseImages}
+        initialIndex={initialImageIndex}
+      />
+
       {/* Full Calendar Modal */}
       {isCalendarOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -408,7 +442,7 @@ export default function NextCourses() {
                               </motion.span>
                             )}
                           </div>
-                          <div className="text-gray-400 text-[11px] font-medium">{t('nextCourses.enrollmentOpen', { date: language === 'pt' ? '4 de maio' : language === 'hi' ? '4 मई' : 'May 4' })}</div>
+                          <div className="text-gray-400 text-[11px] font-medium">{t('nextCourses.enrollmentOpen', { date: language === 'pt' ? '5 de maio 20:00' : language === 'hi' ? '5 मई 20:00' : 'May 5, 20:00' })}</div>
                         </div>
                       </div>
                     </div>
