@@ -60,17 +60,20 @@ export default function MobilitySolutions() {
   const prev = () => setCurrentIndex((prev) => (prev - 1 + vehicles.length) % vehicles.length);
 
   return (
-    <section id="mobility" className="py-10 md:py-20 lg:pt-0 lg:pb-32 bg-[#111315] relative lg:border-none border-t border-white/5">
+    <section id="mobility" className="py-10 md:py-20 lg:pt-24 lg:pb-32 bg-[#111315] relative lg:border-none border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="relative pb-4 md:pb-16 px-0 md:px-16 lg:border-b lg:border-x border-white/5">
             {/* Corner Accents */}
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#FFB800] hidden lg:block"></div>
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#FFB800] hidden lg:block"></div>
 
-            <div className="text-center mb-8 md:mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+            <div className="text-center mb-12 md:mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">
                 {t('mobility.title')} <span className="text-[#FFB800]">{t('mobility.subtitle')}</span>
               </h2>
+              <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
+                {t('mobility.description')}
+              </p>
             </div>
 
           {/* Desktop Grid */}

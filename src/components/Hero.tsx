@@ -70,18 +70,6 @@ export default function Hero() {
             if (event.target && typeof event.target.playVideo === 'function') {
               event.target.playVideo();
             }
-          },
-          onStateChange: (event: any) => {
-            const YT = window.YT;
-            if (!YT || !event.target || typeof event.target.playVideo !== 'function') return;
-
-            if (event.data === YT.PlayerState.ENDED) {
-              event.target.playVideo();
-            }
-            // Try to resume if paused
-            if (event.data === YT.PlayerState.PAUSED) {
-              event.target.playVideo();
-            }
           }
         }
       });
@@ -113,11 +101,12 @@ export default function Hero() {
           
           <iframe
             id="hero-video"
-            src="https://www.youtube.com/embed/Mv_X655938Y?autoplay=1&mute=1&loop=1&playlist=Mv_X655938Y&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
-            className={`absolute top-0 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            src="https://www.youtube.com/embed/Mv_X655938Y?autoplay=1&mute=1&loop=1&playlist=Mv_X655938Y&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&disablekb=1&autohide=1"
+            className={`absolute top-1/2 left-1/2 w-full h-full min-w-[177.77vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'} scale-[1.12]`}
             allow="autoplay; encrypted-media"
             title="Hero Background Video"
             onLoad={() => setIsVideoLoaded(true)}
+            tabIndex={-1}
           ></iframe>
         </div>
         {/* Dark overlay for contrast */}

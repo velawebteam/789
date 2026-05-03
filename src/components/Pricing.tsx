@@ -206,7 +206,7 @@ export default function Pricing() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.8 }}
-            className="text-center mt-4 md:mt-8 text-gray-500 text-sm"
+            className="text-center mt-4 md:mt-16 text-gray-500 text-sm"
           >
             {t('pricing.selectToContinue')}
           </motion.div>

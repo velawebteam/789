@@ -351,6 +351,7 @@ export const translations: any = {
     mobility: {
       title: "Choose Your",
       subtitle: "Mobility Solution",
+      description: "Choose which vehicle you want to help you in your construction journey!",
       month: "/ month",
       mostPopular: "MOST POPULAR",
       toolbox: {
@@ -491,6 +492,13 @@ export const translations: any = {
       access3: "Certification upon completion",
       access4: "Opportunity to join real projects",
       access5: "Opportunities in Portugal and abroad",
+      doTitle: "What do we do?",
+      do1: "Offer several construction courses",
+      do2: "Train hard working people",
+      do3: "Help you earn more and get a high value career",
+      do4: "Certify construction workers",
+      do5: "Offer construction tools",
+      do6: "Employ the best",
       summary1: "Apply to our pilot program and qualify to be selected for one of the 3 available spots for free training and a job contract.",
       summary2: "Tell us, without commitment, which course areas you would be interested in and be notified when the next courses open.",
       applyCTA: "Apply Now",
@@ -1198,6 +1206,7 @@ export const translations: any = {
     mobility: {
       title: "Escolha a sua",
       subtitle: "Solução de Mobilidade",
+      description: "Escolha o veículo que deseja para o ajudar na sua jornada de construção!",
       month: "/ mês",
       mostPopular: "MAIS POPULAR",
       toolbox: {
@@ -1338,6 +1347,13 @@ export const translations: any = {
       access3: "Certificação após conclusão",
       access4: "Possibilidade de integração em projetos reais",
       access5: "Oportunidades em Portugal e no estrangeiro",
+      doTitle: "O que fazemos?",
+      do1: "Oferecemos vários cursos de construção",
+      do2: "Treinamos pessoas trabalhadoras",
+      do3: "Ajudamos-te a ganhar mais e a ter uma carreira de alto valor",
+      do4: "Certificamos trabalhadores da construção",
+      do5: "Oferecemos ferramentas de construção",
+      do6: "Empregamos os melhores",
       summary1: "Candidata-te ao nosso programa piloto e habilita-te a ser selecionado para ocupar uma das 3 vagas disponíveis para receberes formação gratuíta e um contrato de trabalho.",
       summary2: "Diz-nos, sem compromissos, que áreas de curso terias interesse em integrar e sê notificado quando os próximos cursos abrirem.",
       applyCTA: "Candidatar-me",
