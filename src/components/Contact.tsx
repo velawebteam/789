@@ -55,13 +55,21 @@ export default function Contact() {
     const handleVehicleSelection = (e: CustomEvent) => {
       setSelectedVehicle(e.detail);
     };
+
+    const handleCourseSelection = (e: CustomEvent) => {
+      setSelectedCourse(e.detail);
+      // Also ensure course_only is selected if no plan is selected yet
+      setSelectedPlan(prev => prev || 'course_only');
+    };
     
     window.addEventListener('planSelected', handlePlanSelection as EventListener);
     window.addEventListener('vehicleSelected', handleVehicleSelection as EventListener);
+    window.addEventListener('selectCourse', handleCourseSelection as EventListener);
     
     return () => {
       window.removeEventListener('planSelected', handlePlanSelection as EventListener);
       window.removeEventListener('vehicleSelected', handleVehicleSelection as EventListener);
+      window.removeEventListener('selectCourse', handleCourseSelection as EventListener);
     };
   }, []);
 
@@ -149,7 +157,28 @@ export default function Contact() {
             {t('contact.registrationsClosed')}
           </p>
           <p className="text-gray-400 text-lg leading-relaxed">
-            {t('contact.desc')}
+            {(() => {
+              const desc = t('contact.desc');
+              const chatPart = language === 'pt' ? 'chat de suporte ao vivo' : language === 'hi' ? 'लाइव सपोर्ट चैट' : 'live support chat';
+              if (desc.includes(chatPart)) {
+                const parts = desc.split(chatPart);
+                return (
+                  <>
+                    {parts[0]}
+                    <a 
+                      href="https://wa.me/351939996924" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-[#FFB800] hover:underline underline-offset-4"
+                    >
+                      {chatPart}
+                    </a>
+                    {parts[1]}
+                  </>
+                );
+              }
+              return desc;
+            })()}
           </p>
         </div>
 
@@ -468,14 +497,20 @@ export default function Contact() {
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
                 {(() => {
-                  const activeCourses = ['drywall', 'servant'];
-                  const upcomingCourses: Record<string, { date: string }> = {};
+                  const upcomingCourses: Record<string, { date: string, openTime: string }> = {
+                    'drywall': { date: 'May 5', openTime: '2026-05-05T20:00:00+01:00' },
+                    'servant': { date: 'May 16', openTime: '2026-05-16T20:00:00+01:00' }
+                  };
                   
                   const isCourseSelected = selectedPlan === 'course_only' || selectedPlan === 'course_vehicle';
                   const isUpcoming = isCourseSelected && selectedCourse in upcomingCourses;
-                  const isInactive = isCourseSelected && selectedCourse && !activeCourses.includes(selectedCourse) && !isUpcoming;
+                  const isOtherCourse = isCourseSelected && selectedCourse && !(selectedCourse in upcomingCourses);
                   
-                  if (isUpcoming) {
+                  const now = new Date().getTime();
+                  const targetTime = isUpcoming ? new Date(upcomingCourses[selectedCourse].openTime).getTime() : Infinity;
+                  const isCourseRegistrationOpen = now >= targetTime;
+
+                  if (isUpcoming && !isCourseRegistrationOpen) {
                     return (
                       <div className="space-y-4">
                         {t('notify.nonBindingOffer') && (
@@ -491,22 +526,25 @@ export default function Contact() {
                           className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-white/10 text-gray-500 cursor-not-allowed text-[10px] sm:text-sm tracking-widest"
                         >
                           <Lock size={14} />
-                          {t('nextCourses.registrationOpensOn', { date: upcomingCourses[selectedCourse as keyof typeof upcomingCourses].date })}
+                          {t('nextCourses.registrationOpensOn').replace('{date}', upcomingCourses[selectedCourse].date)}
                         </button>
                         
                         <button 
                           type="button"
-                          onClick={() => window.dispatchEvent(new CustomEvent('openNotifyMe'))}
+                          onClick={() => {
+                            const section = document.getElementById('next-courses');
+                            if (section) section.scrollIntoView({ behavior: 'smooth' });
+                          }}
                           className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-white text-black hover:bg-[#FFB800]"
                         >
                           <Send size={18} />
-                          {t('contact.notifyMe')}
+                          {language === 'pt' ? 'Lembrar-me' : 'Remind Me'}
                         </button>
                       </div>
                     );
                   }
 
-                  if (isInactive) {
+                  if (isOtherCourse) {
                     return (
                       <div className="space-y-4">
                         {t('notify.nonBindingOffer') && (
@@ -519,10 +557,10 @@ export default function Contact() {
                         <button 
                           type="button"
                           disabled
-                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed opacity-50 whitespace-pre-line"
+                          className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-white/10 text-gray-500 cursor-not-allowed text-[10px] sm:text-sm tracking-widest"
                         >
                           <Lock size={14} />
-                          {t('nextCourses.toBeDefined')}
+                          {language === 'pt' ? 'Sem Datas Definidas' : 'No Dates Set'}
                         </button>
 
                         <button 
@@ -538,27 +576,29 @@ export default function Contact() {
                   }
 
                   return (
-                    <button 
-                      type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
-                      disabled={!isRegistrationOpen || consent !== 'accepted' || isSubmitting}
-                      className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
-                        isRegistrationOpen && consent === 'accepted'
-                          ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
-                          : "bg-white/10 text-gray-500 cursor-not-allowed"
-                      }`}
-                    >
-                      {isRegistrationOpen ? (
-                        <>
-                          <Send size={18} />
-                          {isSubmitting ? "SENDING..." : t('contact.sendMessage')}
-                        </>
-                      ) : (
-                        <>
-                          <Lock size={14} className="sm:w-[18px] sm:h-[18px] flex-shrink-0" />
-                          {t('contact.registrationOpens')}
-                        </>
-                      )}
-                    </button>
+                    <div className="space-y-4">
+                      <button 
+                        type={isRegistrationOpen && consent === 'accepted' ? "submit" : "button"}
+                        disabled={!isRegistrationOpen || consent !== 'accepted' || isSubmitting}
+                        className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors text-[10px] sm:text-sm tracking-normal sm:tracking-widest ${
+                          isRegistrationOpen && consent === 'accepted'
+                            ? "bg-[#FFB800] text-black hover:bg-[#FFB800]/90" 
+                            : "bg-white/10 text-gray-500 cursor-not-allowed"
+                        }`}
+                      >
+                        {isRegistrationOpen ? (
+                          <>
+                            <Send size={18} />
+                            {isSubmitting ? "SENDING..." : (language === 'pt' ? 'Inscrever' : 'Register')}
+                          </>
+                        ) : (
+                          <>
+                            <Lock size={14} className="sm:w-[18px] sm:h-[18px] flex-shrink-0" />
+                            {t('contact.registrationOpens')}
+                          </>
+                        )}
+                      </button>
+                    </div>
                   );
                 })()}
                 {isRegistrationOpen && consent !== 'accepted' && (

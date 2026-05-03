@@ -1,11 +1,13 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { CheckCircle2, Rocket, Send } from 'lucide-react';
+import { CheckCircle2, Rocket, Send, ChevronDown } from 'lucide-react';
 import CertifiedBadge from './CertifiedBadge';
-import MobileCollapsible from './MobileCollapsible';
+import { useState } from 'react';
 
 export default function WhyJoin() {
   const { t } = useLanguage();
+  const [isWhoExpanded, setIsWhoExpanded] = useState(false);
+  const [isAccessExpanded, setIsAccessExpanded] = useState(false);
 
   const whoPoints = [
     t('whyJoin.who5'),
@@ -25,9 +27,8 @@ export default function WhyJoin() {
   ];
 
   return (
-    <section className="lg:py-20 py-0 relative overflow-hidden bg-[#0a0a0a] border-t border-white/5 lg:border-none">
-      <MobileCollapsible title={t('whyJoin.whoTitle')}>
-        <div className="container mx-auto px-4 max-w-7xl py-8 lg:py-0">
+    <section className="py-20 relative overflow-hidden bg-[#0a0a0a] border-t border-white/5 lg:border-none">
+        <div className="container mx-auto px-4 max-w-7xl">
           {/* Background accidental elements - only on desktop for now to keep mobile clean */}
           <div className="absolute top-0 right-0 w-1/2 h-full bg-[#FFB800]/5 blur-[120px] -z-10 animate-pulse hidden lg:block" />
           <div className="absolute bottom-0 left-0 w-1/2 h-full bg-white/5 blur-[120px] -z-10 hidden lg:block" />
@@ -38,28 +39,50 @@ export default function WhyJoin() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-[#FFB800]/50 transition-all duration-500 group h-full flex flex-col"
+              className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-[#FFB800]/50 transition-all duration-500 group h-fit flex flex-col"
             >
-              <h2 className="text-2xl md:text-3xl font-black text-white mb-8 tracking-tight uppercase hidden lg:block">
-                {t('whyJoin.whoTitle')}
-              </h2>
-              <ul className="space-y-6">
-                {whoPoints.map((point, idx) => (
-                  <motion.li 
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start gap-4"
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mb-0">
+                  {t('whyJoin.whoTitle')}
+                </h2>
+                <button 
+                  onClick={() => setIsWhoExpanded(!isWhoExpanded)}
+                  className="md:hidden flex items-center justify-center w-10 h-10 bg-[#FFB800] text-black rounded-xl transition-all flex-shrink-0 ml-4"
+                >
+                  <motion.div
+                    animate={{ rotate: isWhoExpanded ? 180 : 0 }}
                   >
-                    <div className="mt-1 w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="text-green-500" size={14} />
-                    </div>
-                    <span className="text-gray-300 font-medium leading-relaxed">{point}</span>
-                  </motion.li>
-                ))}
-              </ul>
+                    <ChevronDown size={20} />
+                  </motion.div>
+                </button>
+              </div>
+              
+              <AnimatePresence>
+                <motion.div 
+                  initial={false}
+                  animate={isWhoExpanded ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                  className="overflow-hidden md:!h-auto md:!opacity-100 md:!block md:!overflow-visible"
+                  transition={{ duration: 0.3 }}
+                >
+                  <ul className="space-y-6">
+                    {whoPoints.map((point, idx) => (
+                      <motion.li 
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        viewport={{ once: true }}
+                        className="flex items-start gap-4"
+                      >
+                        <div className="mt-1 w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle2 className="text-green-500" size={14} />
+                        </div>
+                        <span className="text-gray-300 font-medium leading-relaxed">{point}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
 
             {/* Section 2: What you get */}
@@ -67,48 +90,70 @@ export default function WhyJoin() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-[#FFB800]/50 transition-all duration-500 group h-full flex flex-col"
+              className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-[#FFB800]/50 transition-all duration-500 group h-fit flex flex-col"
             >
-              <h2 className="text-2xl md:text-3xl font-black text-white mb-8 tracking-tight uppercase">
-                {t('whyJoin.accessTitle')}
-              </h2>
-              <ul className="space-y-6">
-                {accessPoints.map((point, idx) => (
-                  <motion.li 
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-4"
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mb-0">
+                  {t('whyJoin.accessTitle')}
+                </h2>
+                <button 
+                  onClick={() => setIsAccessExpanded(!isAccessExpanded)}
+                  className="md:hidden flex items-center justify-center w-10 h-10 bg-[#FFB800] text-black rounded-xl transition-all flex-shrink-0 ml-4"
+                >
+                  <motion.div
+                    animate={{ rotate: isAccessExpanded ? 180 : 0 }}
                   >
-                    <div className="w-5 h-5 rounded-full bg-[#FFB800]/20 flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="text-[#FFB800]" size={14} />
-                    </div>
-                    <div className="flex items-center gap-4 w-full">
-                      <span className="text-gray-300 font-medium leading-relaxed">{point}</span>
-                      {idx === 2 && (
-                        <div className="relative w-8 h-0 flex items-center">
-                          <motion.div
-                            initial={{ scale: 0, rotate: -20 }}
-                            whileInView={{ scale: 1, rotate: 15 }}
-                            transition={{ 
-                              type: "spring",
-                              stiffness: 260,
-                              damping: 20,
-                              delay: 0.5 
-                            }}
-                            viewport={{ once: true }}
-                            className="absolute left-0"
-                          >
-                            <CertifiedBadge className="w-9 h-9 drop-shadow-[0_0_10px_rgba(255,184,0,0.4)]" />
-                          </motion.div>
+                    <ChevronDown size={20} />
+                  </motion.div>
+                </button>
+              </div>
+
+              <AnimatePresence>
+                <motion.div 
+                  initial={false}
+                  animate={isAccessExpanded ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                  className="overflow-hidden md:!h-auto md:!opacity-100 md:!block md:!overflow-visible"
+                  transition={{ duration: 0.3 }}
+                >
+                  <ul className="space-y-6">
+                    {accessPoints.map((point, idx) => (
+                      <motion.li 
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        viewport={{ once: true }}
+                        className="flex items-center gap-4"
+                      >
+                        <div className="w-5 h-5 rounded-full bg-[#FFB800]/20 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle2 className="text-[#FFB800]" size={14} />
                         </div>
-                      )}
-                    </div>
-                  </motion.li>
-                ))}
-              </ul>
+                        <div className="flex items-center gap-4 w-full">
+                          <span className="text-gray-300 font-medium leading-relaxed">{point}</span>
+                          {idx === 2 && (
+                            <div className="relative w-8 h-0 flex items-center">
+                              <motion.div
+                                initial={{ scale: 0, rotate: -20 }}
+                                whileInView={{ scale: 1, rotate: 15 }}
+                                transition={{ 
+                                  type: "spring",
+                                  stiffness: 260,
+                                  damping: 20,
+                                  delay: 0.5 
+                                }}
+                                viewport={{ once: true }}
+                                className="absolute left-0"
+                              >
+                                <CertifiedBadge className="w-9 h-9 drop-shadow-[0_0_10px_rgba(255,184,0,0.4)]" />
+                              </motion.div>
+                            </div>
+                          )}
+                        </div>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
           </div>
 
@@ -152,7 +197,6 @@ export default function WhyJoin() {
             </div>
           </motion.div>
         </div>
-      </MobileCollapsible>
     </section>
   );
 }

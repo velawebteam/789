@@ -53,25 +53,28 @@ export default function Footer() {
               <span className="text-gray-300">Avenida Mateus Teixeira Azevedo 55, Tavira</span>
             </div>
           </div>
+          
+          {/* Side-by-side sections for mobile */}
+          <div className="grid grid-cols-2 lg:grid-cols-2 gap-8 md:col-span-2 lg:col-span-2">
+            {/* Members Area */}
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Members Area</h4>
+              <Link to="/store" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.store')}</Link>
+              <Link to="/chat" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.chat')}</Link>
+              <Link to="/maintenance" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('maintenance.title')}</Link>
+              <Link to="/clock-in" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.clockIn')}</Link>
+              <Link to="/billing" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.billing')}</Link>
+            </div>
 
-          {/* Members Area */}
-          <div className="flex flex-col gap-4">
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Members Area</h4>
-            <Link to="/store" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.store')}</Link>
-            <Link to="/chat" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.chat')}</Link>
-            <Link to="/maintenance" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('maintenance.title')}</Link>
-            <Link to="/clock-in" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.clockIn')}</Link>
-            <Link to="/billing" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('navbar.billing')}</Link>
-          </div>
-
-          {/* Links */}
-          <div className="flex flex-col gap-4">
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">{t('footer.legal')}</h4>
-            <Link to="/faq" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.faq')}</Link>
-            <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.terms')}</Link>
-            <Link to="/privacy" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.privacy')}</Link>
-            <Link to="/cookies" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('cookiePolicy.title')}</Link>
-            <a href="https://livroreclamacoes.pt/inicio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit">{t('footer.complaints')}</a>
+            {/* Links */}
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">{t('footer.legal')}</h4>
+              <Link to="/faq" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.faq')}</Link>
+              <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.terms')}</Link>
+              <Link to="/privacy" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('footer.privacy')}</Link>
+              <Link to="/cookies" onClick={scrollToTop} className="hover:text-white transition-colors w-fit">{t('cookiePolicy.title')}</Link>
+              <a href="https://livroreclamacoes.pt/inicio/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors w-fit">{t('footer.complaints')}</a>
+            </div>
           </div>
         </div>
 

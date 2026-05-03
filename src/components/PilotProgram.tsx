@@ -15,6 +15,7 @@ export default function PilotProgram() {
   const { t } = useLanguage();
   const { consent, acceptCookies } = useCookieConsent();
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [isFormRevealed, setIsFormRevealed] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [experience, setExperience] = useState('');
 
@@ -96,11 +97,24 @@ export default function PilotProgram() {
 
           {/* Form - Always Order 2 on Mobile, Right Column on Desktop */}
           <div className="order-2 lg:order-2 lg:row-span-2 bg-[#15181b] rounded-2xl p-6 md:p-10 shadow-2xl border border-white/10">
-            {!isSubmitted ? (
-              <>
-                <h3 className="text-2xl font-black text-white mb-6 tracking-tight uppercase">
-                  {t('pilotProgram.applyNow')}
-                </h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-black text-white tracking-tight uppercase">
+                {t('pilotProgram.applyNow')}
+              </h3>
+              <button 
+                onClick={() => setIsFormRevealed(!isFormRevealed)}
+                className="lg:hidden flex items-center justify-center w-10 h-10 bg-[#FFB800] text-black rounded-xl transition-all"
+              >
+                <motion.div
+                  animate={{ rotate: isFormRevealed ? 180 : 0 }}
+                >
+                  <ChevronDown size={20} />
+                </motion.div>
+              </button>
+            </div>
+
+            <div className={`${isFormRevealed ? 'block' : 'hidden'} lg:block`}>
+              {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -231,29 +245,29 @@ export default function PilotProgram() {
                     )}
                   </div>
                 </form>
-              </>
-            ) : (
-              <div className="text-center py-16">
-                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 className="text-green-500" size={40} />
+              ) : (
+                <div className="text-center py-16">
+                  <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle2 className="text-green-500" size={40} />
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
+                    {t('pilotProgram.successTitle')}
+                  </h3>
+                  <p className="text-gray-400 mb-8">
+                    {t('pilotProgram.successDesc')}
+                  </p>
+                  <button 
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setSelectedAreas([]);
+                    }}
+                    className="bg-white text-black font-bold px-8 py-3 rounded-xl hover:bg-[#FFB800] transition-all uppercase tracking-widest text-sm"
+                  >
+                    {t('pilotProgram.sendAnother') || 'Send another application'}
+                  </button>
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">
-                  {t('pilotProgram.successTitle')}
-                </h3>
-                <p className="text-gray-400 mb-8">
-                  {t('pilotProgram.successDesc')}
-                </p>
-                <button 
-                  onClick={() => {
-                    setIsSubmitted(false);
-                    setSelectedAreas([]);
-                  }}
-                  className="bg-white text-black font-bold px-8 py-3 rounded-xl hover:bg-[#FFB800] transition-all uppercase tracking-widest text-sm"
-                >
-                  {t('pilotProgram.sendAnother') || 'Send another application'}
-                </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Text Content - Part 2: Intensive Card - Moves after form on mobile */}

@@ -86,62 +86,62 @@ export default function Pricing() {
               
               <h4 className="text-xl font-bold text-white mb-6">{t('pricing.plan1Title')}</h4>
               
-              <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2">
-                <span className="text-gray-400 text-xs sm:text-sm">{t('pricing.from')}</span>
-                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">249€</span>
-                <span className="text-gray-400">-</span>
-                <span className="text-[#FFB800] text-3xl sm:text-4xl font-bold">689€</span>
-                <span className="text-gray-400 text-xs sm:text-sm">/ {t('pricing.month')}</span>
+              <div className="flex items-baseline gap-1 sm:gap-2 mb-2 whitespace-nowrap">
+                <span className="text-gray-400 text-[10px] sm:text-xs">{t('pricing.from')}</span>
+                <span className="text-[#FFB800] text-2xl sm:text-3xl font-bold">249€</span>
+                <span className="text-gray-400 sm:mx-1">-</span>
+                <span className="text-[#FFB800] text-2xl sm:text-3xl font-bold">689€</span>
+                <span className="text-gray-400 text-[10px] sm:text-xs">/ {t('pricing.month')}</span>
               </div>
               <p className="text-gray-500 text-xs mb-8">{t('pricing.priceDepends')}</p>
 
-              <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.fullCourse')}
+              <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-3 lg:gap-y-4 mb-10 flex-grow">
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.fullCourse')}
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.certification')}
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.certification')}
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.vehiclesTools')}
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.vehiclesTools')}
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold relative group cursor-help">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> <u className="decoration-[#FFB800] underline-offset-4">{t('pricing.membership')}</u>
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold relative group cursor-help">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> <u className="decoration-[#FFB800] underline-offset-2 lg:underline-offset-4">{t('pricing.membership')}</u>
                   <div className="absolute bottom-full left-0 mb-2 w-56 bg-[#1a1d21] border border-white/10 rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
                     <div className="text-xs font-normal text-gray-300 whitespace-pre-line leading-relaxed">
                       {t('pricing.tooltips.membership')}
                     </div>
                   </div>
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold relative group cursor-help">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> <u className="decoration-[#FFB800] underline-offset-4">{t('pricing.workwear')}</u>
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold relative group cursor-help">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> <u className="decoration-[#FFB800] underline-offset-2 lg:underline-offset-4">{t('pricing.workwear')}</u>
                   <div className="absolute bottom-full left-0 mb-2 w-48 bg-[#1a1d21] border border-white/10 rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
                     <div className="text-xs font-normal text-gray-300 whitespace-pre-line leading-relaxed">
                       {t('pricing.tooltips.workwear')}
                     </div>
                   </div>
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold relative group cursor-help">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> <u className="decoration-[#FFB800] underline-offset-4">{t('pricing.pmSoftware')}</u>
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold relative group cursor-help">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> <u className="decoration-[#FFB800] underline-offset-2 lg:underline-offset-4">{t('pricing.pmSoftware')}</u>
                   <div className="absolute bottom-full left-0 mb-2 w-48 bg-[#1a1d21] border border-white/10 rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
                     <div className="text-xs font-normal text-gray-300 whitespace-pre-line leading-relaxed">
                       {t('pricing.tooltips.pmSoftware')}
                     </div>
                   </div>
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.workshopAccess')}
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.workshopAccess')}
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold relative group cursor-help">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> <u className="decoration-[#FFB800] underline-offset-4">{t('pricing.jobPlacement')}</u>
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold relative group cursor-help">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> <u className="decoration-[#FFB800] underline-offset-2 lg:underline-offset-4">{t('pricing.jobPlacement')}</u>
                   <div className="absolute bottom-full left-0 mb-2 w-48 bg-[#1a1d21] border border-white/10 rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
                     <div className="text-xs font-normal text-gray-300 whitespace-pre-line leading-relaxed">
                       {t('pricing.tooltips.jobPlacement')}
                     </div>
                   </div>
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Globe size={16} className="text-[#FFB800] shrink-0" /> {t('pricing.marketingSupport')}
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Globe size={14} className="text-[#FFB800] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.marketingSupport')}
                 </li>
               </ul>
 
@@ -174,21 +174,21 @@ export default function Pricing() {
               </div>
               <p className="text-gray-400 text-xs mb-8">{t('pricing.plan2Desc')}</p>
 
-              <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.fullCourse')}
+              <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-3 lg:gap-y-4 mb-10 flex-grow">
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.fullCourse')}
                 </li>
-                <li className="flex items-center gap-3 text-white text-xs sm:text-sm font-semibold">
-                  <Check size={16} className="text-[#22c55e] shrink-0" /> {t('pricing.certification')}
+                <li className="flex items-center gap-2 lg:gap-3 text-white text-[10px] lg:text-sm font-semibold">
+                  <Check size={14} className="text-[#22c55e] shrink-0 lg:w-4 lg:h-4" /> {t('pricing.certification')}
                 </li>
-                <li className="flex items-center gap-3 text-gray-500 text-xs sm:text-sm">
-                  <X size={16} className="shrink-0" /> {t('pricing.noVehicle')}
+                <li className="flex items-center gap-2 lg:gap-3 text-gray-500 text-[10px] lg:text-sm">
+                  <X size={14} className="shrink-0 lg:w-4 lg:h-4" /> {t('pricing.noVehicle')}
                 </li>
-                <li className="flex items-center gap-3 text-gray-500 text-xs sm:text-sm">
-                  <span className="w-4 h-4 rounded-full border border-gray-500 flex items-center justify-center text-[8px] shrink-0">M</span> {t('pricing.noMembership')}
+                <li className="flex items-center gap-2 lg:gap-3 text-gray-500 text-[10px] lg:text-sm">
+                  <span className="w-3.5 h-3.5 lg:w-4 lg:h-4 rounded-full border border-gray-500 flex items-center justify-center text-[7px] lg:text-[8px] shrink-0">M</span> {t('pricing.noMembership')}
                 </li>
-                <li className="flex items-center gap-3 text-gray-500 text-xs sm:text-sm">
-                  <X size={16} className="shrink-0" /> {t('pricing.noWorkshop')}
+                <li className="flex items-center gap-2 lg:gap-3 text-gray-500 text-[10px] lg:text-sm">
+                  <X size={14} className="shrink-0 lg:w-4 lg:h-4" /> {t('pricing.noWorkshop')}
                 </li>
               </ul>
 
