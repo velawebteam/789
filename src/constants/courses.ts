@@ -1,3 +1,18 @@
+export const FORMSPREE_LINKS: Record<string, string> = {
+  drywall: 'https://formspree.io/f/xwvwwaoa',
+  servant: 'https://formspree.io/f/xqenewvn',
+  tiles: 'https://formspree.io/f/xykoklqa',
+  plastering: 'https://formspree.io/f/xzdodyll',
+  cleaning: 'https://formspree.io/f/mojrjyga',
+  assistant: 'https://formspree.io/f/xgodorge',
+  masonry: 'https://formspree.io/f/xkoyokdo',
+  framing: 'https://formspree.io/f/xvzlzdek',
+  steel: 'https://formspree.io/f/xwvyvago',
+  logistics: 'https://formspree.io/f/xnjwjleb',
+  carpentry: 'https://formspree.io/f/mjglgjna',
+  concrete: 'https://formspree.io/f/xaqvqara'
+};
+
 export const COURSES_LIST = [
   { 
     id: 'tiles',

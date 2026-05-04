@@ -1,12 +1,12 @@
-import { Send, ChevronDown, Upload, Lock, X, LogIn } from 'lucide-react';
+import { Send, ChevronDown, Upload, Lock, X, LogIn, Info } from 'lucide-react';
 import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import BrandName from './BrandName';
 import { useLanguage } from '../context/LanguageContext';
 import { useCookieConsent } from '../context/CookieContext';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { FORMSPREE_LINKS } from '../constants/courses';
+import ImageModal from './ImageModal';
 
 export default function Contact() {
   const { t, language } = useLanguage();
@@ -15,6 +15,8 @@ export default function Contact() {
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState('');
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [initialImageIndex, setInitialImageIndex] = useState(0);
   const [fileName, setFileName] = useState('');
   const [hasExperience, setHasExperience] = useState('');
   const [hasMindset, setHasMindset] = useState(false);
@@ -88,28 +90,46 @@ export default function Contact() {
       {
         id: 'mobile_toolbox',
         name: t('mobility.toolbox.name'),
-        price: isPladur ? '250€' : '249€',
+        price: isPladur ? '250€' : null,
+        docIndex: 1,
         image: 'https://lh3.googleusercontent.com/d/1n1hlKM4AOQ9g73HteeUgPm0a6KE-W1X7'
       },
       {
         id: 'electric_3_wheeler',
         name: t('mobility.wheeler.name'),
-        price: isPladur ? '380€' : '389€',
+        price: isPladur ? '380€' : null,
+        docIndex: 2,
         image: 'https://lh3.googleusercontent.com/d/1xVu-eCm-bBAUQMkCPX77Hk40JcpMqs9N'
       },
       {
         id: 'tool_buggy',
         name: t('mobility.buggy.name'),
-        price: isPladur ? '470€' : '489€',
+        price: isPladur ? '470€' : null,
+        docIndex: 3,
         image: 'https://lh3.googleusercontent.com/d/1-rzX3X8Lf-3bFpC1auxN_RREX_4ldFwa'
       },
       {
         id: 'tool_van',
         name: t('mobility.van.name'),
-        price: isPladur ? '600€' : '589€',
+        price: isPladur ? '600€' : null,
+        docIndex: 4,
         image: 'https://lh3.googleusercontent.com/d/1iefT26tARQu5H7tEhmmHCtvf8b8RAlsN'
       }
     ];
+  };
+
+  const courseImages = [
+    { src: "https://drive.google.com/thumbnail?id=1gG3lAZPRBMk0I_2RzcDnH8xODWFl2Rhy&sz=w2000", alt: "Pladur (RB1) Dossier" },
+    { src: "https://drive.google.com/thumbnail?id=1GzJamMRDXS75wdnRmofb28Q7FU-5zWi5&sz=w2000", alt: "RB Dossier Part 2" },
+    { src: "https://drive.google.com/thumbnail?id=1YJUQdFmVRfXmfa8G78TXv2J2Y9Ln4FUG&sz=w2000", alt: "RB Dossier Part 3" },
+    { src: "https://drive.google.com/thumbnail?id=1R4-vqt7SZhV9mS83GkqE-f39IaWrg7HD&sz=w2000", alt: "RB Dossier Part 4" },
+    { src: "https://drive.google.com/thumbnail?id=13PS9DaSRgwrME2S0x5PttEJKiesygC9a&sz=w2000", alt: "RB Dossier Part 5" }
+  ];
+
+  const openVehicleInfo = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation();
+    setInitialImageIndex(index);
+    setIsImageModalOpen(true);
   };
 
   const vehicles = getVehicles();
@@ -118,26 +138,37 @@ export default function Contact() {
     e.preventDefault();
 
     setIsSubmitting(true);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Add extra data that's in state but not directly in form inputs
+    formData.append('plan', selectedPlan);
+    formData.append('course', selectedCourse);
+    formData.append('vehicle', selectedVehicle);
+    formData.append('hasExperience', hasExperience);
+    formData.append('hasMindset', hasMindset ? 'yes' : 'no');
+    formData.append('needsAssistance', needsAssistance ? 'yes' : 'no');
+    
+    // Determine formspree URL based on selected course
+    // Default to the general drywall one if something goes wrong or multiple is selected
+    const formspreeUrl = selectedCourse && FORMSPREE_LINKS[selectedCourse] 
+      ? FORMSPREE_LINKS[selectedCourse] 
+      : 'https://formspree.io/f/xwvwwaoa'; // Drywall fallback instead of Pilot Program link
     
     try {
-      await addDoc(collection(db, 'enrolments'), {
-        userId: user?.uid || 'anonymous',
-        userEmail: user?.email || formData.get('email'),
-        userName: formData.get('firstName') + ' ' + formData.get('lastName'),
-        phone: formData.get('phone'),
-        plan: selectedPlan,
-        vehicle: selectedVehicle,
-        course: selectedCourse,
-        topic: formData.get('topic'),
-        message: formData.get('message'),
-        hasExperience: hasExperience,
-        hasMindset: hasMindset,
-        needsAssistance: needsAssistance,
-        status: 'pending',
-        submittedAt: serverTimestamp(),
+      const response = await fetch(formspreeUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
-      setIsSuccess(true);
+      
+      if (response.ok) {
+        setIsSuccess(true);
+      } else {
+        throw new Error('Formspree submission failed');
+      }
     } catch (error) {
       console.error("Submission error:", error);
       alert("Failed to submit. Please try again.");
@@ -283,9 +314,9 @@ export default function Contact() {
                         >
                           <option value="" disabled className="bg-[#111315] text-gray-400">{t('contact.selectCourse')}</option>
                           <option value="tiles" className="bg-[#111315] text-white">{t('courses_list.tiles.name')}</option>
-                          <option value="plaster" className="bg-[#111315] text-white">{t('courses_list.plastering.name')}</option>
+                          <option value="plastering" className="bg-[#111315] text-white">{t('courses_list.plastering.name')}</option>
                           <option value="cleaning" className="bg-[#111315] text-white">{t('courses_list.cleaning.name')}</option>
-                          <option value="servente" className="bg-[#111315] text-white">{t('courses_list.assistant.name')}</option>
+                          <option value="assistant" className="bg-[#111315] text-white">{t('courses_list.assistant.name')}</option>
                           <option value="masonry" className="bg-[#111315] text-white">{t('courses_list.masonry.name')}</option>
                           <option value="drywall" className="bg-[#111315] text-white">{t('courses_list.drywall.name')}</option>
                           <option value="framing" className="bg-[#111315] text-white">{t('courses_list.framing.name')}</option>
@@ -309,13 +340,20 @@ export default function Contact() {
                         <label className="block text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-2">{t('contact.vehicleInterest')}</label>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                           {vehicles.map((v) => (
-                            <button
+                            <div
                               key={v.id}
-                              type="button"
+                              role="button"
+                              tabIndex={0}
                               onClick={() => setSelectedVehicle(v.id)}
-                              className={`group relative flex flex-col items-center p-2 rounded-xl border-2 transition-all duration-300 ${
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  setSelectedVehicle(v.id);
+                                }
+                              }}
+                              className={`group relative flex flex-col items-center p-2 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
                                 selectedVehicle === v.id 
-                                  ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_20px_rgba(255,184,0,0.3)]' 
+                                  ? 'bg-[#FFB800] border-[#FFB800] text-black shadow-[0_0_200px_rgba(255,184,0,0.1)]' 
                                   : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white'
                               }`}
                             >
@@ -329,9 +367,24 @@ export default function Contact() {
                               </div>
                               <div className="text-center">
                                 <div className="text-[9px] font-black uppercase tracking-tight leading-tight mb-1">{v.name}</div>
-                                <div className={`text-[9px] font-bold ${selectedVehicle === v.id ? 'text-black/60' : 'text-[#FFB800]'}`}>{v.price}</div>
+                                {v.price && (
+                                  <div className={`text-[9px] font-bold ${selectedVehicle === v.id ? 'text-black/60' : 'text-[#FFB800]'}`}>{v.price}</div>
+                                )}
                               </div>
-                            </button>
+                              {selectedCourse === 'drywall' && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => openVehicleInfo(e, (v as any).docIndex)}
+                                  className={`mt-2 w-full py-1.5 rounded-lg text-[8px] font-black uppercase tracking-wider transition-all duration-300 ${
+                                    selectedVehicle === v.id
+                                      ? 'bg-black/10 text-black/70 hover:bg-black/20 border border-black/10'
+                                      : 'bg-[#FFB800] text-black hover:brightness-110 shadow-lg shadow-[#FFB800]/20'
+                                  }`}
+                                >
+                                  Vehicle Info
+                                </button>
+                              )}
+                            </div>
                           ))}
                         </div>
                         <input type="hidden" name="vehicle" value={selectedVehicle} required />
@@ -661,6 +714,12 @@ export default function Contact() {
         )}
       </div>
     </div>
+    <ImageModal 
+      isOpen={isImageModalOpen}
+      onClose={() => setIsImageModalOpen(false)}
+      images={courseImages}
+      initialIndex={initialImageIndex}
+    />
   </section>
 );
 }
